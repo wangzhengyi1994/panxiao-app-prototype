@@ -6,50 +6,563 @@
   <title>磐销云输入法</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #000; display: flex; justify-content: center; min-height: 100vh; align-items: center; }
-    .phone-frame { position: relative; width: 390px; max-width: 100vw; }
-    .screen-img { width: 100%; display: block; }
-    .hotspot { position: absolute; cursor: pointer; }
-    .hotspot-home, .hotspot-mine { display: none; }
-    .hotspot-home.active, .hotspot-mine.active { display: block; }
-    @media (max-width: 430px) { .phone-frame { width: 100vw; } }
+    body {
+      background: #000;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: -apple-system, 'PingFang SC', 'SF Pro Display', system-ui, sans-serif;
+    }
+    .phone {
+      width: 375px;
+      min-height: 100vh;
+      background: #fff;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Status bar */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px 0;
+      font-size: 15px;
+      font-weight: 600;
+      position: fixed;
+      top: 0;
+      width: 375px;
+      z-index: 100;
+    }
+    .status-bar.light { color: #1A1A1A; }
+    .status-bar.dark { color: #fff; }
+    .status-icons { display: flex; gap: 6px; align-items: center; }
+    .status-icons svg { width: 16px; height: 16px; }
+
+    /* Top nav bar */
+    .top-nav {
+      position: fixed;
+      top: 36px;
+      width: 375px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 99;
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .app-icon {
+      width: 32px;
+      height: 32px;
+      background: #1B3A8F;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .app-icon-inner {
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border-radius: 50%;
+    }
+    .app-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #1A1A1A;
+    }
+    .nav-capsule {
+      border: 1px solid #E8E8E8;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      color: #333;
+      background: #fff;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* Content area */
+    .content {
+      margin-top: 80px;
+      flex: 1;
+      padding-bottom: 56px;
+      overflow-y: auto;
+    }
+
+    /* === HOME TAB === */
+    .tab-home {
+      background: linear-gradient(180deg, #C5DEFF 0%, #FFFFFF 40%);
+      min-height: calc(100vh - 136px);
+    }
+
+    .hero {
+      padding: 20px 20px 0;
+      position: relative;
+    }
+    .hero-bg {
+      width: 100%;
+      border-radius: 16px;
+      display: block;
+      margin-bottom: -60px;
+    }
+    .hero-title {
+      font-size: 32px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #0EA5E9, #2DD4BF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      padding-top: 16px;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: #00796B;
+      color: #fff;
+      font-size: 13px;
+      border-radius: 20px;
+      padding: 6px 16px;
+      margin: 12px auto 0;
+      text-align: center;
+    }
+    .hero-badge-wrap { text-align: center; }
+
+    .hero-img-wrap {
+      position: relative;
+      margin: 20px 0;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .hero-img-wrap img {
+      width: 100%;
+      display: block;
+      border-radius: 16px;
+    }
+
+    .cta-wrap {
+      position: relative;
+      text-align: center;
+      margin: 0 20px 24px;
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 80%;
+      height: 52px;
+      background: linear-gradient(135deg, #667EEA, #9B59B6);
+      border: none;
+      border-radius: 26px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 500;
+      cursor: pointer;
+      position: relative;
+      font-family: inherit;
+    }
+    .cta-btn:active { opacity: 0.9; }
+    .cta-badge {
+      position: absolute;
+      top: -10px;
+      right: -4px;
+      background: #FF4444;
+      color: #fff;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+
+    /* Core value card */
+    .value-card {
+      background: #1A4FBB;
+      border-radius: 16px;
+      margin: 0 16px 16px;
+      padding: 20px;
+      position: relative;
+    }
+    .value-label {
+      display: inline-block;
+      background: #00BFA5;
+      color: #fff;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+    }
+    .value-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .value-item h3 {
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .value-item p {
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    /* DeepSeek card */
+    .ds-card {
+      background: #1A4FBB;
+      border-radius: 16px;
+      margin: 0 16px 16px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ds-card h2 {
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    .ds-card .ds-sub {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #fff;
+      font-size: 12px;
+    }
+    .ds-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #AAFF00;
+    }
+    .ds-emoji {
+      font-size: 48px;
+    }
+
+    /* Suitable audience */
+    .audience {
+      padding: 0 16px 24px;
+    }
+    .audience-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #1A1A1A;
+      margin-bottom: 12px;
+    }
+    .audience-item {
+      background: #F5F5F5;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #333;
+      line-height: 1.5;
+    }
+    .audience-item .hl {
+      color: #3D6EF5;
+      font-weight: 600;
+    }
+
+    /* === MINE TAB === */
+    .tab-mine {
+      display: none;
+      min-height: calc(100vh - 136px);
+    }
+    .mine-header {
+      background: linear-gradient(180deg, #3D6EF5, #2B5FD9);
+      padding: 40px 20px 40px;
+      text-align: center;
+      border-radius: 0 0 24px 24px;
+    }
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #E0E0E0;
+      border: 4px solid #fff;
+      margin: 0 auto 12px;
+    }
+    .mine-phone {
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .mine-expire {
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      margin-top: 6px;
+    }
+    .menu-card {
+      margin: 16px 16px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      cursor: pointer;
+      border-bottom: 1px solid #F0F0F0;
+    }
+    .menu-item:last-child { border-bottom: none; }
+    .menu-item .mi-icon {
+      width: 24px;
+      font-size: 18px;
+      margin-right: 12px;
+      text-align: center;
+    }
+    .menu-item .mi-text {
+      flex: 1;
+      font-size: 15px;
+      color: #333;
+    }
+    .menu-item .mi-sub {
+      font-size: 13px;
+      color: #999;
+      margin-right: 8px;
+    }
+    .menu-item .mi-arrow {
+      color: #CCC;
+      font-size: 14px;
+    }
+
+    /* === TUTORIAL TAB === */
+    .tab-tutorial {
+      display: none;
+      min-height: calc(100vh - 136px);
+      justify-content: center;
+      align-items: center;
+    }
+    .empty-state {
+      text-align: center;
+      color: #999;
+      padding: 60px 20px;
+    }
+    .empty-state svg { width: 80px; height: 80px; color: #DDD; margin-bottom: 16px; }
+    .empty-state p { font-size: 15px; }
+
+    /* Bottom tab bar */
+    .tab-bar {
+      position: fixed;
+      bottom: 0;
+      width: 375px;
+      height: 56px;
+      background: #fff;
+      border-top: 1px solid #F0F0F0;
+      display: flex;
+      z-index: 100;
+    }
+    .tab-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      padding: 0;
+    }
+    .tab-item svg { width: 24px; height: 24px; }
+    .tab-item span { font-size: 11px; }
+    .tab-item.active svg { color: #3D6EF5; }
+    .tab-item.active span { color: #3D6EF5; font-weight: 600; }
+    .tab-item:not(.active) svg { color: #999; }
+    .tab-item:not(.active) span { color: #999; }
+
+    @media (max-width: 430px) {
+      .phone { width: 100%; }
+      .status-bar { width: 100%; }
+      .top-nav { width: 100%; }
+      .tab-bar { width: 100%; }
+    }
   </style>
 </head>
 <body>
-  <div class="phone-frame">
-    <img class="screen-img" id="screenImg" src="assets/home.png">
+  <div class="phone">
+    <!-- Status bar -->
+    <div class="status-bar dark" id="statusBar">
+      <span>9:41</span>
+      <div class="status-icons">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M1 10h2v4H1zM5 7h2v7H5zM9 4h2v10H9zM13 1h2v13h-2z"/></svg>
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3C5.5 3 3.3 4 1.7 5.7l1.4 1.4C4.5 5.7 6.2 5 8 5s3.5.7 4.9 2.1l1.4-1.4C12.7 4 10.5 3 8 3zm0 4c-1.5 0-2.8.6-3.8 1.5L5.6 10c.7-.7 1.5-1 2.4-1s1.7.3 2.4 1l1.4-1.5C10.8 7.6 9.5 7 8 7zm0 4c-.6 0-1.1.2-1.5.6L8 13.5l1.5-1.9c-.4-.4-.9-.6-1.5-.6z"/></svg>
+        <svg viewBox="0 0 24 16" fill="currentColor"><rect x="0" y="2" width="20" height="12" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="2" y="4" width="14" height="8" rx="1"/><rect x="21" y="5" width="3" height="6" rx="1" opacity="0.4"/></svg>
+      </div>
+    </div>
 
-    <!-- === 首页热区 === -->
-    <!-- 立即体验按钮 -->
-    <div class="hotspot hotspot-home active" style="top:37%;left:12%;width:44%;height:5%;" onclick="location.href='keyboard.html'"></div>
+    <!-- Top nav -->
+    <div class="top-nav" id="topNav">
+      <div class="nav-left">
+        <div class="app-icon"><div class="app-icon-inner"></div></div>
+        <span class="app-title">磐销云输入法</span>
+      </div>
+      <a class="nav-capsule">👤 电话销售 ></a>
+    </div>
 
-    <!-- === 我的页热区 === -->
-    <!-- 退出登录 -->
-    <div class="hotspot hotspot-mine" style="top:57%;left:5%;width:90%;height:5%;" onclick="location.href='login.html'"></div>
+    <!-- Content -->
+    <div class="content">
+      <!-- HOME -->
+      <div class="tab-home" id="tabHome">
+        <div class="hero">
+          <h1 class="hero-title">懂销售的智能外脑</h1>
+          <div class="hero-badge-wrap">
+            <span class="hero-badge">磐销云输入法 让成交更从容</span>
+          </div>
+        </div>
 
-    <!-- === 底部Tab栏（始终显示） === -->
-    <!-- 首页Tab -->
-    <div class="hotspot" style="bottom:0;left:0;width:33%;height:7%;" onclick="switchTab('home')"></div>
-    <!-- 教程Tab -->
-    <div class="hotspot" style="bottom:0;left:33%;width:34%;height:7%;" onclick="switchTab('home')"></div>
-    <!-- 我的Tab -->
-    <div class="hotspot" style="bottom:0;right:0;width:33%;height:7%;" onclick="switchTab('mine')"></div>
+        <div class="hero-img-wrap" style="margin: 20px 16px;">
+          <img src="assets/home.png" alt="首页插图">
+        </div>
+
+        <div class="cta-wrap">
+          <button class="cta-btn" onclick="location.href='keyboard.html'">
+            立即体验 →
+            <span class="cta-badge">超过7W+同行正在使用</span>
+          </button>
+        </div>
+
+        <!-- Core value -->
+        <div class="value-card">
+          <span class="value-label">输入法核心价值</span>
+          <div class="value-grid">
+            <div class="value-item">
+              <h3>AI赋能销售</h3>
+              <p>智能对话助手，实时辅助每一次沟通</p>
+            </div>
+            <div class="value-item">
+              <h3>效率革命</h3>
+              <p>一键生成专业话术，告别低效沟通</p>
+            </div>
+            <div class="value-item">
+              <h3>能力跃迁</h3>
+              <p>持续学习行业知识，快速提升专业水平</p>
+            </div>
+            <div class="value-item">
+              <h3>成交加速</h3>
+              <p>精准把握客户需求，缩短成交周期</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- DeepSeek -->
+        <div class="ds-card">
+          <div>
+            <h2>已全面接入 DEEPSEEK</h2>
+            <div class="ds-sub">
+              <span class="ds-dot"></span>
+              与DEEPSEEK携手，开启智能新纪元
+            </div>
+          </div>
+          <span class="ds-emoji">🐳</span>
+        </div>
+
+        <!-- Audience -->
+        <div class="audience">
+          <div class="audience-title">适合人群</div>
+          <div class="audience-item">需要<span class="hl">高效沟通</span>的销售从业者</div>
+          <div class="audience-item">希望借助<span class="hl">AI工具</span>提升业绩的团队</div>
+          <div class="audience-item">追求<span class="hl">专业话术</span>表达的商务人士</div>
+          <div class="audience-item">想要<span class="hl">快速成长</span>的销售新人</div>
+        </div>
+      </div>
+
+      <!-- TUTORIAL -->
+      <div class="tab-tutorial" id="tabTutorial">
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="13" y2="11"/></svg>
+          <p>教程内容即将上线，敬请期待</p>
+        </div>
+      </div>
+
+      <!-- MINE -->
+      <div class="tab-mine" id="tabMine">
+        <div class="mine-header">
+          <div class="avatar"></div>
+          <div class="mine-phone">183****5597</div>
+          <div class="mine-expire">有效时间:2026-12-31 00:00:00</div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-item">
+            <span class="mi-icon">🚀</span>
+            <span class="mi-text">检查更新</span>
+            <span class="mi-sub">当前版本:1.0.1</span>
+            <span class="mi-arrow">›</span>
+          </div>
+          <div class="menu-item">
+            <span class="mi-icon">🗑</span>
+            <span class="mi-text">清除缓存</span>
+            <span class="mi-arrow">›</span>
+          </div>
+          <div class="menu-item">
+            <span class="mi-icon">📄</span>
+            <span class="mi-text">用户服务协议</span>
+            <span class="mi-arrow">›</span>
+          </div>
+          <div class="menu-item">
+            <span class="mi-icon">📖</span>
+            <span class="mi-text">隐私政策</span>
+            <span class="mi-arrow">›</span>
+          </div>
+          <div class="menu-item">
+            <span class="mi-icon">💬</span>
+            <span class="mi-text">我的客服</span>
+            <span class="mi-arrow">›</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="tab-bar">
+      <button class="tab-item active" id="btnHome" onclick="switchTab('home')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>首页</span>
+      </button>
+      <button class="tab-item" id="btnTutorial" onclick="switchTab('tutorial')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        <span>教程</span>
+      </button>
+      <button class="tab-item" id="btnMine" onclick="switchTab('mine')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>我的</span>
+      </button>
+    </div>
   </div>
 
   <script>
     function switchTab(tab) {
-      var img = document.getElementById('screenImg');
-      var homeHotspots = document.querySelectorAll('.hotspot-home');
-      var mineHotspots = document.querySelectorAll('.hotspot-mine');
+      var tabs = ['home', 'tutorial', 'mine'];
+      var statusBar = document.getElementById('statusBar');
+
+      tabs.forEach(function(t) {
+        var el = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
+        var btn = document.getElementById('btn' + t.charAt(0).toUpperCase() + t.slice(1));
+        if (t === tab) {
+          el.style.display = (t === 'tutorial') ? 'flex' : 'block';
+          btn.classList.add('active');
+        } else {
+          el.style.display = 'none';
+          btn.classList.remove('active');
+        }
+      });
 
       if (tab === 'home') {
-        img.src = 'assets/home.png';
-        homeHotspots.forEach(function(el) { el.classList.add('active'); });
-        mineHotspots.forEach(function(el) { el.classList.remove('active'); });
-      } else if (tab === 'mine') {
-        img.src = 'assets/mine.png';
-        homeHotspots.forEach(function(el) { el.classList.remove('active'); });
-        mineHotspots.forEach(function(el) { el.classList.add('active'); });
+        statusBar.className = 'status-bar dark';
+      } else {
+        statusBar.className = 'status-bar light';
       }
     }
   </script>

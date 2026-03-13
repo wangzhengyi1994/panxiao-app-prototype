@@ -6,84 +6,166 @@
   <title>磐销云输入法 - 键盘</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #000; display: flex; justify-content: center; min-height: 100vh; align-items: center; }
-    .phone-frame { position: relative; width: 390px; max-width: 100vw; }
-    .screen-img { width: 100%; display: block; }
-    .hotspot { position: absolute; cursor: pointer; display: none; }
-    .hotspot.active { display: block; }
-    @media (max-width: 430px) { .phone-frame { width: 100vw; } }
+    body {
+      background: #000;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: -apple-system, 'PingFang SC', 'SF Pro Display', system-ui, sans-serif;
+    }
+    .phone {
+      width: 375px;
+      min-height: 100vh;
+      background: #fff;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Chat area (top half) */
+    .chat-area {
+      flex: 1;
+      background: #F5F5F5;
+      padding: 60px 16px 16px;
+      cursor: pointer;
+    }
+    .chat-area-hint {
+      text-align: center;
+      color: #999;
+      font-size: 13px;
+      margin-top: 40px;
+    }
+
+    /* Tab panels */
+    .panel-tabs {
+      display: flex;
+      background: #F0F0F0;
+      border-top: 1px solid #E0E0E0;
+    }
+    .panel-tab {
+      flex: 1;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: #666;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: inherit;
+      position: relative;
+    }
+    .panel-tab.active {
+      color: #3D6EF5;
+      font-weight: 600;
+    }
+    .panel-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 20%;
+      width: 60%;
+      height: 2px;
+      background: #3D6EF5;
+      border-radius: 1px;
+    }
+
+    /* Panel content */
+    .panel-content {
+      height: 50vh;
+      overflow: hidden;
+    }
+    .panel-content img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+    }
+    .panel-img { display: none; }
+    .panel-img.active { display: block; }
+
+    /* Top bar in keyboard */
+    .kb-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: #F0F0F0;
+      border-top: 1px solid #E0E0E0;
+    }
+    .kb-back {
+      font-size: 13px;
+      color: #3D6EF5;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .kb-back svg { width: 16px; height: 16px; }
+    .kb-keyboard-btn {
+      font-size: 13px;
+      color: #666;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .kb-keyboard-btn svg { width: 18px; height: 18px; }
+
+    @media (max-width: 430px) { .phone { width: 100%; } }
   </style>
 </head>
 <body>
-  <div class="phone-frame">
-    <img class="screen-img" id="screenImg" src="assets/ai_func.png">
+  <div class="phone">
+    <!-- Chat area -->
+    <div class="chat-area" onclick="location.href='app.html'">
+      <div class="chat-area-hint">点击此处返回APP</div>
+    </div>
 
-    <!-- === ai_func视图（默认键盘视图）热区 === -->
-    <!-- 点击Ai按钮进入AI功能面板 -->
-    <div class="hotspot active" data-view="ai_func" style="top:53%;left:22%;width:16%;height:4%;" onclick="switchView('bangni_shuo')"></div>
-    <!-- 点击上方空白区域返回app -->
-    <div class="hotspot active" data-view="ai_func" style="top:0;left:0;width:100%;height:52%;" onclick="location.href='app.html'"></div>
+    <!-- Top bar -->
+    <div class="kb-top-bar">
+      <button class="kb-back" onclick="location.href='app.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        AI功能
+      </button>
+      <button class="kb-keyboard-btn" onclick="location.href='app.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="10" x2="6" y2="10"/><line x1="10" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="14" y2="10"/><line x1="18" y1="10" x2="18" y2="10"/><line x1="6" y1="14" x2="6" y2="14"/><line x1="18" y1="14" x2="18" y2="14"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+        键盘
+      </button>
+    </div>
 
-    <!-- === 帮你说视图热区 === -->
-    <!-- < AI功能 返回键盘 -->
-    <div class="hotspot" data-view="bangni_shuo" style="top:61%;left:0;width:22%;height:3.5%;" onclick="switchView('ai_func')"></div>
-    <!-- 键盘按钮 -->
-    <div class="hotspot" data-view="bangni_shuo" style="top:61%;left:42%;width:22%;height:3.5%;" onclick="switchView('ai_func')"></div>
-    <!-- 帮你说Tab（当前选中，不操作） -->
-    <div class="hotspot" data-view="bangni_shuo" style="top:65.5%;left:2%;width:26%;height:4%;"></div>
-    <!-- 帮你回Tab -->
-    <div class="hotspot" data-view="bangni_shuo" style="top:65.5%;left:28%;width:24%;height:4%;" onclick="switchView('bangni_hui')"></div>
-    <!-- 高赞朋友圈Tab -->
-    <div class="hotspot" data-view="bangni_shuo" style="top:65.5%;left:52%;width:28%;height:4%;" onclick="switchView('popular_moments')"></div>
-    <!-- 返回app（点击聊天区域上方） -->
-    <div class="hotspot" data-view="bangni_shuo" style="top:0;left:0;width:100%;height:35%;" onclick="location.href='app.html'"></div>
+    <!-- Tabs -->
+    <div class="panel-tabs">
+      <button class="panel-tab active" onclick="switchPanel(0)">帮你说</button>
+      <button class="panel-tab" onclick="switchPanel(1)">帮你回</button>
+      <button class="panel-tab" onclick="switchPanel(2)">高赞朋友圈</button>
+    </div>
 
-    <!-- === 帮你回视图热区 === -->
-    <!-- < AI功能 返回键盘 -->
-    <div class="hotspot" data-view="bangni_hui" style="top:44%;left:0;width:18%;height:3.5%;" onclick="switchView('ai_func')"></div>
-    <!-- 键盘按钮 -->
-    <div class="hotspot" data-view="bangni_hui" style="top:44%;left:35%;width:20%;height:3.5%;" onclick="switchView('ai_func')"></div>
-    <!-- 帮你说Tab -->
-    <div class="hotspot" data-view="bangni_hui" style="top:48%;left:2%;width:20%;height:4%;" onclick="switchView('bangni_shuo')"></div>
-    <!-- 帮你回Tab（当前选中） -->
-    <div class="hotspot" data-view="bangni_hui" style="top:48%;left:22%;width:22%;height:4%;"></div>
-    <!-- 高赞朋友圈Tab -->
-    <div class="hotspot" data-view="bangni_hui" style="top:48%;left:44%;width:24%;height:4%;" onclick="switchView('popular_moments')"></div>
-    <!-- 返回app -->
-    <div class="hotspot" data-view="bangni_hui" style="top:0;left:0;width:100%;height:25%;" onclick="location.href='app.html'"></div>
-
-    <!-- === 高赞朋友圈视图热区 === -->
-    <!-- < AI功能 返回键盘 -->
-    <div class="hotspot" data-view="popular_moments" style="top:4%;left:0;width:22%;height:5%;" onclick="switchView('ai_func')"></div>
-    <!-- 键盘按钮 -->
-    <div class="hotspot" data-view="popular_moments" style="top:4%;left:42%;width:22%;height:5%;" onclick="switchView('ai_func')"></div>
-    <!-- 帮你说Tab -->
-    <div class="hotspot" data-view="popular_moments" style="top:10%;left:2%;width:20%;height:5%;" onclick="switchView('bangni_shuo')"></div>
-    <!-- 帮你回Tab -->
-    <div class="hotspot" data-view="popular_moments" style="top:10%;left:22%;width:22%;height:5%;" onclick="switchView('bangni_hui')"></div>
-    <!-- 高赞朋友圈Tab（当前选中） -->
-    <div class="hotspot" data-view="popular_moments" style="top:10%;left:44%;width:24%;height:5%;"></div>
+    <!-- Panel content -->
+    <div class="panel-content">
+      <img class="panel-img active" src="assets/bangni_shuo.png" alt="帮你说" data-idx="0">
+      <img class="panel-img" src="assets/bangni_hui.png" alt="帮你回" data-idx="1">
+      <img class="panel-img" src="assets/popular_moments.png" alt="高赞朋友圈" data-idx="2">
+    </div>
   </div>
 
   <script>
-    var viewMap = {
-      'ai_func': 'assets/ai_func.png',
-      'bangni_shuo': 'assets/bangni_shuo.png',
-      'bangni_hui': 'assets/bangni_hui.png',
-      'popular_moments': 'assets/popular_moments.png'
-    };
-
-    function switchView(view) {
-      var img = document.getElementById('screenImg');
-      img.src = viewMap[view];
-
-      // Hide all hotspots, show only matching view
-      document.querySelectorAll('.hotspot').forEach(function(el) {
-        if (el.dataset.view === view) {
-          el.classList.add('active');
-        } else {
-          el.classList.remove('active');
-        }
+    function switchPanel(idx) {
+      var tabs = document.querySelectorAll('.panel-tab');
+      var imgs = document.querySelectorAll('.panel-img');
+      tabs.forEach(function(t, i) {
+        t.classList.toggle('active', i === idx);
+      });
+      imgs.forEach(function(img, i) {
+        img.classList.toggle('active', i === idx);
       });
     }
   </script>
