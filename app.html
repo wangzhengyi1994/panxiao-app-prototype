@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>磐销云输入法</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; display: flex; justify-content: center; min-height: 100vh; align-items: center; }
+    .phone-frame { position: relative; width: 390px; max-width: 100vw; }
+    .screen-img { width: 100%; display: block; }
+    .hotspot { position: absolute; cursor: pointer; }
+    .hotspot-home, .hotspot-mine { display: none; }
+    .hotspot-home.active, .hotspot-mine.active { display: block; }
+    @media (max-width: 430px) { .phone-frame { width: 100vw; } }
+  </style>
+</head>
+<body>
+  <div class="phone-frame">
+    <img class="screen-img" id="screenImg" src="assets/home.png">
+
+    <!-- === 首页热区 === -->
+    <!-- 立即体验按钮 -->
+    <div class="hotspot hotspot-home active" style="top:37%;left:12%;width:44%;height:5%;" onclick="location.href='keyboard.html'"></div>
+
+    <!-- === 我的页热区 === -->
+    <!-- 退出登录 -->
+    <div class="hotspot hotspot-mine" style="top:57%;left:5%;width:90%;height:5%;" onclick="location.href='login.html'"></div>
+
+    <!-- === 底部Tab栏（始终显示） === -->
+    <!-- 首页Tab -->
+    <div class="hotspot" style="bottom:0;left:0;width:33%;height:7%;" onclick="switchTab('home')"></div>
+    <!-- 教程Tab -->
+    <div class="hotspot" style="bottom:0;left:33%;width:34%;height:7%;" onclick="switchTab('home')"></div>
+    <!-- 我的Tab -->
+    <div class="hotspot" style="bottom:0;right:0;width:33%;height:7%;" onclick="switchTab('mine')"></div>
+  </div>
+
+  <script>
+    function switchTab(tab) {
+      var img = document.getElementById('screenImg');
+      var homeHotspots = document.querySelectorAll('.hotspot-home');
+      var mineHotspots = document.querySelectorAll('.hotspot-mine');
+
+      if (tab === 'home') {
+        img.src = 'assets/home.png';
+        homeHotspots.forEach(function(el) { el.classList.add('active'); });
+        mineHotspots.forEach(function(el) { el.classList.remove('active'); });
+      } else if (tab === 'mine') {
+        img.src = 'assets/mine.png';
+        homeHotspots.forEach(function(el) { el.classList.remove('active'); });
+        mineHotspots.forEach(function(el) { el.classList.add('active'); });
+      }
+    }
+  </script>
+</body>
+</html>

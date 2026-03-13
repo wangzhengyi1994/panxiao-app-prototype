@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>磐销云输入法 - 完善信息</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; display: flex; justify-content: center; min-height: 100vh; align-items: center; }
+    .phone-frame { position: relative; width: 390px; max-width: 100vw; }
+    .screen-img { width: 100%; display: block; }
+    .hotspot { position: absolute; cursor: pointer; }
+    @media (max-width: 430px) { .phone-frame { width: 100vw; } }
+  </style>
+</head>
+<body>
+  <div class="phone-frame">
+    <img class="screen-img" src="assets/recommend2.png">
+    <!-- 返回按钮 -->
+    <div class="hotspot" style="top:6%;left:1%;width:10%;height:4%;" onclick="location.href='recommend1.html'"></div>
+    <!-- 下一步按钮 -->
+    <div class="hotspot" style="top:89%;left:4%;width:92%;height:6%;" onclick="location.href='app.html'"></div>
+  </div>
+</body>
+</html>
