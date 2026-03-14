@@ -16,7 +16,7 @@
     .phone {
       width: 375px;
       min-height: 100vh;
-      background: #fff;
+      background: #F5F7FA;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -35,8 +35,9 @@
       width: 375px;
       z-index: 100;
     }
-    .status-bar.light { color: #1A1A1A; }
+    .status-bar.light { color: #1A1A1A; background: #F5F7FA; }
     .status-bar.dark { color: #fff; }
+    .status-bar.white { color: #1A1A1A; background: #fff; }
     .status-icons { display: flex; gap: 6px; align-items: center; }
     .status-icons svg { width: 16px; height: 16px; }
 
@@ -52,31 +53,15 @@
       padding: 0 16px;
       z-index: 99;
     }
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .nav-left { display: flex; align-items: center; gap: 8px; }
     .app-icon {
-      width: 32px;
-      height: 32px;
+      width: 32px; height: 32px;
       background: #1B3A8F;
       border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
     }
-    .app-icon-inner {
-      width: 16px;
-      height: 16px;
-      background: #fff;
-      border-radius: 50%;
-    }
-    .app-title {
-      font-size: 16px;
-      font-weight: bold;
-      color: #1A1A1A;
-    }
+    .app-icon-inner { width: 16px; height: 16px; background: #fff; border-radius: 50%; }
+    .app-title { font-size: 16px; font-weight: bold; color: #1A1A1A; }
     .nav-capsule {
       border: 1px solid #E8E8E8;
       padding: 6px 12px;
@@ -92,190 +77,348 @@
     .content {
       margin-top: 80px;
       flex: 1;
-      padding-bottom: 56px;
+      padding-bottom: 62px;
       overflow-y: auto;
     }
 
-    /* === HOME TAB === */
+    /* ===== HOME TAB ===== */
     .tab-home {
-      background: linear-gradient(180deg, #C5DEFF 0%, #FFFFFF 40%);
-      min-height: calc(100vh - 136px);
+      background: linear-gradient(180deg, #C5DEFF 0%, #F5F7FA 40%);
+      min-height: calc(100vh - 142px);
     }
-
-    .hero {
-      padding: 20px 20px 0;
-      position: relative;
-    }
-    .hero-bg {
-      width: 100%;
-      border-radius: 16px;
-      display: block;
-      margin-bottom: -60px;
-    }
+    .hero { padding: 20px 20px 0; }
     .hero-title {
-      font-size: 32px;
-      font-weight: bold;
+      font-size: 32px; font-weight: bold;
       background: linear-gradient(90deg, #0EA5E9, #2DD4BF);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-align: center;
-      padding-top: 16px;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      text-align: center; padding-top: 16px;
     }
-    .hero-badge {
-      display: inline-block;
-      background: #00796B;
-      color: #fff;
-      font-size: 13px;
-      border-radius: 20px;
-      padding: 6px 16px;
-      margin: 12px auto 0;
-      text-align: center;
-    }
+    .hero-badge { display: inline-block; background: #00796B; color: #fff; font-size: 13px; border-radius: 20px; padding: 6px 16px; margin: 12px auto 0; }
     .hero-badge-wrap { text-align: center; }
-
-    .hero-img-wrap {
-      position: relative;
-      margin: 20px 0;
-      border-radius: 16px;
-      overflow: hidden;
-    }
-    .hero-img-wrap img {
-      width: 100%;
-      display: block;
-      border-radius: 16px;
-    }
-
-    .cta-wrap {
-      position: relative;
-      text-align: center;
-      margin: 0 20px 24px;
-    }
+    .hero-img-wrap { position: relative; margin: 20px 16px; border-radius: 16px; overflow: hidden; }
+    .hero-img-wrap img { width: 100%; display: block; border-radius: 16px; }
+    .cta-wrap { position: relative; text-align: center; margin: 0 20px 24px; }
     .cta-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      width: 80%;
-      height: 52px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      width: 80%; height: 52px;
       background: linear-gradient(135deg, #667EEA, #9B59B6);
-      border: none;
-      border-radius: 26px;
-      color: #fff;
-      font-size: 18px;
-      font-weight: 500;
-      cursor: pointer;
-      position: relative;
-      font-family: inherit;
+      border: none; border-radius: 26px; color: #fff;
+      font-size: 18px; font-weight: 500; cursor: pointer; position: relative; font-family: inherit;
     }
-    .cta-btn:active { opacity: 0.9; }
     .cta-badge {
-      position: absolute;
-      top: -10px;
-      right: -4px;
-      background: #FF4444;
-      color: #fff;
-      font-size: 10px;
-      padding: 3px 8px;
-      border-radius: 10px;
-      white-space: nowrap;
+      position: absolute; top: -10px; right: -4px;
+      background: #FF4444; color: #fff; font-size: 10px; padding: 3px 8px; border-radius: 10px; white-space: nowrap;
     }
-
-    /* Core value card */
     .value-card {
-      background: #1A4FBB;
-      border-radius: 16px;
-      margin: 0 16px 16px;
-      padding: 20px;
-      position: relative;
+      background: #1A4FBB; border-radius: 16px; margin: 0 16px 16px; padding: 20px;
     }
-    .value-label {
-      display: inline-block;
-      background: #00BFA5;
-      color: #fff;
-      font-size: 10px;
-      padding: 3px 8px;
-      border-radius: 4px;
-      margin-bottom: 16px;
+    .value-label { display: inline-block; background: #00BFA5; color: #fff; font-size: 10px; padding: 3px 8px; border-radius: 4px; margin-bottom: 16px; }
+    .value-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .value-item h3 { color: #fff; font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .value-item p { color: rgba(255,255,255,0.7); font-size: 12px; line-height: 1.4; }
+    .ds-card {
+      background: #1A4FBB; border-radius: 16px; margin: 0 16px 16px; padding: 20px;
+      display: flex; justify-content: space-between; align-items: center;
     }
-    .value-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .value-item h3 {
-      color: #fff;
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .value-item p {
-      color: rgba(255,255,255,0.7);
-      font-size: 12px;
-      line-height: 1.4;
+    .ds-card h2 { color: #fff; font-size: 20px; font-weight: bold; margin-bottom: 8px; }
+    .ds-card .ds-sub { display: flex; align-items: center; gap: 6px; color: #fff; font-size: 12px; }
+    .ds-dot { width: 8px; height: 8px; border-radius: 50%; background: #AAFF00; }
+    .ds-emoji { font-size: 48px; }
+    .audience { padding: 0 16px 24px; }
+    .audience-title { font-size: 18px; font-weight: bold; color: #1A1A1A; margin-bottom: 12px; }
+    .audience-item { background: #fff; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; font-size: 14px; color: #333; line-height: 1.5; }
+    .audience-item .hl { color: #3D6EF5; font-weight: 600; }
+
+    /* ===== TUTORIAL TAB ===== */
+    .tab-tutorial { display: none; min-height: calc(100vh - 142px); }
+    .empty-state { text-align: center; color: #999; padding: 80px 20px; }
+    .empty-state svg { width: 64px; height: 64px; color: #DDD; margin-bottom: 16px; }
+    .empty-state h3 { font-size: 16px; color: #666; margin-bottom: 8px; }
+    .empty-state p { font-size: 14px; }
+
+    /* ===== TODO TAB ===== */
+    .tab-todo {
+      display: none;
+      min-height: calc(100vh - 142px);
+      background: #F5F7FA;
     }
 
-    /* DeepSeek card */
-    .ds-card {
-      background: #1A4FBB;
-      border-radius: 16px;
-      margin: 0 16px 16px;
-      padding: 20px;
+    /* Todo header */
+    .todo-header {
+      background: #fff;
+      padding: 16px 16px 0;
+    }
+    .todo-header-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 16px;
     }
-    .ds-card h2 {
-      color: #fff;
+    .todo-header-top h2 {
       font-size: 20px;
       font-weight: bold;
-      margin-bottom: 8px;
+      color: #1A1A1A;
     }
-    .ds-card .ds-sub {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: #fff;
-      font-size: 12px;
-    }
-    .ds-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #AAFF00;
-    }
-    .ds-emoji {
-      font-size: 48px;
+    .todo-add-btn {
+      width: 32px; height: 32px;
+      background: #3D6EF5;
+      border: none; border-radius: 50%;
+      color: #fff; font-size: 22px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-family: inherit;
+      line-height: 1;
     }
 
-    /* Suitable audience */
-    .audience {
-      padding: 0 16px 24px;
+    /* Stats row */
+    .todo-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
     }
-    .audience-title {
-      font-size: 18px;
+    .stat-card {
+      background: #F5F7FA;
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 24px;
       font-weight: bold;
       color: #1A1A1A;
-      margin-bottom: 12px;
     }
-    .audience-item {
-      background: #F5F5F5;
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 8px;
-      font-size: 14px;
-      color: #333;
-      line-height: 1.5;
+    .stat-num.red { color: #FF4757; }
+    .stat-num.blue { color: #3D6EF5; }
+    .stat-num.green { color: #2ECC71; }
+    .stat-label {
+      font-size: 11px;
+      color: #999;
+      margin-top: 2px;
     }
-    .audience-item .hl {
+
+    /* Filter tabs */
+    .todo-filters {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid #F0F0F0;
+    }
+    .filter-tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 13px;
+      color: #999;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .filter-tab.active {
       color: #3D6EF5;
+      border-bottom-color: #3D6EF5;
       font-weight: 600;
     }
 
-    /* === MINE TAB === */
+    /* Todo list */
+    .todo-list {
+      padding: 12px 16px;
+    }
+
+    /* Section */
+    .todo-section-title {
+      font-size: 12px;
+      color: #999;
+      font-weight: 500;
+      margin: 8px 0 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Task card */
+    .task-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+    .task-card.done { opacity: 0.5; }
+    .task-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      border-radius: 3px 0 0 3px;
+    }
+    .task-card.priority-high::before { background: #FF4757; }
+    .task-card.priority-mid::before { background: #FFA502; }
+    .task-card.priority-low::before { background: #2ECC71; }
+    .task-card.priority-overdue::before { background: #FF4757; }
+
+    .task-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .task-check {
+      width: 20px; height: 20px;
+      border: 2px solid #DDD;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 1px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .task-check.checked {
+      background: #2ECC71;
+      border-color: #2ECC71;
+    }
+    .task-check.checked::after {
+      content: '✓';
+      color: #fff;
+      font-size: 11px;
+    }
+    .task-info { flex: 1; }
+    .task-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1A1A1A;
+      line-height: 1.4;
+      margin-bottom: 4px;
+    }
+    .task-card.done .task-title {
+      text-decoration: line-through;
+      color: #999;
+    }
+    .task-client {
+      font-size: 12px;
+      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .task-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+    }
+    .task-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+    .tag-call { background: #EBF3FF; color: #3D6EF5; }
+    .tag-follow { background: #FFF4E5; color: #FFA502; }
+    .tag-contract { background: #E8FAF0; color: #2ECC71; }
+    .tag-meeting { background: #F3E8FF; color: #9B59B6; }
+    .tag-overdue { background: #FFEBEC; color: #FF4757; }
+
+    .task-time {
+      font-size: 11px;
+      color: #999;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .task-time.overdue { color: #FF4757; font-weight: 500; }
+
+    /* FAB */
+    .fab {
+      position: fixed;
+      bottom: 74px;
+      right: calc(50% - 187px + 16px);
+      width: 48px; height: 48px;
+      background: #3D6EF5;
+      border-radius: 50%;
+      border: none;
+      color: #fff;
+      font-size: 28px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(61,110,245,0.4);
+      cursor: pointer;
+      z-index: 99;
+      font-family: inherit;
+      line-height: 1;
+      transition: all 0.2s;
+    }
+    .fab:active { transform: scale(0.92); }
+    .fab.hidden { display: none; }
+
+    /* Add modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      display: none;
+      align-items: flex-end;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-sheet {
+      background: #fff;
+      width: 375px;
+      border-radius: 20px 20px 0 0;
+      padding: 20px 16px 40px;
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .modal-handle {
+      width: 36px; height: 4px;
+      background: #E0E0E0;
+      border-radius: 2px;
+      margin: 0 auto 20px;
+    }
+    .modal-title {
+      font-size: 17px; font-weight: bold; color: #1A1A1A;
+      margin-bottom: 16px;
+    }
+    .form-group { margin-bottom: 14px; }
+    .form-label { font-size: 13px; color: #666; margin-bottom: 6px; display: block; }
+    .form-input {
+      width: 100%; padding: 12px 14px;
+      border: 1px solid #E8E8E8; border-radius: 10px;
+      font-size: 14px; color: #1A1A1A; font-family: inherit;
+      background: #F9F9F9;
+      outline: none;
+    }
+    .form-input:focus { border-color: #3D6EF5; background: #fff; }
+    .form-row { display: flex; gap: 10px; }
+    .form-select {
+      flex: 1; padding: 12px 14px;
+      border: 1px solid #E8E8E8; border-radius: 10px;
+      font-size: 14px; color: #1A1A1A; font-family: inherit;
+      background: #F9F9F9; appearance: none;
+      outline: none;
+    }
+    .modal-submit {
+      width: 100%; height: 48px;
+      background: #3D6EF5; border: none; border-radius: 12px;
+      color: #fff; font-size: 16px; font-weight: 500;
+      cursor: pointer; font-family: inherit;
+      margin-top: 4px;
+    }
+
+    /* ===== KANBAN TAB ===== */
+    .tab-kanban { display: none; min-height: calc(100vh - 142px); }
+
+    /* ===== CREATE TAB ===== */
+    .tab-create { display: none; min-height: calc(100vh - 142px); }
+
+    /* ===== MINE TAB ===== */
     .tab-mine {
       display: none;
-      min-height: calc(100vh - 136px);
+      min-height: calc(100vh - 142px);
+      background: #F5F7FA;
     }
     .mine-header {
       background: linear-gradient(180deg, #3D6EF5, #2B5FD9);
@@ -283,81 +426,30 @@
       text-align: center;
       border-radius: 0 0 24px 24px;
     }
-    .avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: #E0E0E0;
-      border: 4px solid #fff;
-      margin: 0 auto 12px;
-    }
-    .mine-phone {
-      color: #fff;
-      font-size: 20px;
-      font-weight: bold;
-    }
-    .mine-expire {
-      color: rgba(255,255,255,0.7);
-      font-size: 12px;
-      margin-top: 6px;
-    }
+    .avatar { width: 80px; height: 80px; border-radius: 50%; background: #E0E0E0; border: 4px solid #fff; margin: 0 auto 12px; }
+    .mine-phone { color: #fff; font-size: 20px; font-weight: bold; }
+    .mine-expire { color: rgba(255,255,255,0.7); font-size: 12px; margin-top: 6px; }
     .menu-card {
       margin: 16px 16px;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-      overflow: hidden;
+      background: #fff; border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06); overflow: hidden;
     }
     .menu-item {
-      display: flex;
-      align-items: center;
-      padding: 16px;
-      cursor: pointer;
+      display: flex; align-items: center; padding: 16px; cursor: pointer;
       border-bottom: 1px solid #F0F0F0;
     }
     .menu-item:last-child { border-bottom: none; }
-    .menu-item .mi-icon {
-      width: 24px;
-      font-size: 18px;
-      margin-right: 12px;
-      text-align: center;
-    }
-    .menu-item .mi-text {
-      flex: 1;
-      font-size: 15px;
-      color: #333;
-    }
-    .menu-item .mi-sub {
-      font-size: 13px;
-      color: #999;
-      margin-right: 8px;
-    }
-    .menu-item .mi-arrow {
-      color: #CCC;
-      font-size: 14px;
-    }
+    .menu-item .mi-icon { width: 24px; font-size: 18px; margin-right: 12px; text-align: center; }
+    .menu-item .mi-text { flex: 1; font-size: 15px; color: #333; }
+    .menu-item .mi-sub { font-size: 13px; color: #999; margin-right: 8px; }
+    .menu-item .mi-arrow { color: #CCC; font-size: 14px; }
 
-    /* === TUTORIAL TAB === */
-    .tab-tutorial {
-      display: none;
-      min-height: calc(100vh - 136px);
-      justify-content: center;
-      align-items: center;
-    }
-    .empty-state {
-      text-align: center;
-      color: #999;
-      padding: 60px 20px;
-    }
-    .empty-state svg { width: 80px; height: 80px; color: #DDD; margin-bottom: 16px; }
-    .empty-state p { font-size: 15px; }
-
-    /* Bottom tab bar */
+    /* ===== BOTTOM TAB BAR ===== */
     .tab-bar {
       position: fixed;
       bottom: 0;
       width: 375px;
-      height: 56px;
+      height: 62px;
       background: #fff;
       border-top: 1px solid #F0F0F0;
       display: flex;
@@ -374,20 +466,36 @@
       background: none;
       border: none;
       font-family: inherit;
-      padding: 0;
+      padding: 6px 0;
+      position: relative;
     }
-    .tab-item svg { width: 24px; height: 24px; }
-    .tab-item span { font-size: 11px; }
+    .tab-item svg { width: 22px; height: 22px; }
+    .tab-item span { font-size: 10px; }
     .tab-item.active svg { color: #3D6EF5; }
     .tab-item.active span { color: #3D6EF5; font-weight: 600; }
-    .tab-item:not(.active) svg { color: #999; }
-    .tab-item:not(.active) span { color: #999; }
+    .tab-item:not(.active) svg { color: #BABABA; }
+    .tab-item:not(.active) span { color: #BABABA; }
+    /* Badge */
+    .tab-badge {
+      position: absolute;
+      top: 4px; right: calc(50% - 18px);
+      background: #FF4757;
+      color: #fff;
+      font-size: 9px;
+      font-weight: bold;
+      min-width: 16px; height: 16px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 4px;
+    }
 
     @media (max-width: 430px) {
       .phone { width: 100%; }
       .status-bar { width: 100%; }
       .top-nav { width: 100%; }
       .tab-bar { width: 100%; }
+      .fab { right: 16px; }
+      .modal-sheet { width: 100%; }
     }
   </style>
 </head>
@@ -414,6 +522,7 @@
 
     <!-- Content -->
     <div class="content">
+
       <!-- HOME -->
       <div class="tab-home" id="tabHome">
         <div class="hero">
@@ -422,54 +531,31 @@
             <span class="hero-badge">磐销云输入法 让成交更从容</span>
           </div>
         </div>
-
         <div class="hero-img-wrap" style="margin: 20px 16px;">
           <img src="assets/home.png" alt="首页插图">
         </div>
-
         <div class="cta-wrap">
           <button class="cta-btn" onclick="location.href='keyboard.html'">
             立即体验 →
             <span class="cta-badge">超过7W+同行正在使用</span>
           </button>
         </div>
-
-        <!-- Core value -->
         <div class="value-card">
           <span class="value-label">输入法核心价值</span>
           <div class="value-grid">
-            <div class="value-item">
-              <h3>AI赋能销售</h3>
-              <p>智能对话助手，实时辅助每一次沟通</p>
-            </div>
-            <div class="value-item">
-              <h3>效率革命</h3>
-              <p>一键生成专业话术，告别低效沟通</p>
-            </div>
-            <div class="value-item">
-              <h3>能力跃迁</h3>
-              <p>持续学习行业知识，快速提升专业水平</p>
-            </div>
-            <div class="value-item">
-              <h3>成交加速</h3>
-              <p>精准把握客户需求，缩短成交周期</p>
-            </div>
+            <div class="value-item"><h3>AI赋能销售</h3><p>智能对话助手，实时辅助每一次沟通</p></div>
+            <div class="value-item"><h3>效率革命</h3><p>一键生成专业话术，告别低效沟通</p></div>
+            <div class="value-item"><h3>能力跃迁</h3><p>持续学习行业知识，快速提升专业水平</p></div>
+            <div class="value-item"><h3>成交加速</h3><p>精准把握客户需求，缩短成交周期</p></div>
           </div>
         </div>
-
-        <!-- DeepSeek -->
         <div class="ds-card">
           <div>
             <h2>已全面接入 DEEPSEEK</h2>
-            <div class="ds-sub">
-              <span class="ds-dot"></span>
-              与DEEPSEEK携手，开启智能新纪元
-            </div>
+            <div class="ds-sub"><span class="ds-dot"></span>与DEEPSEEK携手，开启智能新纪元</div>
           </div>
           <span class="ds-emoji">🐳</span>
         </div>
-
-        <!-- Audience -->
         <div class="audience">
           <div class="audience-title">适合人群</div>
           <div class="audience-item">需要<span class="hl">高效沟通</span>的销售从业者</div>
@@ -482,8 +568,65 @@
       <!-- TUTORIAL -->
       <div class="tab-tutorial" id="tabTutorial">
         <div class="empty-state">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="13" y2="11"/></svg>
-          <p>教程内容即将上线，敬请期待</p>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+            <line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="13" y2="11"/>
+          </svg>
+          <h3>引导与教程</h3>
+          <p>内容即将上线，敬请期待</p>
+        </div>
+      </div>
+
+      <!-- TODO -->
+      <div class="tab-todo" id="tabTodo">
+        <div class="todo-header">
+          <div class="todo-header-top">
+            <h2>我的待办</h2>
+            <button class="todo-add-btn" onclick="openAddModal()">+</button>
+          </div>
+          <div class="todo-stats">
+            <div class="stat-card">
+              <div class="stat-num red" id="statOverdue">2</div>
+              <div class="stat-label">已逾期</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num blue" id="statToday">5</div>
+              <div class="stat-label">今日待办</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num green" id="statDone">8</div>
+              <div class="stat-label">已完成</div>
+            </div>
+          </div>
+          <div class="todo-filters">
+            <div class="filter-tab active" onclick="filterTodo('all', this)">全部</div>
+            <div class="filter-tab" onclick="filterTodo('today', this)">今日</div>
+            <div class="filter-tab" onclick="filterTodo('overdue', this)">逾期</div>
+            <div class="filter-tab" onclick="filterTodo('done', this)">已完成</div>
+          </div>
+        </div>
+        <div class="todo-list" id="todoList"></div>
+      </div>
+
+      <!-- KANBAN -->
+      <div class="tab-kanban" id="tabKanban">
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="12" rx="1"/>
+          </svg>
+          <h3>销售看板</h3>
+          <p>客户跟进状态看板即将上线</p>
+        </div>
+      </div>
+
+      <!-- CREATE -->
+      <div class="tab-create" id="tabCreate">
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+          </svg>
+          <h3>话术创作</h3>
+          <p>AI 话术创作工坊即将上线</p>
         </div>
       </div>
 
@@ -492,79 +635,296 @@
         <div class="mine-header">
           <div class="avatar"></div>
           <div class="mine-phone">183****5597</div>
-          <div class="mine-expire">有效时间:2026-12-31 00:00:00</div>
+          <div class="mine-expire">有效时间：2026-12-31 00:00:00</div>
         </div>
         <div class="menu-card">
           <div class="menu-item">
-            <span class="mi-icon">🚀</span>
-            <span class="mi-text">检查更新</span>
-            <span class="mi-sub">当前版本:1.0.1</span>
-            <span class="mi-arrow">›</span>
+            <span class="mi-icon">🚀</span><span class="mi-text">检查更新</span>
+            <span class="mi-sub">当前版本:1.0.1</span><span class="mi-arrow">›</span>
           </div>
           <div class="menu-item">
-            <span class="mi-icon">🗑</span>
-            <span class="mi-text">清除缓存</span>
-            <span class="mi-arrow">›</span>
+            <span class="mi-icon">🗑</span><span class="mi-text">清除缓存</span><span class="mi-arrow">›</span>
           </div>
           <div class="menu-item">
-            <span class="mi-icon">📄</span>
-            <span class="mi-text">用户服务协议</span>
-            <span class="mi-arrow">›</span>
+            <span class="mi-icon">📄</span><span class="mi-text">用户服务协议</span><span class="mi-arrow">›</span>
           </div>
           <div class="menu-item">
-            <span class="mi-icon">📖</span>
-            <span class="mi-text">隐私政策</span>
-            <span class="mi-arrow">›</span>
+            <span class="mi-icon">📖</span><span class="mi-text">隐私政策</span><span class="mi-arrow">›</span>
           </div>
           <div class="menu-item">
-            <span class="mi-icon">💬</span>
-            <span class="mi-text">我的客服</span>
-            <span class="mi-arrow">›</span>
+            <span class="mi-icon">💬</span><span class="mi-text">我的客服</span><span class="mi-arrow">›</span>
           </div>
         </div>
       </div>
-    </div>
+
+    </div><!-- end content -->
+
+    <!-- FAB -->
+    <button class="fab hidden" id="fabBtn" onclick="openAddModal()">+</button>
 
     <!-- Tab bar -->
     <div class="tab-bar">
       <button class="tab-item active" id="btnHome" onclick="switchTab('home')">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z"/>
+        </svg>
         <span>首页</span>
       </button>
       <button class="tab-item" id="btnTutorial" onclick="switchTab('tutorial')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-        <span>教程</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+        </svg>
+        <span>引导教程</span>
+      </button>
+      <button class="tab-item" id="btnTodo" onclick="switchTab('todo')">
+        <span class="tab-badge" id="todoBadge">2</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+        </svg>
+        <span>待办</span>
+      </button>
+      <button class="tab-item" id="btnKanban" onclick="switchTab('kanban')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="12" rx="1"/>
+        </svg>
+        <span>看板</span>
+      </button>
+      <button class="tab-item" id="btnCreate" onclick="switchTab('create')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        <span>创作</span>
       </button>
       <button class="tab-item" id="btnMine" onclick="switchTab('mine')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
         <span>我的</span>
       </button>
     </div>
-  </div>
+
+    <!-- Add Task Modal -->
+    <div class="modal-overlay" id="addModal" onclick="closeModalOnBg(event)">
+      <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-title">新建待办</div>
+        <div class="form-group">
+          <label class="form-label">任务内容</label>
+          <input class="form-input" id="inputTitle" placeholder="例：回访张总，确认合同意向" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">客户姓名</label>
+          <input class="form-input" id="inputClient" placeholder="例：张总" />
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="flex:1">
+            <label class="form-label">类型</label>
+            <select class="form-select" id="inputType">
+              <option value="call">📞 回访电话</option>
+              <option value="follow">📋 跟进</option>
+              <option value="contract">📝 合同</option>
+              <option value="meeting">🤝 见面</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1">
+            <label class="form-label">优先级</label>
+            <select class="form-select" id="inputPriority">
+              <option value="high">🔴 高</option>
+              <option value="mid" selected>🟡 中</option>
+              <option value="low">🟢 低</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">截止时间</label>
+          <input class="form-input" id="inputTime" type="datetime-local" />
+        </div>
+        <button class="modal-submit" onclick="addTask()">确认添加</button>
+      </div>
+    </div>
+
+  </div><!-- end phone -->
 
   <script>
-    function switchTab(tab) {
-      var tabs = ['home', 'tutorial', 'mine'];
-      var statusBar = document.getElementById('statusBar');
+  // ===== DATA =====
+  var tasks = [
+    { id:1, title:'回访李总，跟进产品方案意向', client:'李总', type:'follow', priority:'high', time:'2026-03-14 09:00', done:false, overdue:true },
+    { id:2, title:'发送合同草稿给王经理确认', client:'王经理', type:'contract', priority:'high', time:'2026-03-13 18:00', done:false, overdue:true },
+    { id:3, title:'电话确认赵老板今日见面时间', client:'赵老板', type:'call', priority:'mid', time:'2026-03-14 11:00', done:false, overdue:false },
+    { id:4, title:'准备下午3点演示材料', client:'陈总', type:'meeting', priority:'mid', time:'2026-03-14 14:30', done:false, overdue:false },
+    { id:5, title:'跟进孙总上周询价单', client:'孙总', type:'follow', priority:'mid', time:'2026-03-14 16:00', done:false, overdue:false },
+    { id:6, title:'发报价单给刘女士', client:'刘女士', type:'follow', priority:'low', time:'2026-03-14 17:00', done:false, overdue:false },
+    { id:7, title:'整理本周拜访客户记录', client:'', type:'follow', priority:'low', time:'2026-03-14 20:00', done:false, overdue:false },
+    { id:8, title:'回电周总，确认续约意向', client:'周总', type:'call', priority:'', time:'2026-03-12 10:00', done:true, overdue:false },
+    { id:9, title:'发感谢短信给新签客户', client:'马总', type:'follow', priority:'', time:'2026-03-11 15:00', done:true, overdue:false },
+    { id:10, title:'提交上周销售报表', client:'', type:'follow', priority:'', time:'2026-03-10 18:00', done:true, overdue:false },
+  ];
+  var nextId = 11;
+  var currentFilter = 'all';
 
-      tabs.forEach(function(t) {
-        var el = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
-        var btn = document.getElementById('btn' + t.charAt(0).toUpperCase() + t.slice(1));
-        if (t === tab) {
-          el.style.display = (t === 'tutorial') ? 'flex' : 'block';
-          btn.classList.add('active');
-        } else {
-          el.style.display = 'none';
-          btn.classList.remove('active');
-        }
-      });
+  var typeMap = { call:'📞 回访电话', follow:'📋 跟进', contract:'📝 合同', meeting:'🤝 见面' };
+  var tagClass = { call:'tag-call', follow:'tag-follow', contract:'tag-contract', meeting:'tag-meeting' };
 
-      if (tab === 'home') {
-        statusBar.className = 'status-bar dark';
-      } else {
-        statusBar.className = 'status-bar light';
-      }
+  // ===== RENDER TODO =====
+  function renderTodo() {
+    var list = document.getElementById('todoList');
+    var today = new Date().toISOString().slice(0,10);
+    var filtered = tasks.filter(function(t) {
+      if (currentFilter === 'all') return !t.done;
+      if (currentFilter === 'today') return !t.done && t.time.slice(0,10) === today;
+      if (currentFilter === 'overdue') return !t.done && t.overdue;
+      if (currentFilter === 'done') return t.done;
+      return true;
+    });
+
+    // Stats
+    var overdueCnt = tasks.filter(function(t){ return !t.done && t.overdue; }).length;
+    var todayCnt = tasks.filter(function(t){ return !t.done && t.time.slice(0,10) === today; }).length;
+    var doneCnt = tasks.filter(function(t){ return t.done; }).length;
+    document.getElementById('statOverdue').textContent = overdueCnt;
+    document.getElementById('statToday').textContent = todayCnt;
+    document.getElementById('statDone').textContent = doneCnt;
+
+    // Badge
+    var badge = document.getElementById('todoBadge');
+    if (overdueCnt > 0) { badge.textContent = overdueCnt; badge.style.display = 'flex'; }
+    else { badge.style.display = 'none'; }
+
+    if (filtered.length === 0) {
+      list.innerHTML = '<div class="empty-state" style="padding:40px 0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:48px;height:48px;color:#DDD;margin:0 auto 12px;display:block"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><p>暂无待办事项</p></div>';
+      return;
     }
+
+    var html = '';
+
+    // Overdue section
+    if (currentFilter === 'all') {
+      var overdue = filtered.filter(function(t){ return t.overdue; });
+      var normal = filtered.filter(function(t){ return !t.overdue; });
+      if (overdue.length) {
+        html += '<div class="todo-section-title">⚠️ 已逾期</div>';
+        overdue.forEach(function(t){ html += renderCard(t, true); });
+      }
+      if (normal.length) {
+        html += '<div class="todo-section-title">📋 待处理</div>';
+        normal.forEach(function(t){ html += renderCard(t, false); });
+      }
+    } else {
+      filtered.forEach(function(t){ html += renderCard(t, t.overdue); });
+    }
+
+    list.innerHTML = html;
+  }
+
+  function renderCard(t, isOverdue) {
+    var priorityCls = t.done ? '' : (isOverdue ? 'priority-overdue' : ('priority-' + (t.priority || 'low')));
+    var tagCls = tagClass[t.type] || 'tag-follow';
+    var tagLabel = typeMap[t.type] || '📋 跟进';
+    var timeDisplay = t.time ? t.time.slice(5,16).replace('-','/') : '';
+    var timeCls = isOverdue ? 'task-time overdue' : 'task-time';
+    var timePrefix = isOverdue ? '⏰ 逾期 ' : '🕐 ';
+    return '<div class="task-card ' + priorityCls + (t.done?' done':'') + '">' +
+      '<div class="task-top">' +
+        '<div class="task-check ' + (t.done?'checked':'') + '" onclick="toggleTask(' + t.id + ')"></div>' +
+        '<div class="task-info">' +
+          '<div class="task-title">' + t.title + '</div>' +
+          (t.client ? '<div class="task-client">👤 ' + t.client + '</div>' : '') +
+        '</div>' +
+      '</div>' +
+      '<div class="task-meta">' +
+        '<div class="task-tags">' +
+          '<span class="tag ' + tagCls + '">' + tagLabel + '</span>' +
+          (isOverdue && !t.done ? '<span class="tag tag-overdue">逾期</span>' : '') +
+        '</div>' +
+        (timeDisplay ? '<div class="' + timeCls + '">' + timePrefix + timeDisplay + '</div>' : '') +
+      '</div>' +
+    '</div>';
+  }
+
+  function toggleTask(id) {
+    var t = tasks.find(function(x){ return x.id === id; });
+    if (t) { t.done = !t.done; t.overdue = false; renderTodo(); }
+  }
+
+  function filterTodo(filter, el) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-tab').forEach(function(e){ e.classList.remove('active'); });
+    el.classList.add('active');
+    renderTodo();
+  }
+
+  // ===== ADD TASK =====
+  function openAddModal() {
+    document.getElementById('addModal').classList.add('show');
+    // Default time = now + 2h
+    var d = new Date(Date.now() + 2*3600000);
+    var pad = function(n){ return n<10?'0'+n:n; };
+    document.getElementById('inputTime').value = d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes());
+  }
+
+  function closeModalOnBg(e) {
+    if (e.target === document.getElementById('addModal')) closeAddModal();
+  }
+
+  function closeAddModal() {
+    document.getElementById('addModal').classList.remove('show');
+  }
+
+  function addTask() {
+    var title = document.getElementById('inputTitle').value.trim();
+    if (!title) { alert('请填写任务内容'); return; }
+    var now = new Date();
+    var timeVal = document.getElementById('inputTime').value;
+    var taskTime = timeVal ? timeVal.replace('T',' ') : '';
+    var isOverdue = taskTime && new Date(taskTime) < now;
+    tasks.unshift({
+      id: nextId++,
+      title: title,
+      client: document.getElementById('inputClient').value.trim(),
+      type: document.getElementById('inputType').value,
+      priority: document.getElementById('inputPriority').value,
+      time: taskTime,
+      done: false,
+      overdue: isOverdue
+    });
+    document.getElementById('inputTitle').value = '';
+    document.getElementById('inputClient').value = '';
+    closeAddModal();
+    currentFilter = 'all';
+    document.querySelectorAll('.filter-tab').forEach(function(e,i){ e.classList.toggle('active', i===0); });
+    renderTodo();
+  }
+
+  // ===== SWITCH TAB =====
+  function switchTab(tab) {
+    var tabs = ['home','tutorial','todo','kanban','create','mine'];
+    var statusBar = document.getElementById('statusBar');
+
+    tabs.forEach(function(t) {
+      var id = 'tab' + t.charAt(0).toUpperCase() + t.slice(1);
+      var btn = 'btn' + t.charAt(0).toUpperCase() + t.slice(1);
+      var el = document.getElementById(id);
+      var btnEl = document.getElementById(btn);
+      if (t === tab) {
+        el.style.display = 'block';
+        if (btnEl) btnEl.classList.add('active');
+      } else {
+        el.style.display = 'none';
+        if (btnEl) btnEl.classList.remove('active');
+      }
+    });
+
+    // FAB only on todo
+    document.getElementById('fabBtn').classList.toggle('hidden', tab !== 'todo');
+
+    // Status bar color
+    statusBar.className = (tab === 'home') ? 'status-bar dark' : 'status-bar light';
+
+    if (tab === 'todo') renderTodo();
+  }
+
+  // Init
+  renderTodo();
   </script>
 </body>
 </html>
