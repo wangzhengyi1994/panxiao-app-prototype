@@ -130,7 +130,6 @@
     .audience-item .hl { color: #3D6EF5; font-weight: 600; }
 
     /* ===== TUTORIAL TAB ===== */
-    .tab-tutorial { display: none; min-height: calc(100vh - 142px); }
     .empty-state { text-align: center; color: #999; padding: 80px 20px; }
     .empty-state svg { width: 64px; height: 64px; color: #DDD; margin-bottom: 16px; }
     .empty-state h3 { font-size: 16px; color: #666; margin-bottom: 8px; }
@@ -564,17 +563,6 @@
           <div class="audience-item">想要<span class="hl">快速成长</span>的销售新人</div>
         </div>
       </div>
-
-      <!-- TUTORIAL -->
-      <div class="tab-tutorial" id="tabTutorial">
-        <div class="empty-state">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
-            <line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="13" y2="11"/>
-          </svg>
-          <h3>引导与教程</h3>
-          <p>内容即将上线，敬请期待</p>
-        </div>
       </div>
 
       <!-- TODO -->
@@ -669,12 +657,6 @@
           <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z"/>
         </svg>
         <span>首页</span>
-      </button>
-      <button class="tab-item" id="btnTutorial" onclick="switchTab('tutorial')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
-        </svg>
-        <span>引导教程</span>
       </button>
       <button class="tab-item" id="btnTodo" onclick="switchTab('todo')">
         <span class="tab-badge" id="todoBadge">2</span>
@@ -897,7 +879,7 @@
 
   // ===== SWITCH TAB =====
   function switchTab(tab) {
-    var tabs = ['home','tutorial','todo','kanban','create','mine'];
+    var tabs = ['home','todo','kanban','create','mine'];
     var statusBar = document.getElementById('statusBar');
 
     tabs.forEach(function(t) {
