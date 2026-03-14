@@ -431,6 +431,94 @@
     }
     .task-card.swiping { transition: none; }
 
+    /* ===== CALENDAR VIEW ===== */
+    .cal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(15,20,60,0.55);
+      backdrop-filter: blur(4px);
+      z-index: 150; display: none; align-items: flex-end;
+    }
+    .cal-overlay.show { display: flex; }
+    .cal-sheet {
+      background: #fff; width: 375px;
+      border-radius: 28px 28px 0 0;
+      padding: 0 20px 36px;
+      animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1);
+    }
+    .cal-drag { width: 36px; height: 4px; background: #dde3f5; border-radius: 2px; margin: 14px auto 0; }
+    .cal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 0 12px;
+    }
+    .cal-title { font-size: 17px; font-weight: 700; color: #212336; }
+    .cal-nav {
+      display: flex; gap: 4px;
+    }
+    .cal-nav button {
+      width: 34px; height: 34px; border-radius: 10px;
+      border: 1.5px solid #e8eeff; background: #f7f9ff;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: #3b5bdb; transition: background 0.15s;
+    }
+    .cal-nav button:active { background: #e8eeff; }
+    .cal-weekdays {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      margin-bottom: 6px;
+    }
+    .cal-weekday {
+      text-align: center; font-size: 11px; font-weight: 700;
+      color: #9ea8c8; padding: 4px 0; text-transform: uppercase;
+    }
+    .cal-days {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+    .cal-day {
+      aspect-ratio: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      border-radius: 12px; cursor: pointer;
+      font-size: 14px; color: #212336; font-weight: 500;
+      position: relative; transition: background 0.15s;
+    }
+    .cal-day:active { background: #edf2ff; }
+    .cal-day.empty { pointer-events: none; }
+    .cal-day.today { color: #3b5bdb; font-weight: 700; }
+    .cal-day.today::before {
+      content: '';
+      position: absolute; bottom: 6px;
+      width: 4px; height: 4px; border-radius: 50%;
+      background: #3b5bdb;
+    }
+    .cal-day.selected {
+      background: #3b5bdb; color: #fff !important;
+    }
+    .cal-day.selected::before { background: rgba(255,255,255,0.7); }
+    .cal-day.has-task::after {
+      content: '';
+      position: absolute; bottom: 5px;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: #ffa94d;
+    }
+    .cal-day.selected.has-task::after { background: rgba(255,255,255,0.8); }
+    .cal-day.other-month { color: #c8cedf; }
+    .cal-actions {
+      display: flex; gap: 10px; margin-top: 18px;
+    }
+    .cal-btn-clear {
+      flex: 1; height: 46px;
+      background: #f0f4ff; border: none; border-radius: 14px;
+      font-size: 15px; font-weight: 600; color: #3b5bdb;
+      cursor: pointer; font-family: inherit;
+    }
+    .cal-btn-confirm {
+      flex: 2; height: 46px;
+      background: linear-gradient(135deg, #3b5bdb, #4c6ef5);
+      border: none; border-radius: 14px;
+      font-size: 15px; font-weight: 600; color: #fff;
+      cursor: pointer; font-family: inherit;
+      box-shadow: 0 4px 14px rgba(59,91,219,0.3);
+    }
+
     /* FAB */
     .fab {
       position: fixed;
@@ -671,8 +759,13 @@
               <div class="todo-hero-title">今日待办</div>
               <div class="todo-hero-date" id="todoDate"></div>
             </div>
-            <div class="todo-add-icon" onclick="openAddModal()">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <div style="display:flex;gap:8px">
+              <div class="todo-add-icon" onclick="openCalModal()" title="日历">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+              <div class="todo-add-icon" onclick="openAddModal()" title="新建">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </div>
             </div>
           </div>
           <div class="todo-stats">
@@ -699,7 +792,36 @@
         <div class="todo-body" id="todoList"></div>
       </div>
 
-            <!-- KANBAN -->
+            <!-- Calendar Modal -->
+      <div class="cal-overlay" id="calModal" onclick="calOverlayClick(event)">
+        <div class="cal-sheet" id="calSheet">
+          <div class="cal-drag"></div>
+          <div class="cal-header">
+            <div class="cal-title" id="calTitle"></div>
+            <div class="cal-nav">
+              <button onclick="calMove(-1)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <button onclick="calMove(1)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="cal-weekdays">
+            <div class="cal-weekday">日</div><div class="cal-weekday">一</div>
+            <div class="cal-weekday">二</div><div class="cal-weekday">三</div>
+            <div class="cal-weekday">四</div><div class="cal-weekday">五</div>
+            <div class="cal-weekday">六</div>
+          </div>
+          <div class="cal-days" id="calDays"></div>
+          <div class="cal-actions">
+            <button class="cal-btn-clear" onclick="clearCalFilter()">显示全部</button>
+            <button class="cal-btn-confirm" onclick="closeCalModal()">确定</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- KANBAN -->
       <div class="tab-kanban" id="tabKanban">
         <div class="empty-state">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -863,6 +985,7 @@
       if (currentFilter === 'today')   return !t.done && t.time.slice(0,10) === today;
       if (currentFilter === 'overdue') return !t.done && t.overdue;
       if (currentFilter === 'done')    return t.done;
+      if (currentFilter.slice(0,5) === 'date:') return t.time && t.time.slice(0,10) === currentFilter.slice(5);
       return true;
     });
 
@@ -884,7 +1007,11 @@
     }
 
     var html = '';
-    if (currentFilter === 'all') {
+    if (currentFilter.slice(0,5) === 'date:') {
+      var dateLabel = currentFilter.slice(5).replace(/-/g,'/');
+      html += '<div class="todo-section-label">' + dateLabel + '</div>';
+      filtered.forEach(function(t){ html += renderCard(t); });
+    } else if (currentFilter === 'all') {
       var overdue = filtered.filter(function(t){ return t.overdue; });
       var normal  = filtered.filter(function(t){ return !t.overdue; });
       if (overdue.length) {
@@ -943,6 +1070,69 @@
       '</div>' +
     '</div>';
   }
+
+  // ===== CALENDAR =====
+  var calYear, calMonth, calSelectedDate = null;
+
+  function openCalModal() {
+    var now = new Date();
+    calYear  = now.getFullYear();
+    calMonth = now.getMonth();
+    renderCal();
+    document.getElementById('calModal').classList.add('show');
+  }
+  function closeCalModal() {
+    document.getElementById('calModal').classList.remove('show');
+    if (calSelectedDate) {
+      // filter to selected date
+      currentFilter = 'date:' + calSelectedDate;
+      document.querySelectorAll('.filter-pill').forEach(function(e){ e.classList.remove('active'); });
+      renderTodo();
+    }
+  }
+  function calOverlayClick(e) {
+    if (e.target === document.getElementById('calModal')) closeCalModal();
+  }
+  function clearCalFilter() {
+    calSelectedDate = null;
+    document.getElementById('calModal').classList.remove('show');
+    currentFilter = 'all';
+    document.querySelectorAll('.filter-pill').forEach(function(e,i){ e.classList.toggle('active', i===0); });
+    renderTodo();
+  }
+  function calMove(dir) {
+    calMonth += dir;
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    if (calMonth < 0)  { calMonth = 11; calYear--; }
+    renderCal();
+  }
+  function renderCal() {
+    var months = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+    document.getElementById('calTitle').textContent = calYear + '年 ' + months[calMonth];
+    var today = new Date();
+    var todayStr = today.getFullYear() + '-' + pad2(today.getMonth()+1) + '-' + pad2(today.getDate());
+    // days with tasks
+    var taskDays = {};
+    tasks.forEach(function(t){ if (t.time) taskDays[t.time.slice(0,10)] = true; });
+    var firstDay = new Date(calYear, calMonth, 1).getDay();
+    var daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+    var html = '';
+    for (var i=0; i<firstDay; i++) html += '<div class="cal-day empty"></div>';
+    for (var d=1; d<=daysInMonth; d++) {
+      var ds = calYear + '-' + pad2(calMonth+1) + '-' + pad2(d);
+      var cls = 'cal-day';
+      if (ds === todayStr) cls += ' today';
+      if (ds === calSelectedDate) cls += ' selected';
+      if (taskDays[ds]) cls += ' has-task';
+      html += '<div class="' + cls + '" onclick="calSelectDay('' + ds + '')">' + d + '</div>';
+    }
+    document.getElementById('calDays').innerHTML = html;
+  }
+  function calSelectDay(ds) {
+    calSelectedDate = ds;
+    renderCal();
+  }
+  function pad2(n) { return n < 10 ? '0'+n : ''+n; }
 
   function initSwipe() {
     document.querySelectorAll('.task-card-wrap:not([data-sw])').forEach(function(wrap) {
@@ -1006,6 +1196,7 @@
 
   function filterTodo(filter, el) {
     currentFilter = filter;
+    calSelectedDate = null;
     document.querySelectorAll('.filter-pill').forEach(function(e){ e.classList.remove('active'); });
     el.classList.add('active');
     renderTodo();
