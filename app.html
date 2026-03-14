@@ -15,7 +15,7 @@
       font-family: -apple-system, 'PingFang SC', 'SF Pro Display', system-ui, sans-serif;
     }
     .phone {
-      width: 100%; max-width: 430px;
+      width: 100%; max-width: 100%;
       min-height: 100vh;
       background: #F5F7FA;
       position: relative;
@@ -380,9 +380,9 @@
       position: fixed; inset: 0;
       background: rgba(0,0,0,0.4);
       backdrop-filter: blur(4px);
-      z-index: 200; display: none; align-items: flex-end; justify-content: center;
+      z-index: 200; display: none !important; align-items: flex-end; justify-content: center;
     }
-    .modal-overlay.show { display: flex; }
+    .modal-overlay.show { display: flex !important; }
     .modal-sheet {
       background: #fff; width: 100vw; max-width: 480px;
       border-radius: 20px 20px 0 0;
@@ -532,8 +532,8 @@
 <body>
   <style>
     *, *::before, *::after { box-sizing: border-box; }
-    html { margin:0; padding:0; overflow:hidden; }
-    body { margin:0; padding:0; background:#F5F7FA; overflow-x:hidden; }
+    html, body { margin:0; padding:0; background:#F5F7FA; }
+    body { overflow-x:hidden; }
   </style>
   <div class="phone">
     <!-- Status bar -->
