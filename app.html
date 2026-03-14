@@ -527,6 +527,78 @@
       .modal-sheet { width: 100%; }
       .cal-sheet { width: 100%; }
     }
+
+    /* ===== CALENDAR VIEW ===== */
+    .cal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(15,20,60,0.55);
+      backdrop-filter: blur(4px);
+      z-index: 200; display: none !important;
+      align-items: flex-end; justify-content: center;
+    }
+    .cal-overlay.show { display: flex !important; }
+    .cal-sheet {
+      background: #fff; width: 100%; max-width: 480px;
+      border-radius: 20px 20px 0 0;
+      padding: 0 20px 40px;
+      animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1);
+    }
+    .cal-drag { width: 36px; height: 4px; background: #e8e8e8; border-radius: 2px; margin: 12px auto 16px; }
+    .cal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 0 12px;
+    }
+    .cal-title { font-size: 16px; font-weight: 700; color: #1a1a1a; }
+    .cal-nav { display: flex; gap: 4px; }
+    .cal-nav button {
+      width: 32px; height: 32px; border-radius: 8px;
+      border: 1px solid #eee; background: #fafafa;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: #555;
+    }
+    .cal-nav button:active { background: #eee; }
+    .cal-weekdays {
+      display: grid; grid-template-columns: repeat(7,1fr);
+      margin-bottom: 4px;
+    }
+    .cal-weekday {
+      text-align: center; font-size: 11px; font-weight: 600;
+      color: #bbb; padding: 4px 0;
+    }
+    .cal-days {
+      display: grid; grid-template-columns: repeat(7,1fr); gap: 2px;
+    }
+    .cal-day {
+      aspect-ratio: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      border-radius: 10px; cursor: pointer;
+      font-size: 14px; color: #333; font-weight: 500;
+      position: relative; transition: background 0.15s;
+    }
+    .cal-day.empty { pointer-events: none; }
+    .cal-day:active { background: #f0f4ff; }
+    .cal-day.today { color: #4a7cf5; font-weight: 700; }
+    .cal-day.selected { background: #4a7cf5; color: #fff; }
+    .cal-day.has-task::after {
+      content: ''; position: absolute; bottom: 4px;
+      width: 4px; height: 4px; border-radius: 50%; background: #ffa726;
+    }
+    .cal-day.selected.has-task::after { background: rgba(255,255,255,0.7); }
+    .cal-actions {
+      display: flex; gap: 10px; margin-top: 16px;
+    }
+    .cal-btn-clear {
+      flex: 1; height: 46px; background: #f5f5f5; border: none;
+      border-radius: 12px; font-size: 15px; font-weight: 600;
+      color: #4a7cf5; cursor: pointer; font-family: inherit;
+    }
+    .cal-btn-confirm {
+      flex: 2; height: 46px;
+      background: #4a7cf5; border: none; border-radius: 12px;
+      font-size: 15px; font-weight: 600; color: #fff;
+      cursor: pointer; font-family: inherit;
+    }
+
   </style>
 </head>
 <body>
