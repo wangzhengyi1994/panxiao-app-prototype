@@ -312,9 +312,10 @@
     .task-row.done .task-title { color: #bbb; }
 
     .task-meta {
-      display: flex; align-items: center; gap: 8px; margin-top: 3px;
-      flex-wrap: wrap;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 4px; gap: 6px;
     }
+    .task-meta-left { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; }
     .task-time-tag {
       font-size: 11px; color: #bbb;
       display: flex; align-items: center; gap: 3px;
@@ -908,8 +909,10 @@
         '<div class="task-info">' +
           '<div class="task-title">'+t.title+'<span class="strike-line"></span></div>' +
           '<div class="task-meta">' +
-            (t.client ? '<span class="task-client-tag">'+clientIcon+' '+t.client+'</span>' : '') +
-            (tagL ? '<span class="task-tag '+tagC+'">'+tagL+'</span>' : '') +
+            '<div class="task-meta-left">' +
+              (t.client ? '<span class="task-client-tag">'+clientIcon+' '+t.client+'</span>' : '') +
+              (tagL ? '<span class="task-tag '+tagC+'">'+tagL+'</span>' : '') +
+            '</div>' +
             (timeTxt ? '<span class="'+timeCls+'">'+clockIcon+' '+timeTxt+'</span>' : '') +
           '</div>' +
         '</div>' +
