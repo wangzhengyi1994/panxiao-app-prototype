@@ -385,6 +385,28 @@
     .todo-empty h3 { font-size: 16px; font-weight: 600; color: #3b4068; margin-bottom: 6px; }
     .todo-empty p { font-size: 13px; color: #9ea8c8; }
 
+    /* Strikethrough animation */
+    .task-title {
+      position: relative;
+      display: inline;
+    }
+    .task-title::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 100%;
+      top: 50%; height: 2px;
+      background: #b0b8d0;
+      border-radius: 1px;
+      transition: right 0.3s ease;
+    }
+    .task-card.striking .task-title::after {
+      right: 0;
+    }
+    .task-card.done .task-title::after {
+      right: 0;
+      background: #b0b8d0;
+    }
+
     /* Swipe actions */
     .task-card-wrap {
       position: relative;
@@ -969,7 +991,22 @@
 
   function toggleTask(id) {
     var t = tasks.find(function(x){ return x.id === id; });
-    if (t) { t.done = !t.done; t.overdue = false; renderTodo(); }
+    if (!t) return;
+    if (!t.done) {
+      // animate strikethrough first
+      var wrap = document.querySelector('.task-card-wrap[data-id="' + id + '"]');
+      if (wrap) {
+        var card = wrap.querySelector('.task-card');
+        if (card) {
+          card.classList.add('striking');
+          setTimeout(function() {
+            t.done = true; t.overdue = false; renderTodo();
+          }, 320);
+          return;
+        }
+      }
+    }
+    t.done = !t.done; t.overdue = false; renderTodo();
   }
 
   function filterTodo(filter, el) {
