@@ -343,9 +343,10 @@
     .task-title {
       font-size: 14px; font-weight: 500; color: #212336;
       line-height: 1.45; margin-bottom: 5px;
+      position: relative;
     }
     .task-card.done .task-title {
-      text-decoration: line-through; color: #b0b8d0;
+      color: #b0b8d0;
     }
     .task-client {
       font-size: 12px; color: #8891b0;
@@ -386,25 +387,19 @@
     .todo-empty p { font-size: 13px; color: #9ea8c8; }
 
     /* Strikethrough animation */
-    .task-title {
-      position: relative;
-      display: inline;
-    }
-    .task-title::after {
-      content: '';
+    .strike-line {
       position: absolute;
-      left: 0; right: 100%;
-      top: 50%; height: 2px;
-      background: #b0b8d0;
+      left: 0; top: 50%;
+      width: 0; height: 2px;
+      background: #9ea8c8;
       border-radius: 1px;
-      transition: right 0.3s ease;
+      transform: translateY(-50%);
+      transition: width 0.3s ease;
+      pointer-events: none;
     }
-    .task-card.striking .task-title::after {
-      right: 0;
-    }
-    .task-card.done .task-title::after {
-      right: 0;
-      background: #b0b8d0;
+    .task-card.striking .strike-line,
+    .task-card.done .strike-line {
+      width: 100%;
     }
 
     /* Swipe actions */
@@ -934,7 +929,7 @@
           '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' +
         '</div>' +
         '<div class="task-body">' +
-          '<div class="task-title">' + t.title + '</div>' +
+          '<div class="task-title">' + t.title + '<span class="strike-line"></span></div>' +
           (t.client ? '<div class="task-client">' + clientIcon + ' ' + t.client + '</div>' : '') +
           '<div class="task-footer">' +
             '<div class="task-tags">' +
