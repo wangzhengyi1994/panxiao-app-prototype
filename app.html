@@ -15,7 +15,7 @@
       font-family: -apple-system, 'PingFang SC', 'SF Pro Display', system-ui, sans-serif;
     }
     .phone {
-      width: 100%; max-width: 100%;
+      width: 100%; max-width: 100%; overflow: hidden;
       min-height: 100vh;
       background: #F5F7FA;
       position: relative;
@@ -173,10 +173,13 @@
     .week-strip {
       display: flex;
       overflow-x: auto;
+      overflow-y: hidden;
       scrollbar-width: none;
       padding: 12px 10px 8px;
       gap: 4px;
       border-bottom: 1px solid #f0f0f0;
+      width: 100%;
+      box-sizing: border-box;
     }
     .week-strip::-webkit-scrollbar { display: none; }
     .week-day {
