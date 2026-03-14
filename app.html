@@ -139,208 +139,260 @@
     .tab-todo {
       display: none;
       min-height: calc(100vh - 142px);
-      background: #F5F7FA;
+      background: #F0F4FF;
     }
 
-    /* Todo header */
-    .todo-header {
-      background: #fff;
-      padding: 16px 16px 0;
+    /* Todo sticky header */
+    .todo-sticky {
+      position: sticky;
+      top: 80px;
+      z-index: 50;
+      background: #F0F4FF;
     }
-    .todo-header-top {
+
+    .todo-hero {
+      background: linear-gradient(135deg, #3D6EF5 0%, #6B48FF 100%);
+      padding: 20px 16px 24px;
+      border-radius: 0 0 24px 24px;
+      margin-bottom: 0;
+    }
+    .todo-hero-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
-    .todo-header-top h2 {
-      font-size: 20px;
-      font-weight: bold;
-      color: #1A1A1A;
+    .todo-hero-top h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.3px;
     }
-    .todo-add-btn {
-      width: 32px; height: 32px;
-      background: #3D6EF5;
-      border: none; border-radius: 50%;
-      color: #fff; font-size: 22px;
+    .todo-hero-date {
+      font-size: 12px;
+      color: rgba(255,255,255,0.65);
+      margin-top: 2px;
+    }
+    .todo-add-icon {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.2);
+      border: 1.5px solid rgba(255,255,255,0.4);
+      border-radius: 50%;
+      color: #fff;
+      font-size: 22px;
       display: flex; align-items: center; justify-content: center;
-      cursor: pointer; font-family: inherit;
-      line-height: 1;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s;
+      flex-shrink: 0;
     }
+    .todo-add-icon:active { transform: scale(0.92); background: rgba(255,255,255,0.3); }
 
     /* Stats row */
     .todo-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      margin-bottom: 16px;
     }
     .stat-card {
-      background: #F5F7FA;
-      border-radius: 12px;
-      padding: 12px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 14px;
+      padding: 12px 10px;
       text-align: center;
+      backdrop-filter: blur(8px);
     }
     .stat-num {
-      font-size: 24px;
-      font-weight: bold;
-      color: #1A1A1A;
+      font-size: 26px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      letter-spacing: -1px;
     }
-    .stat-num.red { color: #FF4757; }
-    .stat-num.blue { color: #3D6EF5; }
-    .stat-num.green { color: #2ECC71; }
+    .stat-num.red { color: #FFB3BA; }
+    .stat-num.orange { color: #FFD580; }
+    .stat-num.green { color: #A8F5C8; }
     .stat-label {
       font-size: 11px;
-      color: #999;
-      margin-top: 2px;
+      color: rgba(255,255,255,0.65);
+      margin-top: 4px;
     }
 
     /* Filter tabs */
     .todo-filters {
       display: flex;
-      gap: 0;
-      border-bottom: 1px solid #F0F0F0;
+      gap: 8px;
+      padding: 14px 16px 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
-    .filter-tab {
-      flex: 1;
-      text-align: center;
-      padding: 10px 0;
+    .todo-filters::-webkit-scrollbar { display: none; }
+    .filter-pill {
+      flex-shrink: 0;
+      padding: 7px 16px;
+      border-radius: 20px;
       font-size: 13px;
-      color: #999;
+      font-weight: 500;
       cursor: pointer;
-      border-bottom: 2px solid transparent;
+      border: 1.5px solid #DDE3F5;
+      background: #fff;
+      color: #888;
       transition: all 0.2s;
+      white-space: nowrap;
     }
-    .filter-tab.active {
-      color: #3D6EF5;
-      border-bottom-color: #3D6EF5;
-      font-weight: 600;
+    .filter-pill.active {
+      background: #3D6EF5;
+      border-color: #3D6EF5;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(61,110,245,0.3);
     }
 
     /* Todo list */
     .todo-list {
-      padding: 12px 16px;
+      padding: 4px 16px 80px;
     }
 
-    /* Section */
-    .todo-section-title {
+    /* Section label */
+    .todo-section-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       font-size: 12px;
-      color: #999;
-      font-weight: 500;
-      margin: 8px 0 8px;
+      font-weight: 600;
+      color: #8B95B0;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
+      margin: 16px 0 10px;
+    }
+    .todo-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #E2E8F8;
     }
 
     /* Task card */
     .task-card {
       background: #fff;
-      border-radius: 14px;
-      padding: 14px;
+      border-radius: 16px;
+      padding: 14px 14px 12px;
       margin-bottom: 10px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 8px rgba(61,110,245,0.06), 0 1px 2px rgba(0,0,0,0.04);
       position: relative;
       overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      border: 1px solid rgba(61,110,245,0.06);
     }
-    .task-card.done { opacity: 0.5; }
+    .task-card:active { transform: scale(0.98); }
+    .task-card.done {
+      opacity: 0.55;
+      background: #F8F9FB;
+    }
+    /* Priority accent top border */
     .task-card::before {
       content: '';
       position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 3px;
-      border-radius: 3px 0 0 3px;
+      top: 0; left: 14px; right: 14px;
+      height: 2px;
+      border-radius: 0 0 2px 2px;
     }
-    .task-card.priority-high::before { background: #FF4757; }
-    .task-card.priority-mid::before { background: #FFA502; }
-    .task-card.priority-low::before { background: #2ECC71; }
-    .task-card.priority-overdue::before { background: #FF4757; }
+    .task-card.priority-high::before { background: linear-gradient(90deg, #FF4757, #FF6B81); }
+    .task-card.priority-mid::before  { background: linear-gradient(90deg, #FFA502, #FFD166); }
+    .task-card.priority-low::before  { background: linear-gradient(90deg, #2ECC71, #55EFC4); }
+    .task-card.priority-overdue::before { background: linear-gradient(90deg, #FF4757, #FF6B81); }
 
-    .task-top {
+    .task-row {
       display: flex;
       align-items: flex-start;
       gap: 10px;
-      margin-bottom: 8px;
     }
+    /* Check circle */
     .task-check {
-      width: 20px; height: 20px;
-      border: 2px solid #DDD;
+      width: 22px; height: 22px; flex-shrink: 0; margin-top: 1px;
+      border: 2px solid #D1D9F0;
       border-radius: 50%;
-      flex-shrink: 0;
-      margin-top: 1px;
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       transition: all 0.2s;
     }
+    .task-check:active { transform: scale(0.88); }
     .task-check.checked {
-      background: #2ECC71;
-      border-color: #2ECC71;
+      background: linear-gradient(135deg, #2ECC71, #26de81);
+      border-color: transparent;
     }
-    .task-check.checked::after {
-      content: '✓';
-      color: #fff;
-      font-size: 11px;
-    }
-    .task-info { flex: 1; }
+    .task-check svg { display: none; }
+    .task-check.checked svg { display: block; }
+
+    .task-body { flex: 1; min-width: 0; }
     .task-title {
       font-size: 14px;
       font-weight: 500;
-      color: #1A1A1A;
-      line-height: 1.4;
-      margin-bottom: 4px;
+      color: #1A1A2E;
+      line-height: 1.45;
+      margin-bottom: 5px;
     }
     .task-card.done .task-title {
       text-decoration: line-through;
-      color: #999;
+      color: #A0A8BF;
     }
     .task-client {
       font-size: 12px;
-      color: #666;
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      color: #8B95B0;
+      display: flex; align-items: center; gap: 4px;
+      margin-bottom: 8px;
     }
 
-    .task-meta {
+    /* Footer row */
+    .task-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 8px;
+      margin-top: 4px;
     }
-    .task-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .task-tags { display: flex; gap: 5px; flex-wrap: wrap; }
     .tag {
       font-size: 11px;
-      padding: 3px 8px;
+      font-weight: 600;
+      padding: 3px 9px;
       border-radius: 20px;
-      font-weight: 500;
     }
-    .tag-call { background: #EBF3FF; color: #3D6EF5; }
-    .tag-follow { background: #FFF4E5; color: #FFA502; }
+    .tag-call     { background: #EBF3FF; color: #3D6EF5; }
+    .tag-follow   { background: #FFF4E5; color: #F39C12; }
     .tag-contract { background: #E8FAF0; color: #2ECC71; }
-    .tag-meeting { background: #F3E8FF; color: #9B59B6; }
-    .tag-overdue { background: #FFEBEC; color: #FF4757; }
+    .tag-meeting  { background: #F3E8FF; color: #9B59B6; }
+    .tag-overdue  { background: #FFEBEC; color: #FF4757; }
 
     .task-time {
       font-size: 11px;
-      color: #999;
-      display: flex;
-      align-items: center;
-      gap: 3px;
+      color: #B0BACC;
+      display: flex; align-items: center; gap: 3px;
+      flex-shrink: 0;
     }
-    .task-time.overdue { color: #FF4757; font-weight: 500; }
+    .task-time.overdue { color: #FF4757; font-weight: 600; }
+
+    /* Priority dot */
+    .priority-dot {
+      width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px;
+    }
+    .dot-high    { background: #FF4757; }
+    .dot-mid     { background: #FFA502; }
+    .dot-low     { background: #2ECC71; }
+    .dot-overdue { background: #FF4757; }
 
     /* FAB */
     .fab {
       position: fixed;
       bottom: 74px;
       right: calc(50% - 187px + 16px);
-      width: 48px; height: 48px;
-      background: #3D6EF5;
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, #3D6EF5, #6B48FF);
       border-radius: 50%;
       border: none;
       color: #fff;
       font-size: 28px;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 16px rgba(61,110,245,0.4);
+      box-shadow: 0 6px 20px rgba(61,110,245,0.45);
       cursor: pointer;
       z-index: 99;
       font-family: inherit;
@@ -350,64 +402,86 @@
     .fab:active { transform: scale(0.92); }
     .fab.hidden { display: none; }
 
-    /* Add modal */
+    /* Modal */
     .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
+      position: fixed; inset: 0;
+      background: rgba(15,20,50,0.55);
+      backdrop-filter: blur(4px);
       z-index: 200;
-      display: none;
-      align-items: flex-end;
+      display: none; align-items: flex-end;
     }
     .modal-overlay.show { display: flex; }
     .modal-sheet {
       background: #fff;
       width: 375px;
-      border-radius: 20px 20px 0 0;
-      padding: 20px 16px 40px;
-      animation: slideUp 0.3s ease;
+      border-radius: 24px 24px 0 0;
+      padding: 0 16px 40px;
+      animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1);
     }
     @keyframes slideUp {
       from { transform: translateY(100%); }
-      to { transform: translateY(0); }
+      to   { transform: translateY(0); }
     }
-    .modal-handle {
-      width: 36px; height: 4px;
-      background: #E0E0E0;
-      border-radius: 2px;
-      margin: 0 auto 20px;
+    .modal-drag {
+      width: 36px; height: 4px; background: #E0E6F8;
+      border-radius: 2px; margin: 14px auto 20px;
     }
     .modal-title {
-      font-size: 17px; font-weight: bold; color: #1A1A1A;
-      margin-bottom: 16px;
+      font-size: 18px; font-weight: 700; color: #1A1A2E;
+      margin-bottom: 20px;
     }
     .form-group { margin-bottom: 14px; }
-    .form-label { font-size: 13px; color: #666; margin-bottom: 6px; display: block; }
+    .form-label {
+      font-size: 12px; font-weight: 600; color: #8B95B0;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 7px; display: block;
+    }
     .form-input {
-      width: 100%; padding: 12px 14px;
-      border: 1px solid #E8E8E8; border-radius: 10px;
-      font-size: 14px; color: #1A1A1A; font-family: inherit;
-      background: #F9F9F9;
-      outline: none;
+      width: 100%; padding: 13px 14px;
+      border: 1.5px solid #E8EEFF; border-radius: 12px;
+      font-size: 14px; color: #1A1A2E; font-family: inherit;
+      background: #F7F9FF; outline: none;
+      transition: border-color 0.2s, background 0.2s;
     }
     .form-input:focus { border-color: #3D6EF5; background: #fff; }
     .form-row { display: flex; gap: 10px; }
     .form-select {
-      flex: 1; padding: 12px 14px;
-      border: 1px solid #E8E8E8; border-radius: 10px;
-      font-size: 14px; color: #1A1A1A; font-family: inherit;
-      background: #F9F9F9; appearance: none;
-      outline: none;
+      flex: 1; padding: 13px 14px;
+      border: 1.5px solid #E8EEFF; border-radius: 12px;
+      font-size: 14px; color: #1A1A2E; font-family: inherit;
+      background: #F7F9FF; appearance: none; outline: none;
+      transition: border-color 0.2s;
     }
+    .form-select:focus { border-color: #3D6EF5; }
     .modal-submit {
-      width: 100%; height: 48px;
-      background: #3D6EF5; border: none; border-radius: 12px;
-      color: #fff; font-size: 16px; font-weight: 500;
+      width: 100%; height: 52px;
+      background: linear-gradient(135deg, #3D6EF5, #6B48FF);
+      border: none; border-radius: 14px;
+      color: #fff; font-size: 16px; font-weight: 600;
       cursor: pointer; font-family: inherit;
-      margin-top: 4px;
+      margin-top: 8px;
+      box-shadow: 0 6px 20px rgba(61,110,245,0.35);
+      transition: opacity 0.2s;
     }
+    .modal-submit:active { opacity: 0.88; }
 
-    /* ===== KANBAN TAB ===== */
+    /* Empty state */
+    .todo-empty {
+      text-align: center;
+      padding: 48px 20px;
+    }
+    .todo-empty-icon {
+      width: 64px; height: 64px;
+      background: #EBF3FF;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .todo-empty-icon svg { width: 28px; height: 28px; color: #3D6EF5; }
+    .todo-empty h3 { font-size: 16px; font-weight: 600; color: #1A1A2E; margin-bottom: 6px; }
+    .todo-empty p { font-size: 13px; color: #B0BACC; }
+
+        /* ===== KANBAN TAB ===== */
     .tab-kanban { display: none; min-height: calc(100vh - 142px); }
 
     /* ===== CREATE TAB ===== */
@@ -567,36 +641,45 @@
 
       <!-- TODO -->
       <div class="tab-todo" id="tabTodo">
-        <div class="todo-header">
-          <div class="todo-header-top">
-            <h2>我的待办</h2>
-            <button class="todo-add-btn" onclick="openAddModal()">+</button>
+        <!-- Hero Header -->
+        <div class="todo-hero">
+          <div class="todo-hero-top">
+            <div>
+              <h2>我的待办</h2>
+              <div class="todo-hero-date" id="todoDate"></div>
+            </div>
+            <div class="todo-add-icon" onclick="openAddModal()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
           </div>
           <div class="todo-stats">
             <div class="stat-card">
-              <div class="stat-num red" id="statOverdue">2</div>
+              <div class="stat-num red" id="statOverdue">0</div>
               <div class="stat-label">已逾期</div>
             </div>
             <div class="stat-card">
-              <div class="stat-num blue" id="statToday">5</div>
+              <div class="stat-num orange" id="statToday">0</div>
               <div class="stat-label">今日待办</div>
             </div>
             <div class="stat-card">
-              <div class="stat-num green" id="statDone">8</div>
+              <div class="stat-num green" id="statDone">0</div>
               <div class="stat-label">已完成</div>
             </div>
           </div>
-          <div class="todo-filters">
-            <div class="filter-tab active" onclick="filterTodo('all', this)">全部</div>
-            <div class="filter-tab" onclick="filterTodo('today', this)">今日</div>
-            <div class="filter-tab" onclick="filterTodo('overdue', this)">逾期</div>
-            <div class="filter-tab" onclick="filterTodo('done', this)">已完成</div>
-          </div>
         </div>
+
+        <!-- Filter pills -->
+        <div class="todo-filters">
+          <div class="filter-pill active" onclick="filterTodo('all', this)">全部</div>
+          <div class="filter-pill" onclick="filterTodo('today', this)">今日</div>
+          <div class="filter-pill" onclick="filterTodo('overdue', this)">逾期</div>
+          <div class="filter-pill" onclick="filterTodo('done', this)">已完成</div>
+        </div>
+
         <div class="todo-list" id="todoList"></div>
       </div>
 
-      <!-- KANBAN -->
+            <!-- KANBAN -->
       <div class="tab-kanban" id="tabKanban">
         <div class="empty-state">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -688,7 +771,7 @@
     <!-- Add Task Modal -->
     <div class="modal-overlay" id="addModal" onclick="closeModalOnBg(event)">
       <div class="modal-sheet">
-        <div class="modal-handle"></div>
+        <div class="modal-drag"></div>
         <div class="modal-title">新建待办</div>
         <div class="form-group">
           <label class="form-label">任务内容</label>
@@ -744,81 +827,87 @@
   var nextId = 11;
   var currentFilter = 'all';
 
-  var typeMap = { call:'📞 回访电话', follow:'📋 跟进', contract:'📝 合同', meeting:'🤝 见面' };
-  var tagClass = { call:'tag-call', follow:'tag-follow', contract:'tag-contract', meeting:'tag-meeting' };
+  var typeMap   = { call:'回访电话', follow:'客户跟进', contract:'合同确认', meeting:'客户会面' };
+  var tagClass  = { call:'tag-call', follow:'tag-follow', contract:'tag-contract', meeting:'tag-meeting' };
 
-  // ===== RENDER TODO =====
   function renderTodo() {
-    var list = document.getElementById('todoList');
+    // Date display
+    var d = new Date();
+    var days = ['周日','周一','周二','周三','周四','周五','周六'];
+    document.getElementById('todoDate').textContent =
+      d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日 · ' + days[d.getDay()];
+
     var today = new Date().toISOString().slice(0,10);
     var filtered = tasks.filter(function(t) {
-      if (currentFilter === 'all') return !t.done;
-      if (currentFilter === 'today') return !t.done && t.time.slice(0,10) === today;
+      if (currentFilter === 'all')     return !t.done;
+      if (currentFilter === 'today')   return !t.done && t.time.slice(0,10) === today;
       if (currentFilter === 'overdue') return !t.done && t.overdue;
-      if (currentFilter === 'done') return t.done;
+      if (currentFilter === 'done')    return t.done;
       return true;
     });
 
-    // Stats
     var overdueCnt = tasks.filter(function(t){ return !t.done && t.overdue; }).length;
-    var todayCnt = tasks.filter(function(t){ return !t.done && t.time.slice(0,10) === today; }).length;
-    var doneCnt = tasks.filter(function(t){ return t.done; }).length;
+    var todayCnt   = tasks.filter(function(t){ return !t.done && t.time.slice(0,10) === today; }).length;
+    var doneCnt    = tasks.filter(function(t){ return t.done; }).length;
     document.getElementById('statOverdue').textContent = overdueCnt;
-    document.getElementById('statToday').textContent = todayCnt;
-    document.getElementById('statDone').textContent = doneCnt;
+    document.getElementById('statToday').textContent   = todayCnt;
+    document.getElementById('statDone').textContent    = doneCnt;
 
-    // Badge
     var badge = document.getElementById('todoBadge');
     if (overdueCnt > 0) { badge.textContent = overdueCnt; badge.style.display = 'flex'; }
-    else { badge.style.display = 'none'; }
+    else badge.style.display = 'none';
 
+    var list = document.getElementById('todoList');
     if (filtered.length === 0) {
-      list.innerHTML = '<div class="empty-state" style="padding:40px 0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:48px;height:48px;color:#DDD;margin:0 auto 12px;display:block"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><p>暂无待办事项</p></div>';
+      list.innerHTML = '<div class="todo-empty"><div class="todo-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><h3>暂无待办</h3><p>点击右上角 + 添加任务</p></div>';
       return;
     }
 
     var html = '';
-
-    // Overdue section
     if (currentFilter === 'all') {
       var overdue = filtered.filter(function(t){ return t.overdue; });
-      var normal = filtered.filter(function(t){ return !t.overdue; });
+      var normal  = filtered.filter(function(t){ return !t.overdue; });
       if (overdue.length) {
-        html += '<div class="todo-section-title">⚠️ 已逾期</div>';
-        overdue.forEach(function(t){ html += renderCard(t, true); });
+        html += '<div class="todo-section-label">逾期</div>';
+        overdue.forEach(function(t){ html += renderCard(t); });
       }
       if (normal.length) {
-        html += '<div class="todo-section-title">📋 待处理</div>';
-        normal.forEach(function(t){ html += renderCard(t, false); });
+        html += '<div class="todo-section-label">待处理</div>';
+        normal.forEach(function(t){ html += renderCard(t); });
       }
     } else {
-      filtered.forEach(function(t){ html += renderCard(t, t.overdue); });
+      filtered.forEach(function(t){ html += renderCard(t); });
     }
-
     list.innerHTML = html;
   }
 
-  function renderCard(t, isOverdue) {
-    var priorityCls = t.done ? '' : (isOverdue ? 'priority-overdue' : ('priority-' + (t.priority || 'low')));
-    var tagCls = tagClass[t.type] || 'tag-follow';
-    var tagLabel = typeMap[t.type] || '📋 跟进';
-    var timeDisplay = t.time ? t.time.slice(5,16).replace('-','/') : '';
-    var timeCls = isOverdue ? 'task-time overdue' : 'task-time';
-    var timePrefix = isOverdue ? '⏰ 逾期 ' : '🕐 ';
+  function renderCard(t) {
+    var isOverdue = !t.done && t.overdue;
+    var priorityCls = t.done ? '' : (isOverdue ? 'priority-overdue' : 'priority-' + (t.priority || 'low'));
+    var dotCls = t.done ? '' : (isOverdue ? 'dot-overdue' : 'dot-' + (t.priority || 'low'));
+    var tagCls   = tagClass[t.type] || 'tag-follow';
+    var tagLabel = typeMap[t.type]  || '客户跟进';
+    var timeStr  = t.time ? t.time.slice(5,16).replace('-','/') : '';
+    var timeCls  = isOverdue ? 'task-time overdue' : 'task-time';
+    var clientIcon = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+    var clockIcon  = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
     return '<div class="task-card ' + priorityCls + (t.done?' done':'') + '">' +
-      '<div class="task-top">' +
-        '<div class="task-check ' + (t.done?'checked':'') + '" onclick="toggleTask(' + t.id + ')"></div>' +
-        '<div class="task-info">' +
+      '<div class="task-row">' +
+        '<div class="task-check ' + (t.done?'checked':'') + '" onclick="toggleTask(' + t.id + ')">' +
+          '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' +
+        '</div>' +
+        '<div class="task-body">' +
           '<div class="task-title">' + t.title + '</div>' +
-          (t.client ? '<div class="task-client">👤 ' + t.client + '</div>' : '') +
+          (t.client ? '<div class="task-client">' + clientIcon + ' ' + t.client + '</div>' : '') +
+          '<div class="task-footer">' +
+            '<div class="task-tags">' +
+              '<span class="tag ' + tagCls + '">' + tagLabel + '</span>' +
+              (isOverdue ? '<span class="tag tag-overdue">逾期</span>' : '') +
+            '</div>' +
+            (timeStr ? '<div class="' + timeCls + '">' + clockIcon + ' ' + timeStr + '</div>' : '') +
+          '</div>' +
         '</div>' +
-      '</div>' +
-      '<div class="task-meta">' +
-        '<div class="task-tags">' +
-          '<span class="tag ' + tagCls + '">' + tagLabel + '</span>' +
-          (isOverdue && !t.done ? '<span class="tag tag-overdue">逾期</span>' : '') +
-        '</div>' +
-        (timeDisplay ? '<div class="' + timeCls + '">' + timePrefix + timeDisplay + '</div>' : '') +
+        (dotCls ? '<div class="priority-dot ' + dotCls + '"></div>' : '') +
       '</div>' +
     '</div>';
   }
@@ -830,54 +919,43 @@
 
   function filterTodo(filter, el) {
     currentFilter = filter;
-    document.querySelectorAll('.filter-tab').forEach(function(e){ e.classList.remove('active'); });
+    document.querySelectorAll('.filter-pill').forEach(function(e){ e.classList.remove('active'); });
     el.classList.add('active');
     renderTodo();
   }
 
-  // ===== ADD TASK =====
   function openAddModal() {
     document.getElementById('addModal').classList.add('show');
-    // Default time = now + 2h
     var d = new Date(Date.now() + 2*3600000);
     var pad = function(n){ return n<10?'0'+n:n; };
-    document.getElementById('inputTime').value = d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes());
+    document.getElementById('inputTime').value =
+      d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes());
   }
-
   function closeModalOnBg(e) {
     if (e.target === document.getElementById('addModal')) closeAddModal();
   }
-
-  function closeAddModal() {
-    document.getElementById('addModal').classList.remove('show');
-  }
+  function closeAddModal() { document.getElementById('addModal').classList.remove('show'); }
 
   function addTask() {
     var title = document.getElementById('inputTitle').value.trim();
-    if (!title) { alert('请填写任务内容'); return; }
-    var now = new Date();
+    if (!title) { document.getElementById('inputTitle').focus(); return; }
     var timeVal = document.getElementById('inputTime').value;
     var taskTime = timeVal ? timeVal.replace('T',' ') : '';
-    var isOverdue = taskTime && new Date(taskTime) < now;
-    tasks.unshift({
-      id: nextId++,
-      title: title,
+    var isOverdue = taskTime && new Date(taskTime) < new Date();
+    tasks.unshift({ id: nextId++, title: title,
       client: document.getElementById('inputClient').value.trim(),
       type: document.getElementById('inputType').value,
       priority: document.getElementById('inputPriority').value,
-      time: taskTime,
-      done: false,
-      overdue: isOverdue
-    });
+      time: taskTime, done: false, overdue: isOverdue });
     document.getElementById('inputTitle').value = '';
     document.getElementById('inputClient').value = '';
     closeAddModal();
     currentFilter = 'all';
-    document.querySelectorAll('.filter-tab').forEach(function(e,i){ e.classList.toggle('active', i===0); });
+    document.querySelectorAll('.filter-pill').forEach(function(e,i){ e.classList.toggle('active',i===0); });
     renderTodo();
   }
 
-  // ===== SWITCH TAB =====
+    // ===== SWITCH TAB =====
   function switchTab(tab) {
     var tabs = ['home','todo','kanban','create','mine'];
     var statusBar = document.getElementById('statusBar');
