@@ -440,7 +440,7 @@
     }
     .cal-overlay.show { display: flex; }
     .cal-sheet {
-      background: #fff; width: 375px;
+      background: #fff; width: 100%; max-width: 480px;
       border-radius: 28px 28px 0 0;
       padding: 0 20px 36px;
       animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1);
@@ -681,6 +681,7 @@
       .tab-bar { width: 100%; }
       .fab { right: 16px; }
       .modal-sheet { width: 100%; }
+      .cal-sheet { width: 100%; }
     }
   </style>
 </head>
@@ -792,36 +793,7 @@
         <div class="todo-body" id="todoList"></div>
       </div>
 
-            <!-- Calendar Modal -->
-      <div class="cal-overlay" id="calModal" onclick="calOverlayClick(event)">
-        <div class="cal-sheet" id="calSheet">
-          <div class="cal-drag"></div>
-          <div class="cal-header">
-            <div class="cal-title" id="calTitle"></div>
-            <div class="cal-nav">
-              <button onclick="calMove(-1)">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-              </button>
-              <button onclick="calMove(1)">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-              </button>
-            </div>
-          </div>
-          <div class="cal-weekdays">
-            <div class="cal-weekday">日</div><div class="cal-weekday">一</div>
-            <div class="cal-weekday">二</div><div class="cal-weekday">三</div>
-            <div class="cal-weekday">四</div><div class="cal-weekday">五</div>
-            <div class="cal-weekday">六</div>
-          </div>
-          <div class="cal-days" id="calDays"></div>
-          <div class="cal-actions">
-            <button class="cal-btn-clear" onclick="clearCalFilter()">显示全部</button>
-            <button class="cal-btn-confirm" onclick="closeCalModal()">确定</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- KANBAN -->
+            <!-- KANBAN -->
       <div class="tab-kanban" id="tabKanban">
         <div class="empty-state">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -910,47 +882,47 @@
       </button>
     </div>
 
-    <!-- Add Task Modal -->
-    <div class="modal-overlay" id="addModal" onclick="closeModalOnBg(event)">
-      <div class="modal-sheet">
-        <div class="modal-drag"></div>
-        <div class="modal-title">新建待办</div>
-        <div class="form-group">
-          <label class="form-label">任务内容</label>
-          <input class="form-input" id="inputTitle" placeholder="例：回访张总，确认合同意向" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">客户姓名</label>
-          <input class="form-input" id="inputClient" placeholder="例：张总" />
-        </div>
-        <div class="form-row">
-          <div class="form-group" style="flex:1">
-            <label class="form-label">类型</label>
-            <select class="form-select" id="inputType">
-              <option value="call">📞 回访电话</option>
-              <option value="follow">📋 跟进</option>
-              <option value="contract">📝 合同</option>
-              <option value="meeting">🤝 见面</option>
-            </select>
-          </div>
-          <div class="form-group" style="flex:1">
-            <label class="form-label">优先级</label>
-            <select class="form-select" id="inputPriority">
-              <option value="high">🔴 高</option>
-              <option value="mid" selected>🟡 中</option>
-              <option value="low">🟢 低</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">截止时间</label>
-          <input class="form-input" id="inputTime" type="datetime-local" />
-        </div>
-        <button class="modal-submit" onclick="addTask()">确认添加</button>
-      </div>
-    </div>
-
   </div><!-- end phone -->
+
+  <!-- Add Task Modal (outside phone) -->
+  <div class="modal-overlay" id="addModal" onclick="closeModalOnBg(event)">
+    <div class="modal-sheet">
+      <div class="modal-drag"></div>
+      <div class="modal-title">新建待办</div>
+      <div class="form-group">
+        <label class="form-label">任务内容</label>
+        <input class="form-input" id="inputTitle" placeholder="例：回访张总，确认合同意向" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">客户姓名</label>
+        <input class="form-input" id="inputClient" placeholder="例：张总" />
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="flex:1">
+          <label class="form-label">类型</label>
+          <select class="form-select" id="inputType">
+            <option value="call">回访电话</option>
+            <option value="follow">客户跟进</option>
+            <option value="contract">合同确认</option>
+            <option value="meeting">客户见面</option>
+          </select>
+        </div>
+        <div class="form-group" style="flex:1">
+          <label class="form-label">优先级</label>
+          <select class="form-select" id="inputPriority">
+            <option value="high">高</option>
+            <option value="mid" selected>中</option>
+            <option value="low">低</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">截止时间</label>
+        <input class="form-input" id="inputTime" type="datetime-local" />
+      </div>
+      <button class="modal-submit" onclick="addTask()">确认添加</button>
+    </div>
+  </div>
 
   <script>
   // ===== DATA =====
@@ -1124,7 +1096,7 @@
       if (ds === todayStr) cls += ' today';
       if (ds === calSelectedDate) cls += ' selected';
       if (taskDays[ds]) cls += ' has-task';
-      html += '<div class="' + cls + '" onclick="calSelectDay('' + ds + '')">' + d + '</div>';
+      html += '<div class="' + cls + '" onclick="calSelectDay(\'' + ds + '\')">' + d + '</div>';
     }
     document.getElementById('calDays').innerHTML = html;
   }
@@ -1264,5 +1236,35 @@
   // Init
   renderTodo();
   </script>
+
+  <!-- Calendar Modal (outside phone for correct fixed positioning) -->
+  <div class="cal-overlay" id="calModal" onclick="calOverlayClick(event)">
+    <div class="cal-sheet" id="calSheet">
+      <div class="cal-drag"></div>
+      <div class="cal-header">
+        <div class="cal-title" id="calTitle"></div>
+        <div class="cal-nav">
+          <button onclick="calMove(-1)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button onclick="calMove(1)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="cal-weekdays">
+        <div class="cal-weekday">日</div><div class="cal-weekday">一</div>
+        <div class="cal-weekday">二</div><div class="cal-weekday">三</div>
+        <div class="cal-weekday">四</div><div class="cal-weekday">五</div>
+        <div class="cal-weekday">六</div>
+      </div>
+      <div class="cal-days" id="calDays"></div>
+      <div class="cal-actions">
+        <button class="cal-btn-clear" onclick="clearCalFilter()">显示全部</button>
+        <button class="cal-btn-confirm" onclick="closeCalModal()">确定</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
