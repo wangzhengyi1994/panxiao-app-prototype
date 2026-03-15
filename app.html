@@ -44,40 +44,9 @@
     .status-icons svg { width: 16px; height: 16px; }
 
     /* Top nav bar */
-    .top-nav {
-      position: fixed;
-      top: 36px;
-      width: 375px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
-      z-index: 99;
-    }
-    .nav-left { display: flex; align-items: center; gap: 8px; }
-    .app-icon {
-      width: 32px; height: 32px;
-      background: #1B3A8F;
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .app-icon-inner { width: 16px; height: 16px; background: #fff; border-radius: 50%; }
-    .app-title { font-size: 16px; font-weight: bold; color: #1A1A1A; }
-    .nav-capsule {
-      border: 1px solid #E8E8E8;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-      color: #333;
-      background: #fff;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
     /* Content area */
     .content {
-      margin-top: 80px;
+      margin-top: 36px;
       flex: 1;
       padding-bottom: 62px;
       overflow-y: auto;
@@ -507,16 +476,16 @@
     }
     .menu-item {
       display: flex; align-items: center; padding: 0 16px;
-      height: 58px; cursor: pointer;
+      height: 54px; cursor: pointer;
       border-bottom: 1px solid #f5f5f7;
     }
     .menu-item:last-child { border-bottom: none; }
     .mi-icon-wrap {
-      width: 28px; height: 28px;
+      width: 20px; height: 20px;
       display: flex; align-items: center; justify-content: center;
       margin-right: 12px; flex-shrink: 0;
     }
-    .mi-icon-wrap img { width: 28px; height: 28px; object-fit: contain; }
+    .mi-icon-wrap img { width: 20px; height: 20px; object-fit: contain; }
     .mi-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
     .mi-text { font-size: 14px; color: #0b1327; font-weight: 400; }
     .mi-sub { font-size: 12px; color: #65758b; margin-top: 1px; }
@@ -571,7 +540,6 @@
     @media (max-width: 430px) {
       .phone { width: 100%; }
       .status-bar { width: 100%; }
-      .top-nav { width: 100%; }
       .tab-bar { width: 100%; }
       .fab { right: 16px; }
       .modal-sheet { width: 100%; }
@@ -660,15 +628,6 @@
         <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3C5.5 3 3.3 4 1.7 5.7l1.4 1.4C4.5 5.7 6.2 5 8 5s3.5.7 4.9 2.1l1.4-1.4C12.7 4 10.5 3 8 3zm0 4c-1.5 0-2.8.6-3.8 1.5L5.6 10c.7-.7 1.5-1 2.4-1s1.7.3 2.4 1l1.4-1.5C10.8 7.6 9.5 7 8 7zm0 4c-.6 0-1.1.2-1.5.6L8 13.5l1.5-1.9c-.4-.4-.9-.6-1.5-.6z"/></svg>
         <svg viewBox="0 0 24 16" fill="currentColor"><rect x="0" y="2" width="20" height="12" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="2" y="4" width="14" height="8" rx="1"/><rect x="21" y="5" width="3" height="6" rx="1" opacity="0.4"/></svg>
       </div>
-    </div>
-
-    <!-- Top nav -->
-    <div class="top-nav" id="topNav">
-      <div class="nav-left">
-        <div class="app-icon"><div class="app-icon-inner"></div></div>
-        <span class="app-title">磐销云输入法</span>
-      </div>
-      <a class="nav-capsule">👤 电话销售 ></a>
     </div>
 
     <!-- Content -->
