@@ -531,30 +531,28 @@
       .cal-sheet { width: 100%; }
     }
 
-    /* ===== CALENDAR VIEW ===== */
-    .cal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(15,20,60,0.55);
-      backdrop-filter: blur(4px);
-      z-index: 200; display: none !important;
-      align-items: flex-end; justify-content: center;
+    /* ===== INLINE CALENDAR ===== */
+    .cal-inline {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s;
+      opacity: 0;
+      background: #fff;
+      border-bottom: 1px solid #f0f0f0;
     }
-    .cal-overlay.show { display: flex !important; }
-    .cal-sheet {
-      background: #fff; width: 100%; max-width: 480px;
-      border-radius: 20px 20px 0 0;
-      padding: 0 20px 40px;
-      animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1);
+    .cal-inline.open {
+      max-height: 340px;
+      opacity: 1;
     }
-    .cal-drag { width: 36px; height: 4px; background: #e8e8e8; border-radius: 2px; margin: 12px auto 16px; }
+    .cal-inner { padding: 12px 16px 14px; }
     .cal-header {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 0 12px;
+      margin-bottom: 10px;
     }
-    .cal-title { font-size: 16px; font-weight: 700; color: #1a1a1a; }
+    .cal-title { font-size: 14px; font-weight: 700; color: #1a1a1a; }
     .cal-nav { display: flex; gap: 4px; }
     .cal-nav button {
-      width: 32px; height: 32px; border-radius: 8px;
+      width: 28px; height: 28px; border-radius: 7px;
       border: 1px solid #eee; background: #fafafa;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; color: #555;
@@ -566,7 +564,7 @@
     }
     .cal-weekday {
       text-align: center; font-size: 11px; font-weight: 600;
-      color: #bbb; padding: 4px 0;
+      color: #bbb; padding: 2px 0;
     }
     .cal-days {
       display: grid; grid-template-columns: repeat(7,1fr); gap: 2px;
@@ -574,8 +572,8 @@
     .cal-day {
       aspect-ratio: 1; display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      border-radius: 10px; cursor: pointer;
-      font-size: 14px; color: #333; font-weight: 500;
+      border-radius: 8px; cursor: pointer;
+      font-size: 13px; color: #333; font-weight: 500;
       position: relative; transition: background 0.15s;
     }
     .cal-day.empty { pointer-events: none; }
@@ -583,24 +581,20 @@
     .cal-day.today { color: #4a7cf5; font-weight: 700; }
     .cal-day.selected { background: #4a7cf5; color: #fff; }
     .cal-day.has-task::after {
-      content: ''; position: absolute; bottom: 4px;
+      content: ''; position: absolute; bottom: 3px;
       width: 4px; height: 4px; border-radius: 50%; background: #ffa726;
     }
     .cal-day.selected.has-task::after { background: rgba(255,255,255,0.7); }
     .cal-actions {
-      display: flex; gap: 10px; margin-top: 16px;
+      display: flex; gap: 8px; margin-top: 12px;
     }
     .cal-btn-clear {
-      flex: 1; height: 46px; background: #f5f5f5; border: none;
-      border-radius: 12px; font-size: 15px; font-weight: 600;
+      flex: 1; height: 36px; background: #f5f5f5; border: none;
+      border-radius: 8px; font-size: 13px; font-weight: 600;
       color: #4a7cf5; cursor: pointer; font-family: inherit;
     }
-    .cal-btn-confirm {
-      flex: 2; height: 46px;
-      background: #4a7cf5; border: none; border-radius: 12px;
-      font-size: 15px; font-weight: 600; color: #fff;
-      cursor: pointer; font-family: inherit;
-    }
+    /* cal-icon active state */
+    .icon-btn.cal-active { background: #e8eeff; color: #4a7cf5; }
 
   </style>
 </head>
@@ -691,6 +685,33 @@
             </div>
             <div class="icon-btn" onclick="openAddModal()">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inline Calendar -->
+        <div class="cal-inline" id="calInline">
+          <div class="cal-inner">
+            <div class="cal-header">
+              <div class="cal-title" id="calTitle"></div>
+              <div class="cal-nav">
+                <button onclick="calMove(-1)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <button onclick="calMove(1)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="cal-weekdays">
+              <div class="cal-weekday">日</div><div class="cal-weekday">一</div>
+              <div class="cal-weekday">二</div><div class="cal-weekday">三</div>
+              <div class="cal-weekday">四</div><div class="cal-weekday">五</div>
+              <div class="cal-weekday">六</div>
+            </div>
+            <div class="cal-days" id="calDays"></div>
+            <div class="cal-actions">
+              <button class="cal-btn-clear" onclick="clearCalFilter()">显示全部</button>
             </div>
           </div>
         </div>
@@ -813,7 +834,7 @@
   <div class="modal-overlay" id="addModal" onclick="closeModalOnBg(event)">
     <div class="modal-sheet">
       <div class="modal-drag"></div>
-      <div class="modal-title">新建待办</div>
+      <div class="modal-title" id="addModalTitle">新建待办</div>
       <div class="form-group">
         <label class="form-label">任务内容</label>
         <input class="form-input" id="inputTitle" placeholder="例：回访张总，确认合同意向" />
@@ -982,7 +1003,7 @@
       '<div class="task-row'+rowDone+'">' +
         '<div class="task-circle '+pc+checkedCls+'" onclick="toggleTask('+t.id+')">' + checkIcon + '</div>' +
         '<div class="task-info">' +
-          '<div class="task-title">'+t.title+'<span class="strike-line"></span></div>' +
+          '<div class="task-title" onclick="editTask('+t.id+')">'+t.title+'<span class="strike-line"></span></div>' +
           '<div class="task-meta">' +
             '<div class="task-meta-left">' +
               (t.client ? '<span class="task-client-tag">'+clientIcon+' '+t.client+'</span>' : '') +
@@ -1089,43 +1110,86 @@
     });
   }
 
-  // ===== ADD TASK =====
+  // ===== ADD / EDIT TASK =====
+  var editingTaskId = null;
   function openAddModal() {
-    document.getElementById('addModal').classList.add('show');
+    editingTaskId = null;
+    document.getElementById('addModalTitle').textContent = '新建待办';
+    document.getElementById('inputTitle').value = '';
+    document.getElementById('inputClient').value = '';
+    document.getElementById('inputType').value = 'follow';
+    document.getElementById('inputPriority').value = 'medium';
     var d = new Date(Date.now()+2*3600000);
     document.getElementById('inputTime').value =
       d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate())+'T'+pad2(d.getHours())+':'+pad2(d.getMinutes());
+    document.getElementById('addModal').classList.add('show');
+    setTimeout(function(){ document.getElementById('inputTitle').focus(); }, 150);
+  }
+  function editTask(id) {
+    var t = tasks.find(function(x){ return x.id === id; });
+    if (!t) return;
+    editingTaskId = id;
+    document.getElementById('addModalTitle').textContent = '编辑待办';
+    document.getElementById('inputTitle').value = t.title || '';
+    document.getElementById('inputClient').value = t.client || '';
+    document.getElementById('inputType').value = t.type || 'follow';
+    document.getElementById('inputPriority').value = t.priority || 'medium';
+    document.getElementById('inputTime').value = t.time ? t.time.replace(' ','T') : '';
+    document.getElementById('addModal').classList.add('show');
+    setTimeout(function(){ document.getElementById('inputTitle').focus(); }, 150);
   }
   function closeModalOnBg(e){ if(e.target===document.getElementById('addModal')) closeAddModal(); }
-  function closeAddModal(){ document.getElementById('addModal').classList.remove('show'); }
+  function closeAddModal(){ document.getElementById('addModal').classList.remove('show'); editingTaskId=null; }
   function addTask() {
     var title = document.getElementById('inputTitle').value.trim();
     if (!title){ document.getElementById('inputTitle').focus(); return; }
     var tv = document.getElementById('inputTime').value;
     var taskTime = tv ? tv.replace('T',' ') : '';
     var isOverdue = taskTime && new Date(taskTime)<new Date();
-    tasks.unshift({id:nextId++,title:title,
-      client:document.getElementById('inputClient').value.trim(),
-      type:document.getElementById('inputType').value,
-      priority:document.getElementById('inputPriority').value,
-      time:taskTime,done:false,overdue:isOverdue});
-    document.getElementById('inputTitle').value='';
-    document.getElementById('inputClient').value='';
+    if (editingTaskId !== null) {
+      // edit mode
+      var t = tasks.find(function(x){ return x.id === editingTaskId; });
+      if (t) {
+        t.title = title;
+        t.client = document.getElementById('inputClient').value.trim();
+        t.type = document.getElementById('inputType').value;
+        t.priority = document.getElementById('inputPriority').value;
+        t.time = taskTime;
+        t.overdue = isOverdue && !t.done;
+      }
+    } else {
+      tasks.unshift({id:nextId++,title:title,
+        client:document.getElementById('inputClient').value.trim(),
+        type:document.getElementById('inputType').value,
+        priority:document.getElementById('inputPriority').value,
+        time:taskTime,done:false,overdue:isOverdue});
+    }
     closeAddModal(); renderTodo();
   }
 
-  // ===== CALENDAR =====
-  var calYear, calMonth, calSelectedDate=null;
+  // ===== INLINE CALENDAR =====
+  var calYear, calMonth, calSelectedDate=null, calOpen=false;
   function openCalModal(){
-    var n=new Date(); calYear=n.getFullYear(); calMonth=n.getMonth();
-    renderCal(); document.getElementById('calModal').classList.add('show');
+    calOpen = !calOpen;
+    var btn = document.getElementById('calIconBtn');
+    var panel = document.getElementById('calInline');
+    if (calOpen) {
+      var n=new Date(); calYear=n.getFullYear(); calMonth=n.getMonth();
+      renderCal();
+      panel.classList.add('open');
+      btn.classList.add('cal-active');
+    } else {
+      panel.classList.remove('open');
+      btn.classList.remove('cal-active');
+    }
   }
-  function closeCalModal(){
-    document.getElementById('calModal').classList.remove('show');
-    if(calSelectedDate){ selectedDate=calSelectedDate; renderTodo(); }
+  function clearCalFilter(){
+    calSelectedDate=null; selectedDate=null;
+    calOpen=false;
+    document.getElementById('calInline').classList.remove('open');
+    document.getElementById('calIconBtn').classList.remove('cal-active');
+    renderTodo();
   }
-  function calOverlayClick(e){ if(e.target===document.getElementById('calModal')) closeCalModal(); }
-  function clearCalFilter(){ calSelectedDate=null; selectedDate=null; document.getElementById('calModal').classList.remove('show'); renderTodo(); }
   function calMove(dir){ calMonth+=dir; if(calMonth>11){calMonth=0;calYear++;} if(calMonth<0){calMonth=11;calYear--;} renderCal(); }
   function renderCal(){
     var months=['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
@@ -1146,7 +1210,16 @@
     }
     document.getElementById('calDays').innerHTML=html;
   }
-  function calSelectDay(ds){ calSelectedDate=ds; renderCal(); }
+  function calSelectDay(ds){
+    calSelectedDate = ds; selectedDate = ds;
+    renderCal(); renderTodo();
+    // auto-close after picking
+    setTimeout(function(){
+      calOpen=false;
+      document.getElementById('calInline').classList.remove('open');
+      document.getElementById('calIconBtn').classList.remove('cal-active');
+    }, 300);
+  }
 
     // ===== SWITCH TAB =====
   function switchTab(tab) {
@@ -1180,34 +1253,7 @@
   renderTodo();
   </script>
 
-  <!-- Calendar Modal (outside phone for correct fixed positioning) -->
-  <div class="cal-overlay" id="calModal" onclick="calOverlayClick(event)">
-    <div class="cal-sheet" id="calSheet">
-      <div class="cal-drag"></div>
-      <div class="cal-header">
-        <div class="cal-title" id="calTitle"></div>
-        <div class="cal-nav">
-          <button onclick="calMove(-1)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-          </button>
-          <button onclick="calMove(1)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
-        </div>
-      </div>
-      <div class="cal-weekdays">
-        <div class="cal-weekday">日</div><div class="cal-weekday">一</div>
-        <div class="cal-weekday">二</div><div class="cal-weekday">三</div>
-        <div class="cal-weekday">四</div><div class="cal-weekday">五</div>
-        <div class="cal-weekday">六</div>
-      </div>
-      <div class="cal-days" id="calDays"></div>
-      <div class="cal-actions">
-        <button class="cal-btn-clear" onclick="clearCalFilter()">显示全部</button>
-        <button class="cal-btn-confirm" onclick="closeCalModal()">确定</button>
-      </div>
-    </div>
-  </div>
+
 
 </body>
 </html>
