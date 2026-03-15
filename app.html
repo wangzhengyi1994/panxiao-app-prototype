@@ -258,7 +258,19 @@
       pointer-events: none;
     }
     .task-swipe-bg.right { background: #4caf50; justify-content: flex-start; gap: 6px; }
-    .task-swipe-bg.left  { background: #f44336; justify-content: flex-end; gap: 6px; }
+    /* 左滑删除按钮 */
+    .task-del-btn {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%) scale(0.7);
+      width: 44px; height: 44px; border-radius: 50%;
+      background: #f44336; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.18s, transform 0.18s;
+      z-index: 2; pointer-events: none;
+    }
+    .task-del-btn.visible {
+      opacity: 1; transform: translateY(-50%) scale(1);
+      pointer-events: auto;
+    }
     .task-row {
       display: flex; align-items: center; gap: 12px;
       padding: 11px 16px;
@@ -999,7 +1011,7 @@
     var checkIcon  = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
     return '<div class="task-row-wrap" data-id="'+t.id+'">' +
       '<div class="task-swipe-bg right">'+checkIcon+' 完成</div>' +
-      '<div class="task-swipe-bg left">删除 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></div>' +
+      '<button class="task-del-btn" data-del-id="'+t.id+'" onclick="deleteTask('+t.id+')" aria-label="删除"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg></button>' +
       '<div class="task-row'+rowDone+'">' +
         '<div class="task-circle '+pc+checkedCls+'" onclick="toggleTask('+t.id+')">' + checkIcon + '</div>' +
         '<div class="task-info">' +
@@ -1083,31 +1095,77 @@
   }
 
   // ===== SWIPE =====
+  var openSwipeWrap = null; // 当前展开的行
+
+  function closeOpenSwipe() {
+    if (openSwipeWrap) {
+      var r = openSwipeWrap.querySelector('.task-row');
+      var b = openSwipeWrap.querySelector('.task-del-btn');
+      if (r) { r.classList.remove('swiping'); r.style.transform = ''; }
+      if (b) b.classList.remove('visible');
+      openSwipeWrap = null;
+    }
+  }
+
+  function deleteTask(id) {
+    var wrap = document.querySelector('.task-row-wrap[data-id="'+id+'"]');
+    var row = wrap ? wrap.querySelector('.task-row') : null;
+    if (row) { row.style.transform = 'translateX(-110%)'; }
+    setTimeout(function(){ tasks = tasks.filter(function(x){ return x.id !== id; }); renderTodo(); }, 220);
+  }
+
   function initSwipe() {
     document.querySelectorAll('.task-row-wrap:not([data-sw])').forEach(function(wrap) {
       wrap.setAttribute('data-sw','1');
       var row = wrap.querySelector('.task-row');
+      var delBtn = wrap.querySelector('.task-del-btn');
       if (!row) return;
       var id = parseInt(wrap.dataset.id);
-      var sx=0,sy=0,cx=0,active=false;
+      var sx=0,sy=0,cx=0,active=false,isOpen=false;
+
       row.addEventListener('touchstart',function(e){
+        // 关闭其他展开行
+        if (openSwipeWrap && openSwipeWrap !== wrap) closeOpenSwipe();
         sx=e.touches[0].clientX; sy=e.touches[0].clientY; cx=0; active=true;
+        isOpen = openSwipeWrap === wrap;
         row.classList.add('swiping');
       },{passive:true});
+
       row.addEventListener('touchmove',function(e){
         if(!active) return;
         var dx=e.touches[0].clientX-sx, dy=e.touches[0].clientY-sy;
         if(Math.abs(dy)>Math.abs(dx)+5&&Math.abs(cx)<8){active=false;row.classList.remove('swiping');row.style.transform='';return;}
-        cx=Math.max(-80,Math.min(80,dx));
-        row.style.transform='translateX('+cx+'px)';
+        // 左滑最多 -68px，右滑收回
+        var base = isOpen ? -68 : 0;
+        cx = Math.max(-68, Math.min(80, base + dx));
+        row.style.transform = 'translateX('+cx+'px)';
       },{passive:true});
+
       row.addEventListener('touchend',function(){
         if(!active) return; active=false; row.classList.remove('swiping');
-        if(cx>55){row.style.transform='translateX(110%)';setTimeout(function(){toggleTask(id);},200);}
-        else if(cx<-55){row.style.transform='translateX(-110%)';setTimeout(function(){tasks=tasks.filter(function(x){return x.id!==id;});renderTodo();},200);}
-        else{row.style.transform='';}
+        if(cx > 55) {
+          // 右滑完成
+          closeOpenSwipe();
+          row.style.transform='translateX(110%)';
+          setTimeout(function(){ toggleTask(id); },200);
+        } else if(cx < -40) {
+          // 左滑足够 → 展开停在 -68px，显示删除按钮
+          row.style.transform = 'translateX(-68px)';
+          if(delBtn) delBtn.classList.add('visible');
+          openSwipeWrap = wrap;
+        } else {
+          // 回弹
+          row.style.transform = '';
+          if(delBtn) delBtn.classList.remove('visible');
+          if(openSwipeWrap === wrap) openSwipeWrap = null;
+        }
       });
     });
+
+    // 点空白区域收回
+    document.querySelector('.todo-list-wrap') && document.querySelector('.todo-list-wrap').addEventListener('touchstart', function(e){
+      if (openSwipeWrap && !openSwipeWrap.contains(e.target)) closeOpenSwipe();
+    },{passive:true});
   }
 
   // ===== ADD / EDIT TASK =====
