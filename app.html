@@ -512,12 +512,11 @@
     }
     .menu-item:last-child { border-bottom: none; }
     .mi-icon-wrap {
-      width: 32px; height: 32px; border-radius: 8px;
-      background: #eef2ff;
+      width: 28px; height: 28px;
       display: flex; align-items: center; justify-content: center;
       margin-right: 12px; flex-shrink: 0;
     }
-    .mi-icon-wrap svg { color: #2062ff; }
+    .mi-icon-wrap img { width: 28px; height: 28px; object-fit: contain; }
     .mi-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
     .mi-text { font-size: 14px; color: #0b1327; font-weight: 400; }
     .mi-sub { font-size: 12px; color: #65758b; margin-top: 1px; }
@@ -832,11 +831,7 @@
         <div class="menu-card">
           <!-- 检查更新 -->
           <div class="menu-item">
-            <div class="mi-icon-wrap">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2062ff" stroke-width="2" stroke-linecap="round">
-                <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/>
-              </svg>
-            </div>
+            <div class="mi-icon-wrap"><img src="assets/icon-update.png" alt=""></div>
             <div class="mi-body">
               <div class="mi-text">检查更新</div>
               <div class="mi-sub">当前版本:1.0.1</div>
@@ -845,51 +840,31 @@
           </div>
           <!-- 清除缓存 -->
           <div class="menu-item">
-            <div class="mi-icon-wrap">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2062ff" stroke-width="2" stroke-linecap="round">
-                <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/>
-              </svg>
-            </div>
+            <div class="mi-icon-wrap"><img src="assets/icon-clear.png" alt=""></div>
             <div class="mi-body"><div class="mi-text">清除缓存</div></div>
             <div class="mi-arrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9eacbf" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
           </div>
           <!-- 用户服务协议 -->
           <div class="menu-item">
-            <div class="mi-icon-wrap">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2062ff" stroke-width="2" stroke-linecap="round">
-                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
-              </svg>
-            </div>
+            <div class="mi-icon-wrap"><img src="assets/icon-agreement.png" alt=""></div>
             <div class="mi-body"><div class="mi-text">用户服务协议</div></div>
             <div class="mi-arrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9eacbf" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
           </div>
           <!-- 隐私政策 -->
           <div class="menu-item">
-            <div class="mi-icon-wrap">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2062ff" stroke-width="2" stroke-linecap="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              </svg>
-            </div>
+            <div class="mi-icon-wrap"><img src="assets/icon-privacy.png" alt=""></div>
             <div class="mi-body"><div class="mi-text">隐私政策</div></div>
             <div class="mi-arrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9eacbf" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
           </div>
           <!-- 注销账号 -->
           <div class="menu-item">
-            <div class="mi-icon-wrap">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2062ff" stroke-width="2" stroke-linecap="round">
-                <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="18" y1="8" x2="23" y2="13"/><line x1="23" y1="8" x2="18" y2="13"/>
-              </svg>
-            </div>
+            <div class="mi-icon-wrap"><img src="assets/icon-logout-account.png" alt=""></div>
             <div class="mi-body"><div class="mi-text">注销账号</div></div>
             <div class="mi-arrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9eacbf" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
           </div>
           <!-- 退出登录 -->
           <div class="menu-item">
-            <div class="mi-icon-wrap">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2062ff" stroke-width="2" stroke-linecap="round">
-                <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
-              </svg>
-            </div>
+            <div class="mi-icon-wrap"><img src="assets/icon-logout.png" alt=""></div>
             <div class="mi-body"><div class="mi-text">退出登录</div></div>
             <div class="mi-arrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9eacbf" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
           </div>
