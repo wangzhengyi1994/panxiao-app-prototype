@@ -1231,14 +1231,17 @@
     calOpen = !calOpen;
     var btn = document.getElementById('calIconBtn');
     var panel = document.getElementById('calInline');
+    var strip = document.getElementById('weekStrip');
     if (calOpen) {
       var n=new Date(); calYear=n.getFullYear(); calMonth=n.getMonth();
       renderCal();
       panel.classList.add('open');
       btn.classList.add('cal-active');
+      strip.style.display = 'none';
     } else {
       panel.classList.remove('open');
       btn.classList.remove('cal-active');
+      strip.style.display = '';
     }
   }
   function clearCalFilter(){
@@ -1246,6 +1249,7 @@
     calOpen=false;
     document.getElementById('calInline').classList.remove('open');
     document.getElementById('calIconBtn').classList.remove('cal-active');
+    document.getElementById('weekStrip').style.display = '';
     renderTodo();
   }
   function calMove(dir){ calMonth+=dir; if(calMonth>11){calMonth=0;calYear++;} if(calMonth<0){calMonth=11;calYear--;} renderCal(); }
@@ -1276,6 +1280,7 @@
       calOpen=false;
       document.getElementById('calInline').classList.remove('open');
       document.getElementById('calIconBtn').classList.remove('cal-active');
+      document.getElementById('weekStrip').style.display = '';
     }, 300);
   }
 
