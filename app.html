@@ -1447,12 +1447,10 @@
       pending.forEach(function(t) { html += renderTodoItem(t); });
 
       if (completed.length > 0) {
-        html += '<div class="todo-done-header" onclick="toggleDone()">'
-          + '已完成 ' + completed.length + ' 项 ' + (showCompleted ? '▲' : '▼')
+        html += '<div class="todo-done-header" onclick="setStatusPill(document.getElementById(\'tsDone\'),\'completed\')" style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer">'
+          + '<span style="font-size:13px;color:#65758b">已完成 ' + completed.length + ' 项</span>'
+          + '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9eacbf" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>'
           + '</div>';
-        if (showCompleted) {
-          completed.forEach(function(t) { html += renderTodoItem(t); });
-        }
       }
     } else {
       if (completed.length === 0) {
