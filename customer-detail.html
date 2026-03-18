@@ -447,7 +447,7 @@ function triggerImageParse(b64, mime) {
   .then(function(r) { return r.json(); })
   .then(function(data) {
     if (data.error) throw new Error(data.error);
-    parsedResult = { customerName: data.customerName || '', date: data.date, summary: data.summary, points: data.points, raw: '[图片截图]' };
+    parsedResult = { customerName: data.customerName || '', date: data.date, time: data.time || '', summary: data.summary, points: data.points, raw: '[图片截图]' };
     document.getElementById('parsingState').style.display = 'none';
     var nameEl = document.getElementById('parsedCustomer');
     if (parsedResult.customerName) {
@@ -456,7 +456,7 @@ function triggerImageParse(b64, mime) {
     } else {
       nameEl.style.display = 'none';
     }
-    document.getElementById('parsedDate').textContent = '跟进时间：' + parsedResult.date;
+    document.getElementById('parsedDate').textContent = '跟进时间：' + parsedResult.date + (parsedResult.time ? ' ' + parsedResult.time : '');
     document.getElementById('parsedPoints').innerHTML = parsedResult.points.map(function(pt){
       return '<div class="preview-item">' + pt + '</div>';
     }).join('');
