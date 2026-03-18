@@ -480,7 +480,27 @@ function saveChat() {
   });
   renderTimeline();
   closeSheet();
-  showToast('跟进记录已保存');
+
+  // 如果 AI 识别出客户姓名，更新页面显示并同步到 localStorage
+  if (parsedResult.customerName && parsedResult.customerName !== p.name) {
+    var newName = parsedResult.customerName;
+    p.name = newName;
+    // 更新头部
+    document.getElementById('heroAvatar').textContent = newName.charAt(0);
+    document.getElementById('heroName').textContent = newName;
+    document.getElementById('infoName').textContent = newName;
+    document.title = newName + ' · 客户详情';
+    // 同步到 localStorage，让看板刷新时能拿到最新名称
+    var customerId = new URLSearchParams(location.search).get('id');
+    if (customerId) {
+      var updates = JSON.parse(localStorage.getItem('kb_name_updates') || '{}');
+      updates[customerId] = newName;
+      localStorage.setItem('kb_name_updates', JSON.stringify(updates));
+    }
+    showToast('跟进已保存，客户姓名已更新为"' + newName + '"');
+  } else {
+    showToast('跟进记录已保存');
+  }
 }
 
 function resetChatPanel() {

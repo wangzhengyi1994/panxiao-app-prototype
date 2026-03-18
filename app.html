@@ -1727,6 +1727,13 @@
     var list = document.getElementById('kbList');
     var totalEl = document.getElementById('kbTotal');
     if (!list) return;
+    // 从 localStorage 同步 AI 识别的最新客户名称
+    try {
+      var nameUpdates = JSON.parse(localStorage.getItem('kb_name_updates') || '{}');
+      kbCustomers.forEach(function(c) {
+        if (nameUpdates[String(c.id)]) c.name = nameUpdates[String(c.id)];
+      });
+    } catch(e) {}
     if (totalEl) totalEl.textContent = kbCustomers.length;
     list.innerHTML = kbCustomers.map(function(c) {
       var st = c.status || 'following';
