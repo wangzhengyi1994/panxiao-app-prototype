@@ -28,13 +28,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 24px 0;
-      max-width: 375px; width: 100%; box-sizing: border-box;
+      padding: 12px 20px 8px;
+      width: 100%; box-sizing: border-box;
       font-size: 15px;
       font-weight: 600;
-      position: fixed;
+      flex-shrink: 0;
+      position: sticky;
       top: 0;
-      width: 375px;
       z-index: 100;
     }
     .status-bar.light { color: #1A1A1A; background: #F5F7FA; }
@@ -46,7 +46,7 @@
     /* Top nav bar */
     /* Content area */
     .content {
-      margin-top: 36px;
+      margin-top: 0;
       flex: 1;
       padding-bottom: 62px;
       overflow-y: auto;
@@ -66,6 +66,81 @@
     }
     .hero-badge { display: inline-block; background: #00796B; color: #fff; font-size: 13px; border-radius: 20px; padding: 6px 16px; margin: 12px auto 0; }
     .hero-badge-wrap { text-align: center; }
+    /* ===== HOME 功能列表 ===== */
+    .tab-home { background: #F5F7FA; min-height: calc(100vh - 110px); }
+
+    .home-header {
+      background: linear-gradient(135deg, #2355E8, #3D6EF5 60%, #5B8DF7);
+      padding: 16px 16px 20px;
+    }
+    .home-greeting {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .home-hi { font-size: 17px; font-weight: 700; color: #fff; }
+    .home-sub { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 2px; }
+
+    .home-banner {
+      background: rgba(255,255,255,0.15);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: opacity .15s;
+    }
+    .home-banner:active { opacity: .8; }
+    .home-banner-title { font-size: 15px; font-weight: 600; color: #fff; }
+    .home-banner-sub { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 3px; }
+
+    .home-list { padding: 16px 14px 0; }
+
+    .home-section-title {
+      font-size: 12px; font-weight: 600; color: #9AA5B4;
+      letter-spacing: 0.5px;
+      margin: 0 2px 8px;
+    }
+
+    .home-card {
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+    }
+
+    .home-item {
+      display: flex; align-items: center; gap: 13px;
+      padding: 14px 16px;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+      transition: background .1s;
+    }
+    .home-item:active { background: #F8F9FB; }
+
+    .home-item-icon {
+      width: 42px; height: 42px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .home-item-info { flex: 1; min-width: 0; }
+    .home-item-name {
+      font-size: 15px; font-weight: 600; color: #1A1A1A;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .home-item-desc { font-size: 12px; color: #9AA5B4; margin-top: 2px; }
+
+    .home-item-tag {
+      font-size: 10px; padding: 1px 6px; border-radius: 4px;
+      font-weight: 500;
+      background: #EEF3FF; color: #3D6EF5;
+    }
+    .home-item-tag.ai { background: linear-gradient(135deg,#3D6EF5,#06B6D4); color: #fff; }
+
+    .home-divider {
+      height: 1px; background: #F3F5F8;
+      margin: 0 16px 0 71px;
+    }
+
     .hero-img-wrap { position: relative; margin: 20px 16px; border-radius: 16px; overflow: hidden; }
     .hero-img-wrap img { width: 100%; display: block; border-radius: 16px; }
     .cta-wrap { position: relative; text-align: center; margin: 0 20px 24px; }
@@ -110,7 +185,7 @@
     .tab-todo {
       display: none;
       min-height: calc(100vh - 142px);
-      background: #fff;
+      background: #f7f8fa;
     }
 
     /* Top bar */
@@ -118,25 +193,26 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 16px 16px 8px;
-      border-bottom: 1px solid #f0f0f0;
+      padding: 12px 16px;
+      background: #fff;
+      border-bottom: 1px solid #e1e7ef;
     }
     .todo-topbar-left { display: flex; flex-direction: column; }
     .todo-topbar-title {
-      font-size: 22px; font-weight: 700; color: #1a1a1a; letter-spacing: -0.3px;
+      font-size: 18px; font-weight: 700; color: #0c1428; letter-spacing: -0.2px;
     }
     .todo-topbar-sub {
-      font-size: 12px; color: #aaa; margin-top: 1px;
+      font-size: 12px; color: #9eacbf; margin-top: 1px;
     }
-    .todo-topbar-right { display: flex; gap: 6px; align-items: center; }
+    .todo-topbar-right { display: flex; gap: 8px; align-items: center; }
     .icon-btn {
-      width: 36px; height: 36px; border-radius: 10px;
-      border: none; background: #f5f5f5;
+      width: 40px; height: 40px; border-radius: 12px;
+      border: none; background: #f1f5f9;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; transition: background 0.15s;
     }
-    .icon-btn:active { background: #e8e8e8; }
-    .icon-btn svg { width: 18px; height: 18px; color: #555; }
+    .icon-btn:active { background: #e1e7ef; }
+    .icon-btn svg { width: 22px; height: 22px; color: #344256; }
 
     /* Week strip */
     .week-strip {
@@ -195,10 +271,60 @@
     .stat-num.green { color: #4caf50; }
     .stat-label { font-size: 10px; color: #bbb; margin-top: 3px; font-weight: 500; }
 
+    /* 过滤器 */
+    .todo-filter-bar {
+      display: flex; gap: 8px; padding: 10px 16px;
+      background: #f2f3f5; border-bottom: 1px solid #e1e7ef;
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .todo-filter-bar::-webkit-scrollbar { display: none; }
+    .todo-filter {
+      flex-shrink: 0; padding: 5px 14px;
+      border-radius: 20px; border: 1px solid #E5E8EF;
+      background: #fff; color: #65758B; font-size: 13px;
+      cursor: pointer; font-family: inherit; transition: all 0.15s;
+    }
+    .todo-filter.active { background: #3D6EF5; border-color: #3D6EF5; color: #fff; font-weight: 600; }
+
+    /* 下拉筛选器 */
+    .tdf-wrap { position: relative; }
+    .tdf-btn {
+      flex-shrink: 0; padding: 5px 12px;
+      border-radius: 20px; border: 1px solid #E5E8EF;
+      background: #fff; color: #65758B; font-size: 13px;
+      cursor: pointer; font-family: inherit;
+      display: flex; align-items: center; gap: 2px;
+    }
+    .tdf-btn.open, .tdf-btn:active { background: #EBF0FF; border-color: #3D6EF5; color: #3D6EF5; }
+    .tdf-dot { font-size: 16px; line-height: 0; margin-top: 2px; }
+    .tdf-dropdown {
+      display: none; position: fixed;
+      background: #fff; border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.14);
+      min-width: 130px; z-index: 9999; overflow: hidden;
+      border: 1px solid #e1e7ef;
+    }
+    .tdf-dropdown.open { display: block; }
+    .tdf-option {
+      padding: 12px 16px; font-size: 14px; color: #0C1428;
+      cursor: pointer; transition: background 0.1s;
+    }
+    .tdf-option:hover { background: #F5F7FA; }
+    .tdf-option.selected { color: #3D6EF5; font-weight: 600; background: #EBF0FF; }
+
+    /* 已完成折叠 */
+    .todo-done-header {
+      text-align: center; padding: 12px 16px;
+      font-size: 13px; color: #65758b; cursor: pointer;
+      border-top: 1px solid #F0F2F5; margin-top: 4px;
+    }
+    .todo-done-header:hover { color: #65758B; }
+
     /* Task list */
     .todo-list-wrap {
-      padding: 0 0 80px;
-      overflow-y: auto;
+      padding: 12px 16px 80px;
+      overflow: visible;
+      background: #f7f8fa;
     }
 
     /* Section header */
@@ -219,6 +345,9 @@
     .task-row-wrap {
       position: relative;
       overflow: hidden;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
     }
     .task-swipe-bg {
       position: absolute; inset: 0;
@@ -242,12 +371,13 @@
     }
     .task-row {
       display: flex; align-items: center; gap: 12px;
-      padding: 11px 16px;
-      background: #fff;
+      padding: 14px 16px;
+      background: #ffffff;
       position: relative; z-index: 1;
       touch-action: pan-y;
       transition: transform 0.22s cubic-bezier(0.32,0.72,0,1);
       cursor: pointer;
+      border-radius: 12px;
     }
     .task-row.swiping { transition: none; }
     .task-row::after {
@@ -265,12 +395,12 @@
       cursor: pointer; transition: all 0.2s;
     }
     .task-circle:active { transform: scale(0.85); }
-    .task-circle.p-high  { border-color: #f44336; }
-    .task-circle.p-mid   { border-color: #ffa726; }
-    .task-circle.p-low   { border-color: #4a7cf5; }
+    .task-circle.p-high  { border-color: #f53f3f; }
+    .task-circle.p-mid   { border-color: #ff7d00; }
+    .task-circle.p-low   { border-color: #2063ff; }
     .task-circle.p-none  { border-color: #ddd; }
     .task-circle.done {
-      background: #4caf50; border-color: #4caf50;
+      background: #00b42a; border-color: #00b42a;
       animation: circlePop 0.25s cubic-bezier(0.32,0.72,0,1);
     }
     @keyframes circlePop {
@@ -395,7 +525,7 @@
       background: #fafafa; outline: none;
       transition: border-color 0.2s;
     }
-    .form-input:focus { border-color: #4a7cf5; background: #fff; }
+    .form-input:focus { border-color: #2063ff; background: #fff; }
     .form-row { display: flex; gap: 10px; }
     .form-select {
       flex: 1; padding: 12px 14px;
@@ -404,7 +534,7 @@
       background: #fafafa; outline: none; appearance: none;
       transition: border-color 0.2s;
     }
-    .form-select:focus { border-color: #4a7cf5; }
+    .form-select:focus { border-color: #2063ff; }
     .modal-submit {
       width: 100%; height: 50px;
       background: #4a7cf5; border: none; border-radius: 12px;
@@ -425,7 +555,73 @@
     .tab-kanban { display: none; min-height: calc(100vh - 142px); }
 
     /* ===== CREATE TAB ===== */
-    .tab-create { display: none; min-height: calc(100vh - 142px); }
+    .tab-create { display: none; min-height: calc(100vh - 142px); background: #F5F7FA; }
+
+    /* ===== KANBAN TAB ===== */
+    .kb-topbar { display:flex; align-items:center; justify-content:space-between; padding:14px 16px 10px; background:#fff; }
+    .kb-title { font-size:17px; font-weight:700; color:#0C1428; }
+    .kb-filters { display:flex; gap:6px; }
+    .kb-filter { border:1px solid #E5E8EF; background:#fff; border-radius:20px; padding:4px 12px; font-size:12px; color:#65758B; cursor:pointer; font-family:inherit; }
+    .kb-filter.active { background:#3D6EF5; border-color:#3D6EF5; color:#fff; font-weight:600; }
+    .kb-stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:12px 16px; }
+    .kb-stat-card { background:#fff; border-radius:12px; padding:14px 16px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+    .kb-stat-val { font-size:26px; font-weight:700; margin-bottom:4px; }
+    .kb-stat-label { font-size:12px; color:#65758B; }
+    .kb-section { background:#fff; border-radius:12px; margin:0 16px 12px; padding:14px 16px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+    .kb-section-hd { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+    .kb-section-title { font-size:14px; font-weight:600; color:#0C1428; margin-bottom:12px; }
+    .kb-more { font-size:12px; color:#3D6EF5; cursor:pointer; }
+    .kb-trend-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+    .kb-trend-day { width:28px; font-size:12px; color:#65758B; flex-shrink:0; }
+    .kb-trend-bg { flex:1; height:8px; background:#F0F2F5; border-radius:4px; overflow:hidden; }
+    .kb-trend-fill { height:100%; background:linear-gradient(90deg,#3D6EF5,#7BA8FF); border-radius:4px; }
+    .kb-trend-num { width:32px; text-align:right; font-size:11px; color:#65758B; flex-shrink:0; }
+    .kb-customer { display:flex; align-items:flex-start; gap:10px; padding:12px 0; border-bottom:1px solid #F0F2F5; }
+    .kb-customer:last-child { border-bottom:none; padding-bottom:0; }
+    .kb-pri { font-size:14px; flex-shrink:0; margin-top:2px; }
+    .kb-cust-info { flex:1; min-width:0; }
+    .kb-cust-name { font-size:14px; font-weight:600; color:#0C1428; margin-bottom:2px; }
+    .kb-cust-sub { font-size:12px; color:#65758B; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:3px; }
+    .kb-cust-time { font-size:11px; color:#9EACBF; }
+    .kb-cust-time.overdue { color:#FF3B30; }
+    .kb-status { flex-shrink:0; padding:3px 8px; border-radius:10px; font-size:11px; font-weight:500; }
+    .kb-status.pending { background:#FFF0EB; color:#FF6B35; }
+    .kb-status.following { background:#EBF0FF; color:#3D6EF5; }
+    .kb-status.completed { background:#EAFAF4; color:#10B981; }
+    .kb-status.lost { background:#F5F5F5; color:#9EACBF; }
+
+    /* ===== CREATE TAB ===== */
+    .cr-topbar { display:flex; align-items:center; justify-content:space-between; padding:14px 16px 10px; background:#fff; }
+    .cr-title { font-size:17px; font-weight:700; color:#0C1428; }
+    .cr-history-btn { font-size:13px; color:#3D6EF5; background:none; border:none; cursor:pointer; font-family:inherit; }
+    .cr-card { background:#fff; border-radius:14px; margin:0 16px 12px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+    .cr-card-featured { background:linear-gradient(135deg,#1B5EF3 0%,#3D8EFF 100%); }
+    .cr-card-badge { display:inline-block; background:rgba(255,255,255,0.25); color:#fff; font-size:10px; border-radius:10px; padding:3px 8px; margin-bottom:8px; }
+    .cr-card-icon { font-size:24px; margin-bottom:6px; }
+    .cr-card-title { font-size:16px; font-weight:700; color:#0C1428; margin-bottom:4px; }
+    .cr-card-featured .cr-card-title { color:#fff; }
+    .cr-card-desc { font-size:13px; color:#65758B; line-height:1.5; margin-bottom:12px; }
+    .cr-card-featured .cr-card-desc { color:rgba(255,255,255,0.85); }
+    .cr-card-status-row { display:flex; gap:16px; margin-bottom:14px; }
+    .cr-status-item { display:flex; align-items:center; gap:6px; font-size:12px; color:rgba(255,255,255,0.9); }
+    .cr-status-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+    .cr-status-dot.done { background:#AAFF00; }
+    .cr-status-dot.pending { background:rgba(255,255,255,0.4); }
+    .cr-btn { width:100%; padding:12px; border-radius:10px; border:none; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; }
+    .cr-btn-primary { background:#fff; color:#1B5EF3; }
+    .cr-btn-outline { background:none; border:1.5px solid #E5E8EF; color:#3D6EF5; margin-top:10px; }
+    .cr-btn-purple { border-color:#C4B5FD; color:#7C3AED; }
+    .cr-instant-questions { margin-bottom:4px; }
+    .cr-iq-item { display:flex; align-items:center; gap:8px; padding:7px 0; font-size:13px; color:#0C1428; border-bottom:1px solid #F5F5F5; }
+    .cr-iq-item:last-child { border-bottom:none; }
+    .cr-iq-check { width:18px; height:18px; background:#3D6EF5; border-radius:50%; color:#fff; font-size:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .cr-iq-circle { width:18px; height:18px; border:1.5px solid #D0D5DD; border-radius:50%; flex-shrink:0; }
+    .cr-section-title { font-size:14px; font-weight:600; color:#0C1428; padding:4px 16px 10px; }
+    .cr-history-list { padding:0 16px 24px; display:flex; flex-direction:column; gap:10px; }
+    .cr-history-item { background:#fff; border-radius:12px; padding:14px; box-shadow:0 1px 4px rgba(0,0,0,0.05); }
+    .cr-hi-tag { display:inline-block; background:#EBF0FF; color:#3D6EF5; font-size:10px; border-radius:6px; padding:2px 8px; margin-bottom:7px; font-weight:600; }
+    .cr-hi-text { font-size:13px; color:#0C1428; line-height:1.5; margin-bottom:6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .cr-hi-meta { font-size:11px; color:#9EACBF; }
 
     /* ===== MINE TAB ===== */
     .tab-mine {
@@ -518,23 +714,24 @@
       position: relative;
     }
     .tab-item svg { width: 22px; height: 22px; }
-    .tab-item span { font-size: 10px; }
-    .tab-item.active svg { color: #3D6EF5; }
-    .tab-item.active span { color: #3D6EF5; font-weight: 600; }
-    .tab-item:not(.active) svg { color: #BABABA; }
-    .tab-item:not(.active) span { color: #BABABA; }
+    .tab-item > span:not(.tab-badge) { font-size: 10px; }
+    .tab-item.active svg { color: #2063ff; }
+    .tab-item.active > span:not(.tab-badge) { color: #2063ff; font-weight: 600; }
+    .tab-item:not(.active) svg { color: #9eacbf; }
+    .tab-item:not(.active) > span:not(.tab-badge) { color: #9eacbf; }
     /* Badge */
     .tab-badge {
       position: absolute;
-      top: 4px; right: calc(50% - 18px);
-      background: #FF4757;
-      color: #fff;
+      top: 4px; right: calc(50% - 20px);
+      background: #f53f3f;
+      color: #fff !important;
       font-size: 9px;
-      font-weight: bold;
+      font-weight: 700;
       min-width: 16px; height: 16px;
       border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
       padding: 0 4px;
+      line-height: 1;
     }
 
     @media (max-width: 430px) {
@@ -635,58 +832,145 @@
 
       <!-- HOME -->
       <div class="tab-home" id="tabHome">
-        <div class="hero">
-          <h1 class="hero-title">懂销售的智能外脑</h1>
-          <div class="hero-badge-wrap">
-            <span class="hero-badge">磐销云输入法 让成交更从容</span>
+
+        <!-- 顶部问候 + banner -->
+        <div class="home-header">
+          <div class="home-greeting">
+            <div class="home-greeting-text">
+              <div class="home-hi">你好，销售精英 👋</div>
+              <div class="home-sub">懂销售的智能外脑</div>
+            </div>
+            <div class="home-avatar">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="20" fill="#3D6EF5"/><circle cx="20" cy="15" r="7" fill="rgba(255,255,255,0.9)"/><ellipse cx="20" cy="34" rx="11" ry="8" fill="rgba(255,255,255,0.85)"/></svg>
+            </div>
+          </div>
+          <div class="home-banner" onclick="location.href='keyboard.html'">
+            <div class="home-banner-text">
+              <div class="home-banner-title">立即使用 AI 键盘</div>
+              <div class="home-banner-sub">一键生成话术，智能辅助成交</div>
+            </div>
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.18)"/><rect x="6" y="9" width="24" height="18" rx="3" stroke="#fff" stroke-width="1.8"/><path d="M10 14h4M16 14h4M22 14h4M10 18h2M14 18h2M18 18h2M22 18h2M11 22h14" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
           </div>
         </div>
-        <div class="hero-img-wrap" style="margin: 20px 16px;">
-          <img src="assets/home.png" alt="首页插图">
-        </div>
-        <div class="cta-wrap">
-          <button class="cta-btn" onclick="location.href='keyboard.html'">
-            立即体验 →
-            <span class="cta-badge">超过7W+同行正在使用</span>
-          </button>
-        </div>
-        <div class="value-card">
-          <span class="value-label">输入法核心价值</span>
-          <div class="value-grid">
-            <div class="value-item"><h3>AI赋能销售</h3><p>智能对话助手，实时辅助每一次沟通</p></div>
-            <div class="value-item"><h3>效率革命</h3><p>一键生成专业话术，告别低效沟通</p></div>
-            <div class="value-item"><h3>能力跃迁</h3><p>持续学习行业知识，快速提升专业水平</p></div>
-            <div class="value-item"><h3>成交加速</h3><p>精准把握客户需求，缩短成交周期</p></div>
+
+        <!-- 功能入口列表 -->
+        <div class="home-list">
+
+          <div class="home-section-title">话术工具</div>
+          <div class="home-card">
+            <div class="home-item" onclick="alert('团队共享话术')">
+              <div class="home-item-icon" style="background:linear-gradient(135deg,#3D6EF5,#5B8DF7)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 10h8M8 14h5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <div class="home-item-info">
+                <div class="home-item-name">团队共享话术 <span class="home-item-tag ai">AI</span></div>
+                <div class="home-item-desc">话术、图片、文档支持AI搜索</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="#C0C8D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="home-divider"></div>
+            <div class="home-item" onclick="alert('常用语')">
+              <div class="home-item-icon" style="background:linear-gradient(135deg,#06B6D4,#0EA5E9)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 10h10M4 14h12M4 18h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+              </div>
+              <div class="home-item-info">
+                <div class="home-item-name">常用语</div>
+                <div class="home-item-desc">适合自己用的快捷短语</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="#C0C8D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="home-divider"></div>
+            <div class="home-item" onclick="alert('粘贴板')">
+              <div class="home-item-icon" style="background:linear-gradient(135deg,#F59E0B,#FCD34D)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="9" y="2" width="6" height="4" rx="1" stroke="#fff" stroke-width="1.8"/><path d="M9 3H6a2 2 0 00-2 2v15a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2h-3" stroke="#fff" stroke-width="1.8"/><path d="M9 12h6M9 16h4" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </div>
+              <div class="home-item-info">
+                <div class="home-item-name">粘贴板</div>
+                <div class="home-item-desc">历史复制内容，一键调用</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="#C0C8D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="home-divider"></div>
+
           </div>
-        </div>
-        <div class="ds-card">
-          <div>
-            <h2>已全面接入 DEEPSEEK</h2>
-            <div class="ds-sub"><span class="ds-dot"></span>与DEEPSEEK携手，开启智能新纪元</div>
+
+          <div class="home-section-title">图片管理</div>
+          <div class="home-card">
+            <div class="home-item" onclick="alert('团队图库')">
+              <div class="home-item-icon" style="background:linear-gradient(135deg,#3D6EF5,#5B8DF7)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="15" rx="2.5" stroke="#fff" stroke-width="1.8"/><circle cx="8" cy="11" r="2" stroke="#fff" stroke-width="1.6"/><path d="M2 17l4-3.5 3 2.5 4-4 5 5" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><circle cx="18" cy="8" r="1" fill="#fff"/></svg>
+              </div>
+              <div class="home-item-info">
+                <div class="home-item-name">团队图库 <span class="home-item-tag">共享</span></div>
+                <div class="home-item-desc">团队共享图库，快速发图</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="#C0C8D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="home-divider"></div>
+            <div class="home-item" onclick="alert('个人图库')">
+              <div class="home-item-icon" style="background:linear-gradient(135deg,#7C3AED,#A78BFA)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="15" rx="2.5" stroke="#fff" stroke-width="1.8"/><circle cx="8" cy="11" r="2" stroke="#fff" stroke-width="1.6"/><path d="M2 17l4-3.5 3 2.5 4-4 5 5" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><path d="M16 3v4M14 5h4" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </div>
+              <div class="home-item-info">
+                <div class="home-item-name">个人图库</div>
+                <div class="home-item-desc">私人收藏，适合自己用</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="#C0C8D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="home-divider"></div>
+
           </div>
-          <span class="ds-emoji">🐳</span>
+
+          <div class="home-section-title">文案创作</div>
+          <div class="home-card">
+            <div class="home-item" onclick="alert('文案广场')">
+              <div class="home-item-icon" style="background:linear-gradient(135deg,#F97316,#FB923C)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="#fff" stroke-width="1.8"/><polyline points="9 22 9 12 15 12 15 22" stroke="#fff" stroke-width="1.8"/></svg>
+              </div>
+              <div class="home-item-info">
+                <div class="home-item-name">文案广场</div>
+                <div class="home-item-desc">优质文案模板，拿来即用</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="#C0C8D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="home-divider"></div>
+            <div class="home-item" onclick="location.href='card-templates.html'">
+              <div class="home-item-icon" style="background:linear-gradient(135deg,#E53935,#EF5350)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2.5" stroke="#fff" stroke-width="1.8"/><path d="M7 8h10M7 12h6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="17" cy="15" r="2.5" fill="#fff" opacity=".9"/><path d="M16 15h2M17 14v2" stroke="#E53935" stroke-width="1.3" stroke-linecap="round"/></svg>
+              </div>
+              <div class="home-item-info">
+                <div class="home-item-name">文案卡模板</div>
+                <div class="home-item-desc">制作可发送的图文卡片</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="#C0C8D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="home-divider"></div>
+            <div class="home-item" onclick="alert('键盘皮肤')">
+              <div class="home-item-icon" style="background:linear-gradient(135deg,#8B5CF6,#C4B5FD)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="20" height="13" rx="2" stroke="#fff" stroke-width="1.8"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h.01M18 14h.01M8 17h8" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <div class="home-item-info">
+                <div class="home-item-name">键盘皮肤</div>
+                <div class="home-item-desc">个性化键盘外观</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="#C0C8D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
+          <div style="height:20px"></div>
         </div>
-        <div class="audience">
-          <div class="audience-title">适合人群</div>
-          <div class="audience-item">需要<span class="hl">高效沟通</span>的销售从业者</div>
-          <div class="audience-item">希望借助<span class="hl">AI工具</span>提升业绩的团队</div>
-          <div class="audience-item">追求<span class="hl">专业话术</span>表达的商务人士</div>
-          <div class="audience-item">想要<span class="hl">快速成长</span>的销售新人</div>
-        </div>
-      </div>
+
       </div>
 
       <!-- TODO -->
       <div class="tab-todo" id="tabTodo">
-
-        <!-- Top bar -->
+        <!-- 顶部栏 -->
         <div class="todo-topbar">
           <div class="todo-topbar-left">
-            <div class="todo-topbar-title" id="todoTitleBar">今天</div>
-            <div class="todo-topbar-sub" id="todoSubBar"></div>
+            <span class="todo-topbar-title">待办</span>
           </div>
           <div class="todo-topbar-right">
-            <div class="icon-btn" onclick="openCalModal()" id="calIconBtn">
+            <div class="icon-btn" id="calToggleBtn" onclick="toggleCalendar()">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             </div>
             <div class="icon-btn" onclick="openAddModal()">
@@ -695,75 +979,195 @@
           </div>
         </div>
 
-        <!-- Inline Calendar -->
-        <div class="cal-inline" id="calInline">
+        <!-- 日历（默认隐藏，点日历图标展开） -->
+        <div class="cal-inline" id="calInline" style="display:none">
           <div class="cal-inner">
             <div class="cal-header">
               <div class="cal-title" id="calTitle"></div>
               <div class="cal-nav">
-                <button onclick="calMove(-1)">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-                </button>
-                <button onclick="calMove(1)">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-                </button>
+                <button onclick="calMove(-1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+                <button onclick="calMove(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></button>
               </div>
             </div>
             <div class="cal-weekdays">
-              <div class="cal-weekday">日</div><div class="cal-weekday">一</div>
-              <div class="cal-weekday">二</div><div class="cal-weekday">三</div>
-              <div class="cal-weekday">四</div><div class="cal-weekday">五</div>
-              <div class="cal-weekday">六</div>
+              <div class="cal-weekday">日</div><div class="cal-weekday">一</div><div class="cal-weekday">二</div><div class="cal-weekday">三</div><div class="cal-weekday">四</div><div class="cal-weekday">五</div><div class="cal-weekday">六</div>
             </div>
             <div class="cal-days" id="calDays"></div>
-            <div class="cal-actions">
-              <button class="cal-btn-clear" onclick="clearCalFilter()">显示全部</button>
+            <div class="cal-actions"><button class="cal-btn-clear" onclick="clearCalFilter()">显示全部</button></div>
+          </div>
+        </div>
+
+        <!-- 过滤器 (三个下拉) -->
+        <div class="todo-filter-bar">
+          <div class="tdf-wrap">
+            <button class="tdf-btn active" id="tdfPri" onclick="toggleDropdown('dropPri')">全部 <span class="tdf-dot">·</span></button>
+            <div class="tdf-dropdown" id="dropPri">
+              <div class="tdf-option active" onclick="selectPri(this,'all')">全部</div>
+              <div class="tdf-option" onclick="selectPri(this,'urgent')">紧急</div>
+              <div class="tdf-option" onclick="selectPri(this,'nonurgent')">不紧急</div>
+              <div class="tdf-option" onclick="selectPri(this,'important')">重要</div>
+              <div class="tdf-option" onclick="selectPri(this,'normal')">普通</div>
+            </div>
+          </div>
+          <div class="tdf-wrap">
+            <button class="tdf-btn active" id="tdfTime" onclick="toggleDropdown('dropTime')">今天 <span class="tdf-dot">·</span></button>
+            <div class="tdf-dropdown" id="dropTime">
+              <div class="tdf-option active" onclick="selectTime(this,'all')">全部</div>
+              <div class="tdf-option selected" onclick="selectTime(this,'today')">今天</div>
+              <div class="tdf-option" onclick="selectTime(this,'3days')">三日内</div>
+              <div class="tdf-option" onclick="selectTime(this,'week')">一周内</div>
+            </div>
+          </div>
+          <div class="tdf-wrap">
+            <button class="tdf-btn active" id="tdfStatus" onclick="toggleDropdown('dropStatus')">已完成 <span class="tdf-dot">·</span></button>
+            <div class="tdf-dropdown" id="dropStatus">
+              <div class="tdf-option active" onclick="selectStatus(this,'all')">全部</div>
+              <div class="tdf-option" onclick="selectStatus(this,'completed')">已完成</div>
+              <div class="tdf-option" onclick="selectStatus(this,'pending')">未完成</div>
+              <div class="tdf-option" onclick="selectStatus(this,'overdue')">逾期</div>
             </div>
           </div>
         </div>
 
-        <!-- Week strip -->
-        <div class="week-strip" id="weekStrip"></div>
-
-        <!-- Stats -->
-        <div class="todo-stats-strip">
-          <div class="stat-item">
-            <div class="stat-num red" id="statOverdue">0</div>
-            <div class="stat-label">逾期</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-num blue" id="statToday">0</div>
-            <div class="stat-label">今日</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-num green" id="statDone">0</div>
-            <div class="stat-label">完成</div>
-          </div>
-        </div>
-
-        <!-- Task list -->
+        <!-- 任务列表 -->
         <div class="todo-list-wrap" id="todoList"></div>
       </div>
 
             <!-- KANBAN -->
+      <!-- KANBAN -->
       <div class="tab-kanban" id="tabKanban">
-        <div class="empty-state">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="12" rx="1"/>
-          </svg>
-          <h3>销售看板</h3>
-          <p>客户跟进状态看板即将上线</p>
+        <!-- 顶部标题栏 -->
+        <div class="kb-topbar">
+          <span class="kb-title">客户看板</span>
+          <div class="kb-filters">
+            <button class="kb-filter active" onclick="kbFilter(this,'all')">全部</button>
+            <button class="kb-filter" onclick="kbFilter(this,'today')">今日</button>
+            <button class="kb-filter" onclick="kbFilter(this,'week')">本周</button>
+          </div>
+        </div>
+
+        <!-- 统计卡片 2x2 -->
+        <div class="kb-stats">
+          <div class="kb-stat-card">
+            <div class="kb-stat-val" style="color:#3D6EF5">128</div>
+            <div class="kb-stat-label">总客户数</div>
+          </div>
+          <div class="kb-stat-card">
+            <div class="kb-stat-val" style="color:#FF6B35">45</div>
+            <div class="kb-stat-label">待跟进</div>
+          </div>
+          <div class="kb-stat-card">
+            <div class="kb-stat-val" style="color:#10B981">12</div>
+            <div class="kb-stat-label">今日跟进</div>
+          </div>
+          <div class="kb-stat-card">
+            <div class="kb-stat-val" style="color:#F59E0B">87%</div>
+            <div class="kb-stat-label">成交率</div>
+          </div>
+        </div>
+
+        <!-- 本周趋势 -->
+        <div class="kb-section">
+          <div class="kb-section-title">本周跟进趋势</div>
+          <div class="kb-trend">
+            <div class="kb-trend-row"><span class="kb-trend-day">周一</span><div class="kb-trend-bg"><div class="kb-trend-fill" style="width:72%"></div></div><span class="kb-trend-num">18次</span></div>
+            <div class="kb-trend-row"><span class="kb-trend-day">周二</span><div class="kb-trend-bg"><div class="kb-trend-fill" style="width:56%"></div></div><span class="kb-trend-num">14次</span></div>
+            <div class="kb-trend-row"><span class="kb-trend-day">周三</span><div class="kb-trend-bg"><div class="kb-trend-fill" style="width:88%"></div></div><span class="kb-trend-num">22次</span></div>
+            <div class="kb-trend-row"><span class="kb-trend-day">周四</span><div class="kb-trend-bg"><div class="kb-trend-fill" style="width:40%"></div></div><span class="kb-trend-num">10次</span></div>
+            <div class="kb-trend-row"><span class="kb-trend-day">周五</span><div class="kb-trend-bg"><div class="kb-trend-fill" style="width:100%"></div></div><span class="kb-trend-num">25次</span></div>
+          </div>
+        </div>
+
+        <!-- 客户列表 -->
+        <div class="kb-section">
+          <div class="kb-section-hd">
+            <div class="kb-section-title">客户列表</div>
+            <span class="kb-more">查看全部 →</span>
+          </div>
+          <div class="kb-customer-list" id="kbList">
+            <!-- JS 渲染 -->
+          </div>
         </div>
       </div>
 
       <!-- CREATE -->
       <div class="tab-create" id="tabCreate">
-        <div class="empty-state">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
-          </svg>
-          <h3>话术创作</h3>
-          <p>AI 话术创作工坊即将上线</p>
+        <!-- 顶部标题栏 -->
+        <div class="cr-topbar">
+          <span class="cr-title">话术创作</span>
+          <button class="cr-history-btn">历史记录</button>
+        </div>
+
+        <!-- 朋友圈规划 -->
+        <div class="cr-card cr-card-featured">
+          <div class="cr-card-badge">AI 智能</div>
+          <div class="cr-card-icon">📅</div>
+          <div class="cr-card-main">
+            <div class="cr-card-title">朋友圈规划</div>
+            <div class="cr-card-desc">填写40题问卷，AI为你生成30天60条朋友圈文案</div>
+          </div>
+          <div class="cr-card-status-row">
+            <div class="cr-status-item">
+              <span class="cr-status-dot done"></span>
+              <span class="cr-status-text">问卷已完成</span>
+            </div>
+            <div class="cr-status-item">
+              <span class="cr-status-dot pending"></span>
+              <span class="cr-status-text">IP未完善</span>
+            </div>
+          </div>
+          <button class="cr-btn cr-btn-primary" onclick="crToast('正在生成30天规划…')">立即生成</button>
+        </div>
+
+        <!-- 即时创作 -->
+        <div class="cr-card">
+          <div class="cr-card-icon">⚡</div>
+          <div class="cr-card-main">
+            <div class="cr-card-title">即时创作</div>
+            <div class="cr-card-desc">回答3个问题，5秒生成一条高质量朋友圈文案</div>
+          </div>
+          <div class="cr-instant-questions">
+            <div class="cr-iq-item checked">
+              <span class="cr-iq-check">✓</span>今天最大的收获？
+            </div>
+            <div class="cr-iq-item checked">
+              <span class="cr-iq-check">✓</span>今天最有感触的一句话？
+            </div>
+            <div class="cr-iq-item">
+              <span class="cr-iq-circle"></span>成交客户最大的卡点？
+            </div>
+          </div>
+          <button class="cr-btn cr-btn-outline" onclick="crToast('即时创作生成中…')">快速生成</button>
+        </div>
+
+        <!-- IP 打造 -->
+        <div class="cr-card">
+          <div class="cr-card-icon">🌟</div>
+          <div class="cr-card-main">
+            <div class="cr-card-title">IP 打造</div>
+            <div class="cr-card-desc">建立个人专属 IP 形象，生成持续吸引客户的内容</div>
+          </div>
+          <button class="cr-btn cr-btn-outline cr-btn-purple" onclick="crToast('请先完善IP信息')">开始打造</button>
+        </div>
+
+        <!-- 历史文案 -->
+        <div class="cr-section-title">最近生成</div>
+        <div class="cr-history-list">
+          <div class="cr-history-item">
+            <div class="cr-hi-tag">朋友圈规划</div>
+            <div class="cr-hi-text">今天拜访了一位做餐饮的老板，聊了两个小时，深刻感受到…</div>
+            <div class="cr-hi-meta">2天前 · 已复制3次</div>
+          </div>
+          <div class="cr-history-item">
+            <div class="cr-hi-tag">即时创作</div>
+            <div class="cr-hi-text">签了一个大单！感谢信任，感谢坚持，每一次努力都不会白费…</div>
+            <div class="cr-hi-meta">3天前 · 已复制1次</div>
+          </div>
+          <div class="cr-history-item">
+            <div class="cr-hi-tag">IP打造</div>
+            <div class="cr-hi-text">做销售5年，我总结了3个让客户主动找你的核心方法…</div>
+            <div class="cr-hi-meta">5天前 · 已复制7次</div>
+          </div>
         </div>
       </div>
 
@@ -914,214 +1318,227 @@
 
   <script>
   // ===== DATA =====
-  var tasks = [
-    { id:1,  title:'回访李总，跟进产品方案意向', client:'李总',  type:'follow',   priority:'high', time:'2026-03-14 09:00', done:false, overdue:true },
-    { id:2,  title:'发送合同草稿给王经理确认',   client:'王经理', type:'contract',  priority:'high', time:'2026-03-13 18:00', done:false, overdue:true },
-    { id:3,  title:'电话确认赵老板今日见面时间', client:'赵老板', type:'call',      priority:'mid',  time:'2026-03-14 11:00', done:false, overdue:false },
-    { id:4,  title:'准备下午3点演示材料',         client:'陈总',  type:'meeting',   priority:'mid',  time:'2026-03-14 14:30', done:false, overdue:false },
-    { id:5,  title:'跟进孙总上周询价单',           client:'孙总',  type:'follow',    priority:'mid',  time:'2026-03-14 16:00', done:false, overdue:false },
-    { id:6,  title:'发报价单给刘女士',             client:'刘女士',type:'follow',    priority:'low',  time:'2026-03-14 17:00', done:false, overdue:false },
-    { id:7,  title:'整理本周拜访客户记录',         client:'',      type:'follow',    priority:'low',  time:'2026-03-14 20:00', done:false, overdue:false },
-    { id:8,  title:'回电周总，确认续约意向',       client:'周总',  type:'call',      priority:'',     time:'2026-03-12 10:00', done:true,  overdue:false },
-    { id:9,  title:'发感谢短信给新签客户',         client:'马总',  type:'follow',    priority:'',     time:'2026-03-11 15:00', done:true,  overdue:false },
-    { id:10, title:'提交上周销售报表',             client:'',      type:'follow',    priority:'',     time:'2026-03-10 18:00', done:true,  overdue:false },
-    { id:11, title:'拜访张董，推进年度合作协议',   client:'张董',  type:'meeting',   priority:'high', time:'2026-03-15 10:00', done:false, overdue:false },
-    { id:12, title:'发送季度产品更新给吴总',       client:'吴总',  type:'follow',    priority:'low',  time:'2026-03-16 09:00', done:false, overdue:false },
+  // ===== TODO STATE =====
+  var todos = [
+    { id:1, title:'回访李总，确认合同细节',      dueTime:'今天 14:00',  priority:'urgent',    status:'pending',   scope:'personal', reminder:'push', note:'李总上次说需要再考虑价格', assignee:'' },
+    { id:2, title:'更新朋友圈话术素材',           dueTime:'今天 16:30',  priority:'important', status:'pending',   scope:'personal', reminder:'push', note:'', assignee:'' },
+    { id:3, title:'团队晨会复盘',                 dueTime:'今天 09:00',  priority:'normal',    status:'completed', scope:'personal', reminder:'',     note:'', assignee:'' },
+    { id:4, title:'跟进张三教育课程需求',         dueTime:'明天 10:00',  priority:'important', status:'pending',   scope:'personal', reminder:'sms',  note:'', assignee:'' },
+    { id:5, title:'提交本周销售数据报表',         dueTime:'本周五 17:00',priority:'normal',    status:'pending',   scope:'personal', reminder:'',     note:'', assignee:'' },
+    { id:6, title:'王经理 - 发送产品资料给客户', dueTime:'今天 15:00',  priority:'urgent',    status:'pending',   scope:'team',     reminder:'push', note:'', assignee:'王经理' },
+    { id:7, title:'李雷 - 预约下周客户演示',     dueTime:'明天 11:00',  priority:'important', status:'pending',   scope:'team',     reminder:'',     note:'', assignee:'李雷' },
+    { id:8, title:'韩梅 - 跟进逾期客户',         dueTime:'今天 16:00',  priority:'urgent',    status:'completed', scope:'team',     reminder:'push', note:'', assignee:'韩梅' },
   ];
-  var nextId = 13;
-  var selectedDate = null; // null = show all pending
-  var showDone = false;
+  var nextTodoId = 9;
+  var todoScope = 'personal';
+  var todoFilter = 'all';
+  var showCompleted = false;
+  var calendarOpen = false;
+  var selectedDate = null;
+  var PRI_CONFIG = {
+    urgent:    { label:'紧急', color:'#f53f3f', bg:'rgba(245,63,63,0.1)', cls:'p-high' },
+    important: { label:'重要', color:'#ff7d00', bg:'rgba(255,125,0,0.1)', cls:'p-mid'  },
+    normal:    { label:'普通', color:'#2063ff', bg:'rgba(32,99,255,0.1)', cls:'p-low'  },
+  };
 
-  var typeLabel = { call:'回访', follow:'跟进', contract:'合同', meeting:'见面' };
-  var typeCls   = { call:'tc',   follow:'tf',    contract:'tn',   meeting:'tm'  };
-  var priCls    = { high:'p-high', mid:'p-mid', low:'p-low', '':'p-none' };
+  // ===== 下拉筛选 =====
+  var filterPri = 'all', filterTime = 'today', filterStatus = 'all';
 
-  // ===== RENDER =====
+  function toggleDropdown(id) {
+    var drop = document.getElementById(id);
+    var isOpen = drop.classList.contains('open');
+    document.querySelectorAll('.tdf-dropdown').forEach(function(d){ d.classList.remove('open'); });
+    document.querySelectorAll('.tdf-btn').forEach(function(b){ b.classList.remove('open'); });
+    if (!isOpen) {
+      var btn = drop.previousElementSibling;
+      if (btn) {
+        var rect = btn.getBoundingClientRect();
+        drop.style.top = (rect.bottom + 6) + 'px';
+        drop.style.left = rect.left + 'px';
+        btn.classList.add('open');
+      }
+      drop.classList.add('open');
+    }
+  }
+  // 点其他地方关闭
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.tdf-wrap')) {
+      document.querySelectorAll('.tdf-dropdown').forEach(function(d){ d.classList.remove('open'); });
+      document.querySelectorAll('.tdf-btn').forEach(function(b){ b.classList.remove('open'); });
+    }
+  });
+
+  function selectPri(el, val) {
+    filterPri = val;
+    var drop = el.closest('.tdf-dropdown');
+    drop.querySelectorAll('.tdf-option').forEach(function(o){ o.classList.remove('selected'); });
+    el.classList.add('selected');
+    var btn = document.getElementById('tdfPri');
+    if (btn) btn.firstChild.textContent = el.textContent.trim() + ' ';
+    drop.classList.remove('open');
+    document.querySelectorAll('.tdf-btn').forEach(function(b){ b.classList.remove('open'); });
+    renderTodo();
+  }
+  function selectTime(el, val) {
+    filterTime = val;
+    var drop = el.closest('.tdf-dropdown');
+    drop.querySelectorAll('.tdf-option').forEach(function(o){ o.classList.remove('selected'); });
+    el.classList.add('selected');
+    var btn = document.getElementById('tdfTime');
+    if (btn) btn.firstChild.textContent = el.textContent.trim() + ' ';
+    drop.classList.remove('open');
+    document.querySelectorAll('.tdf-btn').forEach(function(b){ b.classList.remove('open'); });
+    renderTodo();
+  }
+  function selectStatus(el, val) {
+    filterStatus = val;
+    var drop = el.closest('.tdf-dropdown');
+    drop.querySelectorAll('.tdf-option').forEach(function(o){ o.classList.remove('selected'); });
+    el.classList.add('selected');
+    var btn = document.getElementById('tdfStatus');
+    if (btn) btn.firstChild.textContent = el.textContent.trim() + ' ';
+    drop.classList.remove('open');
+    document.querySelectorAll('.tdf-btn').forEach(function(b){ b.classList.remove('open'); });
+    renderTodo();
+  }
+
+  function switchScope(s) {
+    todoScope = s;
+    document.getElementById('scopePersonal').classList.toggle('active', s==='personal');
+    document.getElementById('scopeTeam').classList.toggle('active', s==='team');
+    renderTodo();
+  }
+  function setFilter(el, f) {
+    todoFilter = f;
+    document.querySelectorAll('.todo-filter').forEach(function(b){ b.classList.remove('active'); });
+    el.classList.add('active');
+    showCompleted = (f === 'completed');
+    renderTodo();
+  }
+  function toggleCalendar() {
+    calendarOpen = !calendarOpen;
+    document.getElementById('calInline').style.display = calendarOpen ? 'block' : 'none';
+    document.getElementById('calToggleBtn').style.background = calendarOpen ? '#EBF0FF' : '';
+    if (calendarOpen) renderCal();
+  }
+
+  // ===== RENDER TODO =====
   function pad2(n){ return n<10?'0'+n:''+n; }
   function dateStr(d){ return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate()); }
 
   function renderTodo() {
-    var today = dateStr(new Date());
-    var todayCnt   = tasks.filter(function(t){ return !t.done && t.time && t.time.slice(0,10)===today; }).length;
-    var overdueCnt = tasks.filter(function(t){ return !t.done && t.overdue; }).length;
-    var doneCnt    = tasks.filter(function(t){ return t.done; }).length;
-    document.getElementById('statOverdue').textContent = overdueCnt;
-    document.getElementById('statToday').textContent   = todayCnt;
-    document.getElementById('statDone').textContent    = doneCnt;
+    var list = document.getElementById('todoList');
+    if (!list) return;
 
-    // badge
-    var badge = document.getElementById('todoBadge');
-    if (overdueCnt > 0) { badge.textContent = overdueCnt; badge.style.display = 'flex'; }
-    else badge.style.display = 'none';
-
-    // topbar title
-    var d = new Date();
-    var days = ['周日','周一','周二','周三','周四','周五','周六'];
-    if (selectedDate) {
-      document.getElementById('todoTitleBar').textContent = selectedDate.replace(/-/g,'/');
-    } else {
-      document.getElementById('todoTitleBar').textContent = '今天';
-    }
-    document.getElementById('todoSubBar').textContent =
-      d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 '+days[d.getDay()];
-
-    renderWeekStrip();
-
-    // pending tasks
-    var pending = tasks.filter(function(t){
-      if (t.done) return false;
-      if (selectedDate) return t.time && t.time.slice(0,10)===selectedDate;
+    var filtered = todos.filter(function(t){
+      // 优先级维度
+      if (filterPri === 'urgent')    { if (t.priority !== 'urgent')    return false; }
+      else if (filterPri === 'nonurgent')  { if (t.priority === 'urgent')  return false; }
+      else if (filterPri === 'important')  { if (t.priority !== 'important') return false; }
+      else if (filterPri === 'normal')     { if (t.priority !== 'normal')  return false; }
+      // 时间维度
+      if (filterTime === 'today')  { if (t.dueTime.indexOf('今天') < 0) return false; }
+      else if (filterTime === '3days') { /* 简化：今天+明天都算 */ }
+      else if (filterTime === 'week')  { /* 简化：全量 */ }
+      // 状态维度
+      if (filterStatus === 'completed') { if (t.status !== 'completed') return false; }
+      else if (filterStatus === 'pending')   { if (t.status !== 'pending')   return false; }
+      else if (filterStatus === 'overdue')   { if (!t.dueTime.includes('逾期')) return false; }
       return true;
     });
 
-    var overdueList = pending.filter(function(t){ return t.overdue; });
-    var normalList  = pending.filter(function(t){ return !t.overdue; });
-
-    // group normal by date
-    var groups = {};
-    normalList.forEach(function(t){
-      var key = t.time ? t.time.slice(0,10) : 'nodate';
-      if (!groups[key]) groups[key] = [];
-      groups[key].push(t);
-    });
-    var keys = Object.keys(groups).sort();
+    var pending   = filtered.filter(function(t){ return t.status === 'pending'; });
+    var completed = filtered.filter(function(t){ return t.status === 'completed'; });
 
     var html = '';
-    if (overdueList.length) {
-      html += renderSection('逾期', overdueList, true);
-    }
-    keys.forEach(function(k){
-      var label = k === today ? '今天' : (k === 'nodate' ? '待安排' : k.slice(5).replace('-','/'));
-      html += renderSection(label, groups[k], false);
-    });
 
-    if (!overdueList.length && !normalList.length) {
-      html += '<div class="todo-empty">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>' +
-        '<h3>没有待办任务</h3><p>点击右上角 + 新建任务</p></div>';
-    }
+    if (todoFilter !== 'completed') {
+      if (pending.length === 0) {
+        html += '<div style="text-align:center;padding:60px 20px;color:#9EACBF;font-size:14px">🎉 暂无待办，点击右上角 + 新建</div>';
+      }
+      pending.forEach(function(t) { html += renderTodoItem(t); });
 
-    // done section
-    var doneList = tasks.filter(function(t){ return t.done; });
-    if (doneList.length) {
-      html += '<div class="done-toggle" onclick="toggleDone()">' +
-        '<div class="done-toggle-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2.5"><polyline points="' + (showDone?'18 15 12 9 6 15':'6 9 12 15 18 9') + '"/></svg></div>' +
-        '<span>已完成</span><span class="count-badge">'+doneList.length+'</span>' +
-      '</div>';
-      if (showDone) html += renderSection('', doneList, false, true);
+      if (completed.length > 0) {
+        html += '<div class="todo-done-header" onclick="toggleDone()">'
+          + '已完成 ' + completed.length + ' 项 ' + (showCompleted ? '▲' : '▼')
+          + '</div>';
+        if (showCompleted) {
+          completed.forEach(function(t) { html += renderTodoItem(t); });
+        }
+      }
+    } else {
+      if (completed.length === 0) {
+        html += '<div style="text-align:center;padding:60px 20px;color:#9EACBF;font-size:14px">暂无已完成任务</div>';
+      }
+      completed.forEach(function(t) { html += renderTodoItem(t); });
     }
 
-    document.getElementById('todoList').innerHTML = html;
+    list.innerHTML = html;
     initSwipe();
   }
 
-  function renderSection(label, list, isOverdue, isDone) {
-    var html = '';
-    if (label) {
-      html += '<div class="task-section-header">' +
-        '<span class="task-section-title' + (isOverdue?' overdue':'') + '">' + label + '</span>' +
-        '<span class="task-section-count">' + list.length + '</span>' +
-      '</div>';
-    }
-    list.forEach(function(t){ html += renderTaskRow(t, isDone); });
-    return html;
+  function renderTodoItem(t) {
+    var pri = PRI_CONFIG[t.priority] || PRI_CONFIG.normal;
+    var isDone = t.status === 'completed';
+    var circleStyle = isDone
+      ? 'background:#10B981;border-color:#10B981'
+      : 'border-color:' + pri.color;
+    var checkmark = isDone ? '<svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>' : '';
+    return '<div class="task-row-wrap" data-id="'+t.id+'">'
+      + '<div class="task-swipe-bg right"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>完成</div>'
+      + '<div class="task-del-btn" onclick="deleteTodo('+t.id+')">'
+      + '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></div>'
+      + '<div class="task-row' + (isDone?' opacity-done':'') + '" onclick="editTodo('+t.id+')" oncontextmenu="longPressTodo(event,'+t.id+');return false" style="' + (isDone?'opacity:0.55':'') + '">'
+      + '<div class="task-circle '+pri.cls+'" style="'+circleStyle+'" onclick="event.stopPropagation();toggleTodo('+t.id+')">'+checkmark+'</div>'
+      + '<div class="task-info">'
+      + '<div class="task-title' + (isDone?' done':'') + '">' + t.title + '</div>'
+      + '<div class="task-meta">'
+      + '<span>🕐 ' + t.dueTime + '</span>'
+      + (t.assignee ? '<span>👤 ' + t.assignee + '</span>' : '')
+      + (t.reminder === 'push' ? '<span>🔔 推送</span>' : (t.reminder === 'sms' ? '<span>📱 短信</span>' : ''))
+      + '</div></div>'
+      + '<div class="task-badge" style="background:'+pri.bg+';color:'+pri.color+'">'+pri.label+'</div>'
+      + '</div></div>';
   }
 
-  function renderTaskRow(t, isDone) {
-    var pc = priCls[t.priority || ''];
-    var checkedCls = t.done ? ' done' : '';
-    var rowDone = t.done ? ' done' : '';
-    var isOverdue = !t.done && t.overdue;
-    var timeTxt = t.time ? t.time.slice(5,16).replace('-','/') : '';
-    var timeCls = isOverdue ? 'task-time-tag overdue' : 'task-time-tag';
-    var tagC = typeCls[t.type] || 'tf';
-    var tagL = typeLabel[t.type] || '';
-    var clientIcon = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
-    var clockIcon  = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
-    var checkIcon  = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
-    return '<div class="task-row-wrap" data-id="'+t.id+'">' +
-      '<div class="task-swipe-bg right">'+checkIcon+' 完成</div>' +
-      '<button class="task-del-btn" data-del-id="'+t.id+'" onclick="deleteTask('+t.id+')" aria-label="删除"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg></button>' +
-      '<div class="task-row'+rowDone+'">' +
-        '<div class="task-circle '+pc+checkedCls+'" onclick="toggleTask('+t.id+')">' + checkIcon + '</div>' +
-        '<div class="task-info">' +
-          '<div class="task-title" onclick="editTask('+t.id+')">'+t.title+'<span class="strike-line"></span></div>' +
-          '<div class="task-meta">' +
-            '<div class="task-meta-left">' +
-              (t.client ? '<span class="task-client-tag">'+clientIcon+' '+t.client+'</span>' : '') +
-              (tagL ? '<span class="task-tag '+tagC+'">'+tagL+'</span>' : '') +
-            '</div>' +
-            (timeTxt ? '<span class="'+timeCls+'">'+clockIcon+' '+timeTxt+'</span>' : '') +
-          '</div>' +
-        '</div>' +
-      '</div>' +
-    '</div>';
-  }
+  function toggleDone() { showCompleted = !showCompleted; renderTodo(); }
 
-  // ===== WEEK STRIP =====
-  function renderWeekStrip() {
-    var today = new Date();
-    var todayStr = dateStr(today);
-    var taskDays = {};
-    tasks.forEach(function(t){ if(t.time) taskDays[t.time.slice(0,10)]=true; });
-    var dayNames = ['日','一','二','三','四','五','六'];
-    var html = '';
-    for (var i=-1; i<=12; i++) {
-      var d = new Date(today); d.setDate(today.getDate()+i);
-      var ds = dateStr(d);
-      var isToday = ds===todayStr;
-      var isSelected = ds===selectedDate;
-      var hasDot = taskDays[ds];
-      var cls = 'week-day' + (isToday?' today':'') + (isSelected?' selected':'') + (hasDot?' has-task':'');
-      html += '<div class="'+cls+'" data-d="'+ds+'" onclick="selectWeekDay(this.dataset.d)">' +
-        '<span class="week-day-name">'+dayNames[d.getDay()]+'</span>' +
-        '<span class="week-day-num">'+d.getDate()+'</span>' +
-        '<span class="week-dot"></span>' +
-      '</div>';
-    }
-    document.getElementById('weekStrip').innerHTML = html;
-    // scroll today into view
-    var strip = document.getElementById('weekStrip');
-    var todayEl = strip.querySelector('.week-day.today');
-    if (todayEl) strip.scrollLeft = todayEl.offsetLeft - strip.offsetWidth/2 + todayEl.offsetWidth/2;
-  }
-
-  function selectWeekDay(ds) {
-    var today = dateStr(new Date());
-    if (selectedDate === ds) {
-      selectedDate = null;
-    } else {
-      selectedDate = ds;
-    }
-    renderTodo();
-  }
-
-  // ===== DONE TOGGLE =====
-  function toggleDone() {
-    showDone = !showDone;
-    renderTodo();
-  }
 
   // ===== TOGGLE TASK =====
-  function toggleTask(id) {
-    var t = tasks.find(function(x){ return x.id===id; });
+  function toggleTodo(id) {
+    var t = todos.find(function(x){ return x.id===id; });
     if (!t) return;
-    if (!t.done) {
+    if (t.status === 'pending') {
       var wrap = document.querySelector('.task-row-wrap[data-id="'+id+'"]');
       if (wrap) {
-        var row = wrap.querySelector('.task-row');
-        if (row) {
-          row.classList.add('striking');
-          var circle = wrap.querySelector('.task-circle');
-          if (circle) circle.classList.add('done');
-          setTimeout(function(){
-            t.done = true; t.overdue = false; renderTodo();
-          }, 300);
-          return;
-        }
+        var circle = wrap.querySelector('.task-circle');
+        if (circle) circle.classList.add('done');
+        setTimeout(function(){ t.status = 'completed'; renderTodo(); }, 280);
+        return;
       }
     }
-    t.done = !t.done; t.overdue = false; renderTodo();
+    t.status = t.status === 'completed' ? 'pending' : 'completed';
+    renderTodo();
+  }
+  // keep old name for swipe compatibility
+  function toggleTask(id) { toggleTodo(id); }
+
+  function deleteTodo(id) {
+    var wrap = document.querySelector('.task-row-wrap[data-id="'+id+'"]');
+    var row = wrap ? wrap.querySelector('.task-row') : null;
+    if (row) { row.style.transform = 'translateX(-110%)'; }
+    setTimeout(function(){ todos = todos.filter(function(x){ return x.id !== id; }); renderTodo(); }, 220);
+  }
+  function deleteTask(id) { deleteTodo(id); }
+
+  function editTodo(id) { /* 打开编辑模态 */ }
+  function longPressTodo(e, id) {
+    e.preventDefault();
+    var t = todos.find(function(x){ return x.id===id; });
+    if (!t) return;
+    if (confirm((t.status==='completed'?'标为未完成':'标为完成') + ' 或 确定删除？\n(确定=标完成，取消=不操作)')) {
+      toggleTodo(id);
+    }
   }
 
   // ===== SWIPE =====
@@ -1231,27 +1648,10 @@
   function addTask() {
     var title = document.getElementById('inputTitle').value.trim();
     if (!title){ document.getElementById('inputTitle').focus(); return; }
-    var tv = document.getElementById('inputTime').value;
-    var taskTime = tv ? tv.replace('T',' ') : '';
-    var isOverdue = taskTime && new Date(taskTime)<new Date();
-    if (editingTaskId !== null) {
-      // edit mode
-      var t = tasks.find(function(x){ return x.id === editingTaskId; });
-      if (t) {
-        t.title = title;
-        t.client = document.getElementById('inputClient').value.trim();
-        t.type = document.getElementById('inputType').value;
-        t.priority = document.getElementById('inputPriority').value;
-        t.time = taskTime;
-        t.overdue = isOverdue && !t.done;
-      }
-    } else {
-      tasks.unshift({id:nextId++,title:title,
-        client:document.getElementById('inputClient').value.trim(),
-        type:document.getElementById('inputType').value,
-        priority:document.getElementById('inputPriority').value,
-        time:taskTime,done:false,overdue:isOverdue});
-    }
+    var dueTime = document.getElementById('inputTime') ? document.getElementById('inputTime').value : '今天';
+    var priority = document.getElementById('inputPriority') ? document.getElementById('inputPriority').value : 'normal';
+    todos.unshift({ id:nextTodoId++, title:title, dueTime:dueTime||'今天', priority:priority,
+      status:'pending', scope:todoScope, reminder:'push', note:'', assignee:'' });
     closeAddModal(); renderTodo();
   }
 
@@ -1314,7 +1714,47 @@
     }, 300);
   }
 
-    // ===== SWITCH TAB =====
+    // ===== KANBAN =====
+  var kbCustomers = [
+    { name:'张三', sales:'李雷', content:'讨论优惠方案，客户对价格有顾虑', time:'明天 10:00', status:'pending', pri:'🔴', overdue:false },
+    { name:'李四', sales:'韩梅', content:'发送课程资料包', time:'今天 16:30', status:'following', pri:'🟡', overdue:false },
+    { name:'王五', sales:'赵六', content:'预约下周产品演示', time:'逾期2天', status:'pending', pri:'🟢', overdue:true },
+    { name:'赵七', sales:'王芳', content:'确认合同细节和付款方式', time:'今天 14:00', status:'following', pri:'🔴', overdue:false },
+    { name:'孙八', sales:'李雷', content:'已成交，发送欢迎礼包', time:'昨天 11:00', status:'completed', pri:'🔴', overdue:false },
+    { name:'周九', sales:'韩梅', content:'客户选择了竞品', time:'3天前', status:'lost', pri:'🟢', overdue:false },
+  ];
+  var kbStatusLabel = { pending:'待跟进', following:'跟进中', completed:'已成交', lost:'已流失' };
+
+  function renderKanban() {
+    var list = document.getElementById('kbList');
+    if (!list) return;
+    list.innerHTML = kbCustomers.map(function(c) {
+      return '<div class="kb-customer">'
+        + '<div class="kb-pri">' + c.pri + '</div>'
+        + '<div class="kb-cust-info">'
+        + '<div class="kb-cust-name">' + c.name + ' <span style="font-weight:400;color:#9EACBF;font-size:12px">· ' + c.sales + '</span></div>'
+        + '<div class="kb-cust-sub">' + c.content + '</div>'
+        + '<div class="kb-cust-time' + (c.overdue ? ' overdue' : '') + '">' + c.time + '</div>'
+        + '</div>'
+        + '<div class="kb-status ' + c.status + '">' + kbStatusLabel[c.status] + '</div>'
+        + '</div>';
+    }).join('');
+  }
+
+  function kbFilter(el, type) {
+    document.querySelectorAll('.kb-filter').forEach(function(b){ b.classList.remove('active'); });
+    el.classList.add('active');
+  }
+
+  function crToast(msg) {
+    var t = document.createElement('div');
+    t.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);color:#fff;padding:8px 18px;border-radius:20px;font-size:13px;z-index:9999;pointer-events:none;';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(function(){ t.remove(); }, 2000);
+  }
+
+// ===== SWITCH TAB =====
   function switchTab(tab) {
     var tabs = ['home','todo','kanban','create','mine'];
     var statusBar = document.getElementById('statusBar');
@@ -1340,6 +1780,7 @@
     statusBar.className = (tab === 'home') ? 'status-bar dark' : 'status-bar light';
 
     if (tab === 'todo') renderTodo();
+    if (tab === 'kanban') renderKanban();
   }
 
   // Init

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>制作文案卡</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000;
+      display: flex; justify-content: center; min-height: 100vh;
+      font-family: -apple-system, 'PingFang SC', system-ui, sans-serif;
+    }
+    .phone {
+      width: 375px; min-height: 100vh;
+      background: #111;
+      display: flex; flex-direction: column;
+    }
+
+    /* 顶栏 */
+    .nav-bar {
+      padding: 12px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: #000;
+    }
+    .nav-back {
+      color: #fff; font-size: 15px; cursor: pointer;
+      background: none; border: none; font-family: inherit;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .nav-back svg { width: 20px; height: 20px; }
+    .nav-title { font-size: 16px; font-weight: 600; color: #fff; }
+    .nav-done {
+      font-size: 15px; color: #E53935; font-weight: 600;
+      cursor: pointer; background: none; border: none; font-family: inherit;
+    }
+
+    /* 卡片预览 */
+    .preview-area {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      background: #1A1A1A;
+    }
+    .card-preview {
+      width: 100%; max-width: 300px;
+      aspect-ratio: 3/4;
+      border-radius: 12px; overflow: hidden;
+      position: relative;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+    }
+    /* 背景图 */
+    .card-bg-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 50%;
+      transition: object-position .1s;
+    }
+    /* 文字叠加 */
+    .card-title {
+      position: absolute;
+      inset: 0; display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 800; letter-spacing: 1px;
+      padding: 16px; text-align: center;
+      transition: color .2s;
+    }
+
+    /* 分割线 */
+    .divider { height: 1px; background: #2A2A2A; }
+
+    /* 编辑区 */
+    .edit-area {
+      background: #000;
+      padding: 20px 20px 32px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+
+    /* 标题输入 */
+    .edit-row { display: flex; flex-direction: column; gap: 8px; }
+    .edit-label { font-size: 12px; color: #666; font-weight: 500; }
+    .title-input {
+      background: #1A1A1A; border: 1.5px solid #333;
+      border-radius: 10px; padding: 12px 14px;
+      color: #fff; font-size: 16px; font-family: inherit; outline: none;
+      width: 100%;
+    }
+    .title-input:focus { border-color: #E53935; }
+
+    /* 文字颜色 */
+    .color-row { display: flex; gap: 10px; }
+    .color-opt {
+      flex: 1; padding: 12px 0;
+      border-radius: 10px; border: 2px solid transparent;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: #1A1A1A; cursor: pointer; font-size: 14px;
+      transition: border .15s;
+    }
+    .color-opt:active { opacity: .8; }
+    .color-opt.active { border-color: #E53935; }
+    .color-dot { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; }
+    .color-name { font-weight: 500; }
+    .color-opt:first-child .color-name { color: #fff; }
+    .color-opt:last-child .color-name { color: #ccc; }
+
+    /* 裁剪区域 */
+    .crop-label-row {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .crop-hint { font-size: 11px; color: #444; }
+    .crop-slider {
+      width: 100%; height: 4px; border-radius: 2px;
+      background: #333; outline: none; -webkit-appearance: none; cursor: pointer;
+      margin-top: 6px;
+    }
+    .crop-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: #E53935; cursor: pointer;
+      box-shadow: 0 2px 6px rgba(229,57,53,0.4);
+    }
+
+    /* 底部 */
+    .bottom-bar {
+      display: flex; gap: 10px;
+      padding: 14px 20px 28px;
+      background: #000; border-top: 1px solid #1A1A1A;
+    }
+    .btn-save {
+      flex: 1; height: 46px; border-radius: 12px;
+      background: #1A1A1A; color: #888; border: 1px solid #333;
+      font-size: 15px; font-weight: 500; cursor: pointer; font-family: inherit;
+    }
+    .btn-use {
+      flex: 2; height: 46px; border-radius: 12px;
+      background: linear-gradient(135deg, #E53935, #EF5350);
+      color: #fff; border: none; font-size: 15px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+      box-shadow: 0 4px 16px rgba(229,57,53,0.3);
+    }
+    .btn-use:active, .btn-save:active { opacity: .85; }
+
+    @media (max-width: 430px) { .phone { width: 100%; } }
+  </style>
+</head>
+<body>
+  <div class="phone">
+
+    <!-- 顶栏 -->
+    <div class="nav-bar">
+      <button class="nav-back" onclick="history.back()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        返回
+      </button>
+      <div class="nav-title">制作文案卡</div>
+      <button class="nav-done" onclick="saveCard()">完成</button>
+    </div>
+
+    <!-- 卡片预览 -->
+    <div class="preview-area">
+      <div class="card-preview">
+        <img class="card-bg-img" id="cardBgImg" src="assets/cards/cover1.jpg" alt="">
+        <div class="card-title" id="cardTitle" style="color:#fff">磐销云</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 编辑区 -->
+    <div class="edit-area">
+
+      <!-- 标题 -->
+      <div class="edit-row">
+        <div class="edit-label">标题文字</div>
+        <input class="title-input" id="titleInput" value="磐销云"
+          oninput="document.getElementById('cardTitle').textContent=this.value||'磐销云'"
+          placeholder="输入要显示在卡片上的文字">
+      </div>
+
+      <!-- 文字颜色 -->
+      <div class="edit-row">
+        <div class="edit-label">文字颜色</div>
+        <div class="color-row">
+          <div class="color-opt active" id="optWhite" onclick="setColor('white')">
+            <div class="color-dot" style="background:#fff;border:1.5px solid rgba(255,255,255,0.3)"></div>
+            <span class="color-name">白色</span>
+          </div>
+          <div class="color-opt" id="optBlack" onclick="setColor('black')">
+            <div class="color-dot" style="background:#1A1A1A;border:1.5px solid #555"></div>
+            <span class="color-name" style="color:#888">黑色</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 裁剪位置（仅上传图片时显示） -->
+      <div class="edit-row" id="cropRow" style="display:none">
+        <div class="crop-label-row">
+          <div class="edit-label">图片裁剪位置</div>
+          <div class="crop-hint">拖动调整显示区域</div>
+        </div>
+        <input type="range" class="crop-slider" id="cropSlider"
+          min="0" max="100" value="50"
+          oninput="setCrop(this.value)">
+      </div>
+
+    </div>
+
+    <!-- 底部操作 -->
+    <div class="bottom-bar">
+      <button class="btn-save" onclick="saveCard()">保存到卡片库</button>
+      <button class="btn-use" onclick="useCard()">立即使用 →</button>
+    </div>
+
+  </div>
+
+  <script>
+    // 从 URL 参数读取封面；上传图才显示裁剪
+    (function() {
+      var params = new URLSearchParams(location.search);
+      var cover = params.get('cover');
+      var from = params.get('from');
+      if (cover) {
+        document.getElementById('cardBgImg').src = 'assets/cards/cover' + cover + '.jpg';
+      }
+      // 仅上传图片时显示裁剪控件
+      if (from === 'photo') {
+        document.getElementById('cropRow').style.display = '';
+      }
+    })();
+
+    function setColor(c) {
+      var color = c === 'white' ? '#fff' : '#1A1A1A';
+      document.getElementById('cardTitle').style.color = color;
+      document.getElementById('optWhite').classList.toggle('active', c === 'white');
+      document.getElementById('optBlack').classList.toggle('active', c === 'black');
+    }
+
+    function setCrop(val) {
+      document.getElementById('cardBgImg').style.objectPosition = 'center ' + val + '%';
+    }
+
+    function saveCard() {
+      alert('已保存到卡片库');
+      history.back();
+    }
+
+    function useCard() {
+      alert('卡片已复制，去微信发送吧！');
+      location.href = 'keyboard.html';
+    }
+  </script>
+</body>
+</html>

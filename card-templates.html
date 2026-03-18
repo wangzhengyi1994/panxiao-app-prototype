@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>文案卡模板</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000;
+      display: flex; justify-content: center; min-height: 100vh;
+      font-family: -apple-system, 'PingFang SC', system-ui, sans-serif;
+    }
+    .phone {
+      width: 375px; min-height: 100vh;
+      background: #F5F7FA; display: flex; flex-direction: column;
+    }
+
+    .nav-bar {
+      background: #fff; padding: 12px 16px;
+      display: flex; align-items: center; justify-content: center;
+      border-bottom: 1px solid #F0F0F0; position: relative;
+    }
+    .nav-back {
+      position: absolute; left: 16px;
+      display: flex; align-items: center; gap: 4px;
+      color: #333; font-size: 15px; cursor: pointer;
+      background: none; border: none; font-family: inherit;
+    }
+    .nav-back svg { width: 20px; height: 20px; }
+    .nav-title { font-size: 17px; font-weight: 600; color: #1A1A1A; }
+
+    /* Tab 栏 */
+    .tabs {
+      display: flex; background: #fff;
+      border-bottom: 1px solid #F0F0F0;
+    }
+    .tab {
+      flex: 1; height: 42px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: #999;
+      cursor: pointer; border: none; background: none;
+      font-family: inherit; position: relative; transition: color .15s;
+    }
+    .tab.active { color: #1A1A1A; font-weight: 600; }
+    .tab.active::after {
+      content: ''; position: absolute; bottom: 0; left: 25%; width: 50%; height: 2px;
+      background: #E53935; border-radius: 1px;
+    }
+
+    .tab-content { display: none; flex: 1; overflow-y: auto; padding: 12px 12px 24px; }
+    .tab-content.active { display: block; }
+
+    /* ── 内置模板 ── */
+    .tpl-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+    }
+    .tpl-item {
+      border-radius: 8px; overflow: hidden; position: relative;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+      /* 不可点击 */
+      pointer-events: none;
+    }
+    .tpl-thumb {
+      width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block;
+    }
+    /* 品牌文字叠加 */
+    .tpl-label {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: rgba(0,0,0,0.55);
+      letter-spacing: 0.5px; text-align: center; padding: 6px;
+      line-height: 1.4;
+    }
+    .tpl-label.light { color: rgba(255,255,255,0.8); }
+
+    /* ── 我上传的 ── */
+    .upload-btn {
+      width: 100%; height: 50px; border-radius: 12px;
+      border: 1.5px dashed #3D6EF5; background: #F0F4FF;
+      color: #3D6EF5; font-size: 15px; font-weight: 500;
+      cursor: pointer; font-family: inherit;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      margin-bottom: 14px;
+    }
+    .upload-btn svg { width: 18px; height: 18px; }
+    .upload-btn:active { opacity: .8; }
+
+    /* 已上传列表 */
+    .my-card {
+      background: #fff; border-radius: 12px;
+      overflow: hidden; margin-bottom: 10px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    }
+    .my-card-top {
+      display: flex; align-items: center; gap: 12px; padding: 12px 12px 10px;
+    }
+    .my-thumb-wrap {
+      width: 54px; height: 72px; border-radius: 6px; overflow: hidden; flex-shrink: 0;
+      position: relative;
+    }
+    .my-thumb { width: 100%; height: 100%; object-fit: cover; }
+    .my-thumb-wrap .card-text-preview {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8px; font-weight: 700; text-align: center; padding: 2px;
+    }
+    .my-info { flex: 1; }
+    .my-name { font-size: 14px; font-weight: 500; color: #1A1A1A; }
+    .my-date { font-size: 12px; color: #AAAAAA; margin-top: 2px; }
+    .my-del {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: #FFF0F0; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .my-del svg { width: 14px; height: 14px; color: #E53935; }
+
+    /* 裁剪编辑区（内嵌在卡片里） */
+    .crop-area {
+      border-top: 1px solid #F5F5F5;
+      padding: 12px 14px 14px;
+      background: #FAFAFA;
+    }
+    .crop-row {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;
+    }
+    .crop-lbl { font-size: 12px; color: #888; font-weight: 500; }
+    .crop-ratio-tabs { display: flex; gap: 6px; }
+    .ratio-btn {
+      padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 500;
+      border: 1px solid #E0E0E0; background: #fff; color: #666; cursor: pointer; font-family: inherit;
+      transition: all .15s;
+    }
+    .ratio-btn.active { background: #E53935; color: #fff; border-color: #E53935; }
+    .crop-slider {
+      width: 100%; height: 4px; border-radius: 2px;
+      background: #E0E0E0; outline: none; -webkit-appearance: none; cursor: pointer;
+    }
+    .crop-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%;
+      background: #E53935; cursor: pointer; box-shadow: 0 2px 6px rgba(229,57,53,0.35);
+    }
+    .crop-actions { display: flex; gap: 8px; margin-top: 10px; }
+    .btn-cancel {
+      flex: 1; height: 36px; border-radius: 8px;
+      background: #F0F0F0; color: #666; border: none; font-size: 13px;
+      cursor: pointer; font-family: inherit;
+    }
+    .btn-confirm {
+      flex: 2; height: 36px; border-radius: 8px;
+      background: #E53935; color: #fff; border: none; font-size: 13px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+    }
+    .btn-cancel:active, .btn-confirm:active { opacity: .85; }
+
+    /* 隐藏的文件input */
+    #fileInput { display: none; }
+
+    @media (max-width: 430px) { .phone { width: 100%; } }
+  </style>
+</head>
+<body>
+  <div class="phone">
+
+    <div class="nav-bar">
+      <button class="nav-back" onclick="location.href='app.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        返回
+      </button>
+      <div class="nav-title">文案卡模板</div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('builtin',this)">内置模板</button>
+      <button class="tab" onclick="switchTab('mine',this)">我上传的</button>
+    </div>
+
+    <!-- 内置模板（纯展示，不可点击） -->
+    <div class="tab-content active" id="tab-builtin">
+      <div class="tpl-grid" id="builtinGrid"></div>
+    </div>
+
+    <!-- 我上传的 -->
+    <div class="tab-content" id="tab-mine">
+      <input type="file" id="fileInput" accept="image/*" onchange="handleUpload(this)">
+      <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        从相册上传图片
+      </button>
+      <div id="myList"></div>
+    </div>
+
+  </div>
+
+  <script>
+    // 需要浅色文字的封面索引（深色背景）
+    var lightCovers = [4, 5, 6, 7, 10, 11, 13];
+
+    // 渲染内置模板
+    var grid = document.getElementById('builtinGrid');
+    for (var i = 1; i <= 18; i++) {
+      var isLight = lightCovers.indexOf(i) !== -1;
+      var item = document.createElement('div');
+      item.className = 'tpl-item';
+      item.innerHTML =
+        '<img class="tpl-thumb" src="assets/cards/cover' + i + '.jpg" loading="lazy">' +
+        '<div class="tpl-label' + (isLight ? ' light' : '') + '">磐销云输入法</div>';
+      grid.appendChild(item);
+    }
+
+    function switchTab(name, el) {
+      document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+      el.classList.add('active');
+      document.getElementById('tab-' + name).classList.add('active');
+    }
+
+    // 上传处理
+    function handleUpload(input) {
+      var file = input.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        addMyCard(e.target.result, file.name);
+      };
+      reader.readAsDataURL(file);
+      input.value = '';
+    }
+
+    var myCards = [
+      // 示例数据
+      { src: 'assets/cards/cover1.jpg', name: '我的封面图', date: '今天 14:30', cropY: 50, ratio: '3:4', color: 'dark' }
+    ];
+
+    function renderMyList() {
+      var list = document.getElementById('myList');
+      list.innerHTML = '';
+      myCards.forEach(function(card, idx) {
+        var el = document.createElement('div');
+        el.className = 'my-card';
+        el.id = 'mycard-' + idx;
+        el.innerHTML =
+          '<div class="my-card-top">' +
+            '<div class="my-thumb-wrap">' +
+              '<img class="my-thumb" id="thumb-' + idx + '" src="' + card.src + '" style="object-position:center ' + card.cropY + '%">' +
+              '<div class="card-text-preview" style="color:' + (card.color==='light'?'rgba(255,255,255,0.8)':'rgba(0,0,0,0.5)') + '">磐销云输入法</div>' +
+            '</div>' +
+            '<div class="my-info">' +
+              '<div class="my-name">' + card.name + '</div>' +
+              '<div class="my-date">' + card.date + ' 上传</div>' +
+            '</div>' +
+            '<button class="my-del" onclick="delCard(' + idx + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg></button>' +
+          '</div>' +
+          '<div class="crop-area">' +
+            '<div class="crop-row">' +
+              '<span class="crop-lbl">图片比例</span>' +
+              '<div class="crop-ratio-tabs">' +
+                '<button class="ratio-btn' + (card.ratio==='1:1'?' active':'') + '" onclick="setRatio(' + idx + ',\'1:1\',this)">1:1</button>' +
+                '<button class="ratio-btn' + (card.ratio==='3:4'?' active':'') + '" onclick="setRatio(' + idx + ',\'3:4\',this)">3:4</button>' +
+                '<button class="ratio-btn' + (card.ratio==='4:3'?' active':'') + '" onclick="setRatio(' + idx + ',\'4:3\',this)">4:3</button>' +
+              '</div>' +
+            '</div>' +
+            '<div class="crop-row" style="margin-bottom:0">' +
+              '<span class="crop-lbl">裁剪位置</span>' +
+            '</div>' +
+            '<input type="range" class="crop-slider" min="0" max="100" value="' + card.cropY + '" ' +
+              'oninput="updateCropY(' + idx + ',this.value)">' +
+            '<div class="crop-actions">' +
+              '<button class="btn-cancel" onclick="alert(\'已取消\')">取消</button>' +
+              '<button class="btn-confirm" onclick="confirmCard(' + idx + ')">确认使用</button>' +
+            '</div>' +
+          '</div>';
+        list.appendChild(el);
+      });
+    }
+
+    function addMyCard(src, name) {
+      var now = new Date();
+      var timeStr = '今天 ' + now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
+      myCards.unshift({ src: src, name: name || '我的图片', date: timeStr, cropY: 50, ratio: '3:4', color: 'dark' });
+      renderMyList();
+    }
+
+    function delCard(idx) {
+      if (confirm('删除这张卡片？')) {
+        myCards.splice(idx, 1);
+        renderMyList();
+      }
+    }
+
+    function updateCropY(idx, val) {
+      myCards[idx].cropY = val;
+      var thumb = document.getElementById('thumb-' + idx);
+      if (thumb) thumb.style.objectPosition = 'center ' + val + '%';
+    }
+
+    function setRatio(idx, ratio, btn) {
+      myCards[idx].ratio = ratio;
+      // 更新按钮高亮
+      btn.closest('.crop-ratio-tabs').querySelectorAll('.ratio-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      btn.classList.add('active');
+    }
+
+    function confirmCard(idx) {
+      alert('已保存！可以在键盘文案卡中使用');
+    }
+
+    // 初始渲染
+    renderMyList();
+  </script>
+</body>
+</html>

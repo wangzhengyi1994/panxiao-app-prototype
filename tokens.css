@@ -1,0 +1,60 @@
+:root {
+  /* Primary */
+  --primary-1: #edf5ff;
+  --primary-2: #c4deff;
+  --primary-3: #9cc3ff;
+  --primary-4: #73a6ff;
+  --primary-5: #4a86ff;
+  --primary-6: #2063ff;
+  --primary-7: #1147d9;
+  --primary-8: #052eb3;
+  --primary-9: #001c8c;
+  --primary-10: #001166;
+
+  /* Gray */
+  --gray-0: #ffffff;
+  --gray-1: #f8fafc;
+  --gray-2: #f1f5f9;
+  --gray-3: #e1e7ef;
+  --gray-4: #c8d5e5;
+  --gray-5: #9eacbf;
+  --gray-6: #65758b;
+  --gray-7: #48566a;
+  --gray-8: #344256;
+  --gray-9: #1a2640;
+  --gray-10: #0c1428;
+  --gray-11: #000511;
+
+  /* Text */
+  --text-1: #ffffff;
+  --text-2: #9eacbf;
+  --text-3: #65758b;
+  --text-4: #344256;
+  --text-5: #0c1428;
+
+  /* Fill */
+  --fill-1: #f7f8fa;
+  --fill-2: #f2f3f5;
+  --fill-3: #e5e6eb;
+  --fill-4: #c9cdd4;
+  --fill-white: #ffffff;
+
+  /* Border */
+  --border-1: #e1e7ef;
+
+  /* Semantic */
+  --color-warning: #ff7d00;
+  --color-warning-bg: #fff7e8;
+  --color-success: #00b42a;
+  --color-success-bg: #e8ffea;
+  --color-error: #f53f3f;
+  --color-error-bg: #ffece8;
+
+  /* Member */
+  --member-gold: #dbb07b;
+
+  /* Special */
+  --keyboard-bg: #ebeef3;
+  --mask: rgba(0,0,0,0.6);
+  --toast-bg: rgba(0,0,0,0.8);
+}

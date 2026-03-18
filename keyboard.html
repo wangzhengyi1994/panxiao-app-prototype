@@ -22,12 +22,13 @@
       flex-direction: column;
     }
 
-    /* Chat area (top half) */
+    /* ── 聊天区 ── */
     .chat-area {
       flex: 1;
       background: #F5F5F5;
       padding: 60px 16px 16px;
       cursor: pointer;
+      min-height: 200px;
     }
     .chat-area-hint {
       text-align: center;
@@ -36,7 +37,36 @@
       margin-top: 40px;
     }
 
-    /* Tab panels */
+    /* ── 工具栏 ── */
+    .kb-toolbar {
+      display: flex;
+      align-items: center;
+      padding: 6px 10px;
+      background: #F0F0F3;
+      border-top: 1px solid #DDE0E8;
+      gap: 2px;
+    }
+    .kb-tool-btn {
+      width: 38px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #555;
+      position: relative;
+      -webkit-tap-highlight-color: transparent;
+      transition: background .1s;
+      flex-shrink: 0;
+    }
+    .kb-tool-btn:active { background: rgba(0,0,0,0.08); }
+    .kb-tool-btn.active { background: #E0E8FF; color: #3D6EF5; }
+    .kb-tool-btn svg { width: 22px; height: 22px; }
+    .kb-tool-badge {
+      position: absolute; top: 4px; right: 4px;
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #FF3B30;
+    }
+
+    /* ── Tab 栏 ── */
     .panel-tabs {
       display: flex;
       background: #F0F0F0;
@@ -44,129 +74,381 @@
     }
     .panel-tab {
       flex: 1;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      color: #666;
-      cursor: pointer;
-      border: none;
-      background: none;
-      font-family: inherit;
+      height: 38px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; color: #666;
+      cursor: pointer; border: none; background: none;
+      font-family: inherit; position: relative;
+    }
+    .panel-tab.active { color: #3D6EF5; font-weight: 600; }
+    .panel-tab.active::after {
+      content: ''; position: absolute; bottom: 0; left: 20%; width: 60%; height: 2px;
+      background: #3D6EF5; border-radius: 1px;
+    }
+
+    /* ── Panel 内容区 ── */
+    .panel-content {
+      height: calc(50vh - 38px);
+      overflow: hidden;
       position: relative;
     }
-    .panel-tab.active {
-      color: #3D6EF5;
-      font-weight: 600;
-    }
-    .panel-tab.active::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 20%;
-      width: 60%;
-      height: 2px;
-      background: #3D6EF5;
-      border-radius: 1px;
-    }
-
-    /* Panel content */
-    .panel-content {
-      height: 50vh;
-      overflow: hidden;
-    }
-    .panel-content img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top;
-      display: block;
-    }
-    .panel-img { display: none; }
+    .panel-img { display: none; width: 100%; height: 100%; object-fit: cover; object-position: top; }
     .panel-img.active { display: block; }
 
-    /* Top bar in keyboard */
+    /* ── 文案卡面板 ── */
+    .wanka-panel {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+      background: #fff;
+    }
+    .wanka-panel.active { display: flex; }
+
+    /* 文案卡顶部导航 */
+    .wanka-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px;
+      border-bottom: 1px solid #F0F0F0;
+      background: #fff;
+    }
+    .wanka-back {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; color: #3D6EF5;
+      cursor: pointer; background: none; border: none; font-family: inherit;
+    }
+    .wanka-back svg { width: 16px; height: 16px; }
+    .wanka-title {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 15px; font-weight: 600; color: #1A1A1A;
+    }
+    .wanka-title svg { width: 18px; height: 18px; color: #3D6EF5; }
+    .wanka-gen-btn {
+      background: #3D6EF5; color: #fff;
+      border: none; border-radius: 16px;
+      padding: 6px 16px; font-size: 14px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+      transition: opacity .15s;
+    }
+    .wanka-gen-btn:active { opacity: .8; }
+
+    /* 文本输入区 */
+    .wanka-input-wrap {
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid #F0F0F0;
+    }
+    .wanka-textarea {
+      width: 100%; height: 72px;
+      border: 1.5px solid #3D6EF5;
+      border-radius: 10px; padding: 10px 12px;
+      font-size: 14px; color: #1A1A1A;
+      font-family: inherit; resize: none; outline: none;
+      background: #fff;
+    }
+    .wanka-textarea::placeholder { color: #BBBBBB; }
+
+    /* 操作行 */
+    .wanka-actions {
+      display: flex; align-items: center;
+      padding: 8px 14px; gap: 0;
+      border-bottom: 1px solid #F0F0F0;
+      font-size: 13px;
+    }
+    .wanka-action-item {
+      display: flex; align-items: center; gap: 4px;
+      color: #3D6EF5; cursor: pointer; padding: 4px 8px 4px 0;
+      white-space: nowrap;
+    }
+    .wanka-action-sep { color: #E0E0E0; margin: 0 2px; }
+    .wanka-toggle-wrap {
+      display: flex; align-items: center; gap: 5px;
+      color: #555; margin-left: 4px;
+    }
+    .wanka-toggle {
+      width: 36px; height: 20px; border-radius: 10px;
+      background: #E0E0E0; position: relative; cursor: pointer;
+      transition: background .2s; flex-shrink: 0;
+    }
+    .wanka-toggle.on { background: #3D6EF5; }
+    .wanka-toggle::after {
+      content: ''; position: absolute; top: 2px; left: 2px;
+      width: 16px; height: 16px; border-radius: 50%; background: #fff;
+      transition: transform .2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .wanka-toggle.on::after { transform: translateX(16px); }
+    .wanka-ai-btn {
+      margin-left: auto;
+      background: linear-gradient(135deg, #3D6EF5, #7C3AED);
+      color: #fff; border: none; border-radius: 14px;
+      padding: 5px 12px; font-size: 12px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+    }
+
+    /* 文案卡结果区 */
+    .wanka-result-area {
+      flex: 1; overflow-y: auto; padding: 10px 14px;
+      background: #F8F9FB;
+    }
+    .wanka-placeholder {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; height: 100%; color: #C0C8D8;
+      font-size: 13px; gap: 8px;
+    }
+    .wanka-placeholder svg { width: 36px; height: 36px; opacity: .4; }
+
+    .wanka-card {
+      background: #fff; border-radius: 12px;
+      padding: 14px; margin-bottom: 10px;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+      border-left: 3px solid #3D6EF5;
+    }
+    .wanka-card-tag {
+      font-size: 10px; color: #3D6EF5; font-weight: 600;
+      background: #EEF3FF; border-radius: 4px; padding: 2px 6px;
+      display: inline-block; margin-bottom: 8px;
+    }
+    .wanka-card-text { font-size: 13px; color: #333; line-height: 1.7; }
+    .wanka-card-actions {
+      display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;
+    }
+    .wanka-card-btn {
+      font-size: 12px; padding: 5px 12px; border-radius: 12px;
+      cursor: pointer; border: none; font-family: inherit; font-weight: 500;
+    }
+    .wanka-card-btn.copy { background: #F0F4FF; color: #3D6EF5; }
+    .wanka-card-btn.send { background: #3D6EF5; color: #fff; }
+    .wanka-card-btn:active { opacity: .8; }
+
+    /* 生成中动画 */
+    .generating {
+      display: flex; align-items: center; gap: 6px;
+      padding: 12px; font-size: 13px; color: #999;
+    }
+    .dot-anim span {
+      display: inline-block; width: 5px; height: 5px;
+      border-radius: 50%; background: #3D6EF5; margin: 0 2px;
+      animation: bounce 1.2s ease-in-out infinite;
+    }
+    .dot-anim span:nth-child(2) { animation-delay: .2s; }
+    .dot-anim span:nth-child(3) { animation-delay: .4s; }
+    @keyframes bounce { 0%,80%,100%{transform:scale(0.6);opacity:.4} 40%{transform:scale(1);opacity:1} }
+
+    /* Top bar (切回键盘) */
     .kb-top-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 12px;
-      background: #F0F0F0;
-      border-top: 1px solid #E0E0E0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 7px 12px; background: #F0F0F3; border-top: 1px solid #DDE0E8;
     }
-    .kb-back {
-      font-size: 13px;
-      color: #3D6EF5;
-      cursor: pointer;
-      background: none;
-      border: none;
-      font-family: inherit;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .kb-back svg { width: 16px; height: 16px; }
-    .kb-keyboard-btn {
-      font-size: 13px;
-      color: #666;
-      cursor: pointer;
-      background: none;
-      border: none;
-      font-family: inherit;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .kb-keyboard-btn svg { width: 18px; height: 18px; }
+    .kb-back { font-size: 13px; color: #3D6EF5; cursor: pointer; background: none; border: none; font-family: inherit; display: flex; align-items: center; gap: 4px; }
+    .kb-keyboard-btn { font-size: 13px; color: #666; cursor: pointer; background: none; border: none; font-family: inherit; display: flex; align-items: center; gap: 4px; }
 
     @media (max-width: 430px) { .phone { width: 100%; } }
   </style>
 </head>
 <body>
   <div class="phone">
-    <!-- Chat area -->
+
+    <!-- 聊天区 -->
     <div class="chat-area" onclick="location.href='app.html'">
       <div class="chat-area-hint">点击此处返回APP</div>
     </div>
 
-    <!-- Top bar -->
-    <div class="kb-top-bar">
-      <button class="kb-back" onclick="location.href='app.html'">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    <!-- 工具栏 -->
+    <div class="kb-toolbar">
+      <!-- Logo -->
+      <div class="kb-tool-btn" style="color:#3D6EF5">
+        <svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>
+      </div>
+      <!-- 文案卡 (激活) -->
+      <div class="kb-tool-btn active" id="btnWanka" onclick="openWanka()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      </div>
+      <!-- AI生成 -->
+      <div class="kb-tool-btn" onclick="openAI()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      </div>
+      <!-- 提醒红点 -->
+      <div class="kb-tool-btn" style="position:relative">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+        <div class="kb-tool-badge"></div>
+      </div>
+      <!-- 图片 -->
+      <div class="kb-tool-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      </div>
+      <!-- 语音 -->
+      <div class="kb-tool-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 013 3v8a3 3 0 01-6 0V4a3 3 0 013-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg>
+      </div>
+      <!-- 更多 -->
+      <div class="kb-tool-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>
+      </div>
+      <!-- 收起 -->
+      <div class="kb-tool-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+
+    <!-- 切换到 AI 功能的 top bar（默认隐藏）-->
+    <div class="kb-top-bar" id="kbTopBar" style="display:none">
+      <button class="kb-back" onclick="closeWanka()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
         AI功能
       </button>
-      <button class="kb-keyboard-btn" onclick="location.href='app.html'">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="10" x2="6" y2="10"/><line x1="10" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="14" y2="10"/><line x1="18" y1="10" x2="18" y2="10"/><line x1="6" y1="14" x2="6" y2="14"/><line x1="18" y1="14" x2="18" y2="14"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+      <button class="kb-keyboard-btn" onclick="closeWanka()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="10" x2="6" y2="10"/><line x1="10" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="14" y2="10"/><line x1="18" y1="10" x2="18" y2="10"/><line x1="6" y1="14" x2="6" y2="14"/><line x1="18" y1="14" x2="18" y2="14"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
         键盘
       </button>
     </div>
 
-    <!-- Tabs -->
-    <div class="panel-tabs">
+    <!-- Tabs（AI功能模式） -->
+    <div class="panel-tabs" id="panelTabs">
       <button class="panel-tab active" onclick="switchPanel(0)">帮你说</button>
       <button class="panel-tab" onclick="switchPanel(1)">帮你回</button>
       <button class="panel-tab" onclick="switchPanel(2)">高赞朋友圈</button>
+      <button class="panel-tab" onclick="switchPanel(3)">文案卡</button>
     </div>
 
-    <!-- Panel content -->
-    <div class="panel-content">
+    <!-- Panel 内容 -->
+    <div class="panel-content" id="panelContent">
       <img class="panel-img active" src="assets/bangni_shuo.png" alt="帮你说" data-idx="0">
       <img class="panel-img" src="assets/bangni_hui.png" alt="帮你回" data-idx="1">
       <img class="panel-img" src="assets/popular_moments.png" alt="高赞朋友圈" data-idx="2">
+
+      <!-- 文案卡面板 -->
+      <div class="wanka-panel" id="wankaPanel" data-idx="3">
+
+        <!-- 顶部 -->
+        <div class="wanka-header">
+          <button class="wanka-back" onclick="switchPanel(0)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div class="wanka-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            生成文案卡
+          </div>
+          <button class="wanka-gen-btn" onclick="generateCard()">生成</button>
+        </div>
+
+        <!-- 输入区 -->
+        <div class="wanka-input-wrap">
+          <textarea class="wanka-textarea" id="wankaInput" placeholder="请输入文案"></textarea>
+        </div>
+
+        <!-- 操作行 -->
+        <div class="wanka-actions">
+          <div class="wanka-action-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            引用回复
+          </div>
+          <span class="wanka-action-sep">|</span>
+          <div class="wanka-action-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            搜常用语
+          </div>
+          <span class="wanka-action-sep">|</span>
+          <div class="wanka-toggle-wrap">
+            <div class="wanka-toggle" id="ssToggle" onclick="toggleSS()"></div>
+            <span>刷屏发送</span>
+          </div>
+          <button class="wanka-ai-btn">AI助手</button>
+        </div>
+
+        <!-- 结果区 -->
+        <div class="wanka-result-area" id="wankaResult">
+          <div class="wanka-placeholder" id="wankaPlaceholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span>输入文案内容，点击生成</span>
+          </div>
+        </div>
+
+      </div>
     </div>
+
   </div>
 
   <script>
+    // 切换 Tab
     function switchPanel(idx) {
       var tabs = document.querySelectorAll('.panel-tab');
       var imgs = document.querySelectorAll('.panel-img');
-      tabs.forEach(function(t, i) {
-        t.classList.toggle('active', i === idx);
-      });
-      imgs.forEach(function(img, i) {
-        img.classList.toggle('active', i === idx);
-      });
+      var wanka = document.getElementById('wankaPanel');
+
+      tabs.forEach(function(t, i) { t.classList.toggle('active', i === idx); });
+      imgs.forEach(function(img) { img.classList.remove('active'); });
+      wanka.classList.remove('active');
+
+      if (idx === 3) {
+        wanka.classList.add('active');
+      } else {
+        var target = document.querySelector('.panel-img[data-idx="' + idx + '"]');
+        if (target) target.classList.add('active');
+      }
+    }
+
+    // 工具栏点「文案卡」图标
+    function openWanka() {
+      switchPanel(3);
+    }
+    function openAI() {
+      switchPanel(0);
+    }
+    function closeWanka() {
+      switchPanel(0);
+    }
+
+    // 刷屏发送 toggle
+    function toggleSS() {
+      var t = document.getElementById('ssToggle');
+      t.classList.toggle('on');
+    }
+
+    // 生成文案卡
+    var cardTemplates = [
+      { tag: '开场话术', text: '亲爱的{客户}，您好！我是{品牌}的{姓名}，今天想和您分享一个能帮助您{痛点解决方案}的好消息，感兴趣的话我们来聊两句？' },
+      { tag: '价值主张', text: '我们的产品已经帮助了{数量}位像您一样的{客户群体}，平均实现了{效果}。最关键的是，整个过程非常简单，您完全不需要担心{顾虑}。' },
+      { tag: '促成成交', text: '我理解您需要考虑，这完全没问题！不过这个优惠仅限{时间}，之后价格会恢复{原价}。现在下单可以为您节省{优惠金额}，我帮您确认一下库存？' },
+    ];
+
+    function generateCard() {
+      var input = document.getElementById('wankaInput').value.trim();
+      var result = document.getElementById('wankaResult');
+      var placeholder = document.getElementById('wankaPlaceholder');
+
+      placeholder.style.display = 'none';
+      result.innerHTML = '<div class="generating"><div class="dot-anim"><span></span><span></span><span></span></div>正在生成文案卡...</div>';
+
+      setTimeout(function() {
+        var cards = '';
+        var templates = input
+          ? [{ tag: 'AI生成', text: input + '\n\n（在这里展示您输入的文案内容，AI会帮您优化表达方式，使其更有说服力，更容易打动客户，提升成交转化率。）' }]
+          : cardTemplates;
+
+        templates.forEach(function(tpl) {
+          cards += '<div class="wanka-card">' +
+            '<div class="wanka-card-tag">' + tpl.tag + '</div>' +
+            '<div class="wanka-card-text">' + tpl.text.replace(/\n/g, '<br>') + '</div>' +
+            '<div class="wanka-card-actions">' +
+              '<button class="wanka-card-btn copy" onclick="copyText(this)">复制</button>' +
+              '<button class="wanka-card-btn send">发送</button>' +
+            '</div>' +
+          '</div>';
+        });
+
+        result.innerHTML = cards;
+      }, 1200);
+    }
+
+    function copyText(btn) {
+      var text = btn.closest('.wanka-card').querySelector('.wanka-card-text').innerText;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function() {
+          btn.textContent = '已复制 ✓';
+          setTimeout(function() { btn.textContent = '复制'; }, 1500);
+        });
+      } else {
+        btn.textContent = '已复制 ✓';
+        setTimeout(function() { btn.textContent = '复制'; }, 1500);
+      }
     }
   </script>
 </body>
