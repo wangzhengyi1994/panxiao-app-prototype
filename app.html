@@ -963,22 +963,23 @@
         </div>
 
         <!-- 日历（默认隐藏，点日历图标展开） -->
-        <div class="cal-inline" id="calInline" style="display:none">
-          <div class="cal-inner">
-            <div class="cal-header">
-              <div class="cal-title" id="calTitle"></div>
+        <div class="cal-inline" id="calInline" style="display:none;background:#fff;border-bottom:1px solid #F0F0F0">
+          <div class="cal-inner" style="padding:14px 16px 10px">
+            <div class="cal-header" style="margin-bottom:12px">
+              <div class="cal-title" id="calTitle" style="font-size:16px;font-weight:700;color:#0C1428"></div>
               <div class="cal-nav">
-                <button onclick="calMove(-1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <button onclick="calMove(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                <button onclick="calMove(-1)" style="border:none;background:#F5F7FA;border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+                <button onclick="calMove(1)" style="border:none;background:#F5F7FA;border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></button>
               </div>
             </div>
-            <div class="cal-weekdays">
+            <div class="cal-weekdays" style="margin-bottom:6px">
               <div class="cal-weekday">日</div><div class="cal-weekday">一</div><div class="cal-weekday">二</div><div class="cal-weekday">三</div><div class="cal-weekday">四</div><div class="cal-weekday">五</div><div class="cal-weekday">六</div>
             </div>
             <div class="cal-days" id="calDays"></div>
-            <div class="cal-actions"><button class="cal-btn-clear" onclick="clearCalFilter()">显示全部</button></div>
           </div>
         </div>
+        <!-- 选中日期的待办列表 -->
+        <div id="calDayTodos" style="display:none;padding:0 16px 80px"></div>
 
         <!-- 过滤器：两组 segmented control -->
         <div class="todo-filter-bar" style="padding:10px 16px 10px;display:flex;gap:10px;align-items:center">
@@ -1535,15 +1536,26 @@
   var calViewOpen = false;
   function toggleCalView() {
     calViewOpen = !calViewOpen;
-    var el = document.getElementById('calInline');
+    var calEl = document.getElementById('calInline');
+    var filterEl = document.querySelector('.todo-filter-bar');
+    var listEl = document.getElementById('todoList');
     var btn = document.getElementById('calToggleBtn');
+    var calDayTodos = document.getElementById('calDayTodos');
     if (calViewOpen) {
-      el.style.display = 'block';
+      calEl.style.display = 'block';
+      if (filterEl) filterEl.style.display = 'none';
+      if (listEl) listEl.style.display = 'none';
+      if (calDayTodos) calDayTodos.style.display = 'none';
       btn.style.background = '#EEF3FF';
       btn.style.color = '#3D6EF5';
+      var n = new Date(); calYear = n.getFullYear(); calMonth = n.getMonth();
+      calSelectedDate = null;
       renderCal();
     } else {
-      el.style.display = 'none';
+      calEl.style.display = 'none';
+      if (filterEl) filterEl.style.display = '';
+      if (listEl) { listEl.style.display = ''; renderTodo(); }
+      if (calDayTodos) calDayTodos.style.display = 'none';
       btn.style.background = '';
       btn.style.color = '';
     }
@@ -1732,8 +1744,19 @@
   function renderCal(){
     var months=['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
     document.getElementById('calTitle').textContent=calYear+'年 '+months[calMonth];
-    var todayStr=dateStr(new Date());
-    var taskDays={}; tasks.forEach(function(t){if(t.time)taskDays[t.time.slice(0,10)]=true;});
+    var todayStr=new Date().toISOString().slice(0,10);
+    // 标记有待办的日期（用 dueTime 简单解析）
+    var todoDays={};
+    todos.forEach(function(t){
+      if(t.dueTime){
+        var n=new Date(); var y=n.getFullYear(); var m=n.getMonth(); var d=n.getDate();
+        var ds='';
+        if(t.dueTime.indexOf('今天')===0) ds=todayStr;
+        else if(t.dueTime.indexOf('明天')===0){ var tm=new Date(n); tm.setDate(d+1); ds=tm.toISOString().slice(0,10); }
+        else if(t.dueTime.indexOf('本周')===0){ var tw=new Date(n); tw.setDate(d+2); ds=tw.toISOString().slice(0,10); }
+        if(ds) todoDays[ds]=(todoDays[ds]||0)+1;
+      }
+    });
     var firstDay=new Date(calYear,calMonth,1).getDay();
     var daysInMonth=new Date(calYear,calMonth+1,0).getDate();
     var html='';
@@ -1743,21 +1766,35 @@
       var cls='cal-day';
       if(ds===todayStr) cls+=' today';
       if(ds===calSelectedDate) cls+=' selected';
-      if(taskDays[ds]) cls+=' has-task';
-      html+='<div class="'+cls+'" data-d="'+ds+'" onclick="calSelectDay(this.dataset.d)">'+d+'</div>';
+      var cnt=todoDays[ds]||0;
+      var dotHtml='';
+      if(cnt>0) dotHtml='<span style="position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:'+(ds===calSelectedDate?'rgba(255,255,255,.8)':'#3D6EF5')+'"></span>';
+      html+='<div class="'+cls+'" onclick="calSelectDay(''+ds+'')">'+d+dotHtml+'</div>';
     }
     document.getElementById('calDays').innerHTML=html;
   }
   function calSelectDay(ds){
-    calSelectedDate = ds; selectedDate = ds;
-    renderCal(); renderTodo();
-    // auto-close after picking
-    setTimeout(function(){
-      calOpen=false;
-      document.getElementById('calInline').classList.remove('open');
-      document.getElementById('calIconBtn').classList.remove('cal-active');
-      document.getElementById('weekStrip').style.display = '';
-    }, 300);
+    calSelectedDate = ds;
+    renderCal();
+    // 展示当天待办
+    var panel = document.getElementById('calDayTodos');
+    var dayTodos = todos.filter(function(t){
+      if(!t.dueTime) return false;
+      var n=new Date(); var todayStr=n.toISOString().slice(0,10);
+      var tm=new Date(n); tm.setDate(tm.getDate()+1);
+      var tomorrowStr=tm.toISOString().slice(0,10);
+      if(t.dueTime.indexOf('今天')===0 && ds===todayStr) return true;
+      if(t.dueTime.indexOf('明天')===0 && ds===tomorrowStr) return true;
+      return false;
+    });
+    if(dayTodos.length===0){
+      panel.innerHTML='<div style="text-align:center;padding:32px 20px;color:#9EACBF;font-size:13px">该日无待办</div>';
+    } else {
+      panel.innerHTML='<div style="font-size:12px;color:#9EACBF;padding:12px 0 8px">'+ds+' · '+dayTodos.length+'项待办</div>'
+        + dayTodos.map(function(t){ return renderTodoItem(t); }).join('');
+    }
+    panel.style.display='block';
+    setTimeout(function(){ initSwipe(); }, 100);
   }
 
     // ===== KANBAN =====
