@@ -965,21 +965,17 @@
           </div>
         </div>
 
-        <!-- 新版过滤器 -->
-        <div class="todo-filter-bar">
-          <!-- 时间维度 -->
-          <div class="todo-filter-row">
+        <!-- 过滤器：单行横滑 -->
+        <div class="todo-filter-bar" style="padding:8px 16px 10px">
+          <div class="todo-filter-row" style="padding-bottom:0">
             <button class="tdf-pill active" id="tpAll" onclick="setTimePill(this,'all')">全部</button>
             <button class="tdf-pill" id="tpToday" onclick="setTimePill(this,'today')">今天</button>
             <button class="tdf-pill" id="tp3d" onclick="setTimePill(this,'3days')">三日内</button>
             <button class="tdf-pill" id="tpWeek" onclick="setTimePill(this,'week')">本周</button>
-          </div>
-          <!-- 状态维度 -->
-          <div class="todo-filter-row">
-            <button class="tdf-pill active" id="tsAll" onclick="setStatusPill(this,'all')">全部</button>
-            <button class="tdf-pill" id="tsPending" onclick="setStatusPill(this,'pending')">待完成</button>
-            <button class="tdf-pill active red" id="tsUrgent" style="display:none" onclick="setStatusPill(this,'overdue')">逾期</button>
-            <button class="tdf-pill active green" id="tsDone" style="display:none" onclick="setStatusPill(this,'completed')">已完成</button>
+            <div style="width:1px;background:#EAECF0;flex-shrink:0;margin:0 2px;align-self:stretch"></div>
+            <button class="tdf-pill active" id="tsAll" onclick="setStatusPill(this,'all')">待完成</button>
+            <button class="tdf-pill" id="tsPending" onclick="setStatusPill(this,'pending')">紧急</button>
+            <button class="tdf-pill" id="tsDone" onclick="setStatusPill(document.getElementById('tsDone'),'completed')">已完成</button>
           </div>
         </div>
 
@@ -1487,7 +1483,10 @@
       + '<div class="task-circle '+pri.cls+'" style="'+circleStyle+'" onclick="event.stopPropagation();toggleTodo('+t.id+')">'+checkmark+'</div>'
       + '<div class="task-info">'
       + '<div class="task-title' + (isDone?' done':'') + '">' + t.title + '<span class="strike-line"></span></div>'
-      + (t.assignee ? '<div class="task-meta"><span class="task-assignee-tag">' + t.assignee + '</span></div>' : '')
+      + '<div class="task-meta">'
+      +   '<span class="task-time-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' + t.dueTime + '</span>'
+      +   (t.assignee ? '<span class="task-assignee-tag">· ' + t.assignee + '</span>' : '')
+      + '</div>'
       + '</div>'
       + '<div class="task-badge" style="background:'+pri.bg+';color:'+pri.color+';font-size:11px;padding:3px 8px;border-radius:8px;font-weight:600;flex-shrink:0">'+pri.label+'</div>'
       + '</div></div>';
