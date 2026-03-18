@@ -287,6 +287,20 @@
     .tdf-dot { display: none; }
     .tdf-dropdown { display: none !important; }
 
+    /* Segmented control 筛选组 */
+    .seg-group {
+      display: flex; background: #F0F2F5; border-radius: 8px; padding: 2px; flex-shrink: 0;
+    }
+    .seg-btn {
+      height: 28px; padding: 0 12px; border-radius: 6px; border: none;
+      background: transparent; font-size: 12px; font-weight: 500; color: #8A8FA3;
+      cursor: pointer; font-family: inherit; white-space: nowrap; transition: all .15s;
+    }
+    .seg-btn.active {
+      background: #fff; color: #0C1428; font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0,0,0,.1);
+    }
+
     /* 已完成菜单行 */
     .todo-done-header {
       display: flex; align-items: center; justify-content: space-between;
@@ -966,17 +980,19 @@
           </div>
         </div>
 
-        <!-- 过滤器：单行横滑 -->
-        <div class="todo-filter-bar" style="padding:8px 16px 10px">
-          <div class="todo-filter-row" style="padding-bottom:0">
-            <button class="tdf-pill active" id="tpAll" onclick="setTimePill(this,'all')">全部</button>
-            <button class="tdf-pill" id="tpToday" onclick="setTimePill(this,'today')">今天</button>
-            <button class="tdf-pill" id="tp3d" onclick="setTimePill(this,'3days')">三日内</button>
-            <button class="tdf-pill" id="tpWeek" onclick="setTimePill(this,'week')">本周</button>
-            <div style="width:1px;background:#EAECF0;flex-shrink:0;margin:0 2px;align-self:stretch"></div>
-            <button class="tdf-pill active" id="tsAll" onclick="setStatusPill(this,'all')">待完成</button>
-            <button class="tdf-pill" id="tsPending" onclick="setStatusPill(this,'pending')">紧急</button>
-            <button class="tdf-pill" id="tsDone" onclick="setStatusPill(document.getElementById('tsDone'),'completed')">已完成</button>
+        <!-- 过滤器：两组 segmented control -->
+        <div class="todo-filter-bar" style="padding:10px 16px 10px;display:flex;gap:10px;align-items:center">
+          <!-- 时间分组 -->
+          <div class="seg-group">
+            <button class="seg-btn active" id="tpAll" onclick="setTimePill(this,'all')">全部</button>
+            <button class="seg-btn" id="tpToday" onclick="setTimePill(this,'today')">今天</button>
+            <button class="seg-btn" id="tp3d" onclick="setTimePill(this,'3days')">三日内</button>
+            <button class="seg-btn" id="tpWeek" onclick="setTimePill(this,'week')">本周</button>
+          </div>
+          <!-- 状态分组 -->
+          <div class="seg-group">
+            <button class="seg-btn active" id="tsAll" onclick="setStatusPill(this,'all')">待完成</button>
+            <button class="seg-btn" id="tsPending" onclick="setStatusPill(this,'pending')">紧急</button>
           </div>
         </div>
 
@@ -1376,13 +1392,13 @@
   function setTimePill(el, val) {
     filterTime = val;
     document.querySelectorAll('#tpAll,#tpToday,#tp3d,#tpWeek').forEach(function(b){ b.classList.remove('active'); });
-    el.classList.add('active');
+    if (el) el.classList.add('active');
     renderTodo();
   }
   function setStatusPill(el, val) {
     filterStatus = val;
     document.querySelectorAll('#tsAll,#tsPending').forEach(function(b){ b.classList.remove('active'); });
-    el.classList.add('active');
+    if (el) el.classList.add('active');
     renderTodo();
   }
   function updateTodoDateSub() {
