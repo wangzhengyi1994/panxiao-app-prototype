@@ -1479,10 +1479,8 @@
       + '<div class="task-circle '+pri.cls+'" style="'+circleStyle+'" onclick="event.stopPropagation();toggleTodo('+t.id+')">'+checkmark+'</div>'
       + '<div class="task-info">'
       + '<div class="task-title' + (isDone?' done':'') + '">' + t.title + '<span class="strike-line"></span></div>'
-      + '<div class="task-meta">'
-      + '<span class="task-time-tag">' + t.dueTime + '</span>'
-      + (t.assignee ? '<span class="task-assignee-tag">· ' + t.assignee + '</span>' : '')
-      + '</div></div>'
+      + (t.assignee ? '<div class="task-meta"><span class="task-assignee-tag">' + t.assignee + '</span></div>' : '')
+      + '</div>'
       + '<div class="task-badge" style="background:'+pri.bg+';color:'+pri.color+';font-size:11px;padding:3px 8px;border-radius:8px;font-weight:600;flex-shrink:0">'+pri.label+'</div>'
       + '</div></div>';
   }
