@@ -258,7 +258,7 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
     <!-- 解析中 -->
     <div class="parsing-state" id="parsingState">
       <div class="parsing-spinner"></div>
-      <div class="parsing-text">AI 正在分析聊天内容...</div>
+      <div class="parsing-text" id="parsingText">AI 正在分析聊天内容...</div>
     </div>
 
     <!-- 解析结果预览 -->
@@ -418,6 +418,9 @@ document.getElementById('chatText').addEventListener('input', function() {
   this._parseTimer = setTimeout(triggerParse, 800);
 });
 
+// AI 接口地址（本地 + 隧道双备用）
+var AI_API = 'https://api.shengtu.uk/api/analyze-chat';
+
 var parsedResult = null;
 function triggerParse() {
   var raw = document.getElementById('chatText').value.trim();
@@ -425,9 +428,17 @@ function triggerParse() {
   document.getElementById('parsingState').style.display = 'block';
   document.getElementById('parsePreview').style.display = 'none';
   document.getElementById('saveChat').disabled = true;
+  document.getElementById('parsingText').textContent = 'AI 正在分析聊天内容...';
 
-  setTimeout(function() {
-    parsedResult = parseWechatChat(raw);
+  fetch(AI_API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chatText: raw })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.error) throw new Error(data.error);
+    parsedResult = { date: data.date, summary: data.summary, points: data.points, raw: raw };
     document.getElementById('parsingState').style.display = 'none';
     document.getElementById('parsedDate').textContent = '跟进时间：' + parsedResult.date;
     document.getElementById('parsedPoints').innerHTML = parsedResult.points.map(function(pt){
@@ -435,47 +446,12 @@ function triggerParse() {
     }).join('');
     document.getElementById('parsePreview').style.display = 'block';
     document.getElementById('saveChat').disabled = false;
-  }, 1200);
-}
-
-// 模拟解析微信聊天记录
-function parseWechatChat(raw) {
-  // 提取日期（取第一行或首个日期格式）
-  var dateMatch = raw.match(/(\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/);
-  var date = dateMatch ? dateMatch[1].replace(/\//g, '-') : today();
-
-  // 提取消息内容（去掉时间戳和发送人前缀）
-  var lines = raw.split('\n').filter(function(l){ return l.trim(); });
-  var msgs = [];
-  lines.forEach(function(line) {
-    // 过滤纯时间行
-    if (/^\d{4}[-\/]\d{1,2}[-\/]\d{1,2}/.test(line) && line.split(' ').length < 3) return;
-    // 去掉 "人名: " 前缀
-    var msgMatch = line.match(/^[^:：]+[：:]\s*(.+)/);
-    if (msgMatch) msgs.push(msgMatch[1].trim());
+  })
+  .catch(function(err) {
+    document.getElementById('parsingState').style.display = 'none';
+    showToast('解析失败：' + (err.message || '网络错误'));
+    document.getElementById('saveChat').disabled = true;
   });
-
-  // 模拟 AI 归纳要点（基于关键词匹配）
-  var allText = msgs.join(' ');
-  var points = [];
-
-  if (/价格|报价|优惠|折扣|预算|费用/.test(allText)) points.push('双方就价格方案进行了沟通，客户对报价有进一步谈判意向');
-  if (/样品|试用|测试|体验/.test(allText)) points.push('涉及样品或试用相关讨论');
-  if (/合同|签约|合作|意向书/.test(allText)) points.push('提及合同或合作意向，推进节奏较积极');
-  if (/需求|功能|方案|定制/.test(allText)) points.push('客户明确了具体需求和定制要求');
-  if (/审批|内部|汇报|决策|领导/.test(allText)) points.push('客户需内部审批，决策链较长，建议持续跟进');
-  if (/下次|再聊|联系|回复|周|号/.test(allText)) points.push('已约定下次沟通时间或等待客户回复');
-  if (points.length === 0) {
-    // 无关键词时提取前2条有意义的消息作为摘要
-    msgs.slice(0, 2).forEach(function(m) {
-      if (m.length > 8) points.push(m.length > 36 ? m.slice(0, 36) + '…' : m);
-    });
-    if (points.length === 0) points.push('与客户进行了一次沟通跟进');
-  }
-
-  // 生成简洁 summary（第一个要点作为时间轴主文本）
-  var summary = points[0] || '本次微信沟通';
-  return { date: date, points: points, summary: summary, raw: raw };
 }
 
 function saveChat() {
