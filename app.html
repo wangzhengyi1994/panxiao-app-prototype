@@ -541,20 +541,32 @@
     .kb-trend-bg { flex:1; height:8px; background:#F0F2F5; border-radius:4px; overflow:hidden; }
     .kb-trend-fill { height:100%; background:linear-gradient(90deg,#3D6EF5,#7BA8FF); border-radius:4px; }
     .kb-trend-num { width:32px; text-align:right; font-size:11px; color:#65758B; flex-shrink:0; }
-    /* 意向客户跟进 表格 */
-    .kb-follow-wrap { background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,.05); }
-    .kb-follow-header { display:grid; grid-template-columns:90px 58px 1fr 48px; gap:0; padding:9px 12px; background:#F7F8FA; border-bottom:1px solid #F0F2F5; }
-    .kb-fh-cell { font-size:11px; font-weight:600; color:#9EACBF; }
-    .kb-follow-row { display:grid; grid-template-columns:90px 58px 1fr 48px; gap:0; padding:11px 12px; border-bottom:1px solid #F5F7FA; cursor:pointer; transition:background .12s; align-items:start; }
-    .kb-follow-row:last-child { border-bottom:none; }
-    .kb-follow-row:active { background:#F7F9FF; }
-    .kb-fr-name { font-size:12px; font-weight:600; color:#0C1428; line-height:1.4; }
-    .kb-fr-date { font-size:12px; color:#8A8FA3; padding-top:1px; }
-    .kb-fr-date.overdue { color:#FF3B30; }
-    .kb-fr-detail { font-size:12px; color:#606673; line-height:1.5; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-    .kb-fr-sales { font-size:12px; color:#3D6EF5; font-weight:500; text-align:right; }
+    /* 意向客户跟进 Feed 卡片 */
+    .kb-follow-wrap { display:flex; flex-direction:column; gap:8px; }
+    .kb-feed-card { background:#fff; border-radius:12px; padding:13px 14px; box-shadow:0 1px 4px rgba(0,0,0,.05); cursor:pointer; transition:background .12s; position:relative; overflow:hidden; }
+    .kb-feed-card:active { background:#F7F9FF; }
+    .kb-feed-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; border-radius:3px 0 0 3px; }
+    .kb-feed-card.following::before { background:#3D6EF5; }
+    .kb-feed-card.pending::before { background:#E07A00; }
+    .kb-feed-card.completed::before { background:#07A854; }
+    .kb-fc-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:7px; }
+    .kb-fc-name { font-size:14px; font-weight:700; color:#0C1428; }
+    .kb-fc-badge { font-size:10px; font-weight:600; padding:2px 8px; border-radius:10px; }
+    .kb-fc-badge.following { background:#EEF3FF; color:#3D6EF5; }
+    .kb-fc-badge.pending { background:#FFF4E8; color:#E07A00; }
+    .kb-fc-badge.completed { background:#E8F8EF; color:#07A854; }
+    .kb-fc-content { font-size:13px; color:#3A3A4A; line-height:1.6; margin-bottom:9px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .kb-fc-footer { display:flex; align-items:center; justify-content:space-between; }
+    .kb-fc-uploader { display:flex; align-items:center; gap:6px; }
+    .kb-fc-avatar { width:20px; height:20px; border-radius:50%; background:linear-gradient(135deg,#3D6EF5,#7BA8FF); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; flex-shrink:0; }
+    .kb-fc-sales-name { font-size:12px; color:#606673; }
+    .kb-fc-meta { display:flex; align-items:center; gap:8px; }
+    .kb-fc-date { font-size:11px; color:#9EACBF; }
+    .kb-fc-date.overdue { color:#FF3B30; }
+    .kb-fc-ai-tag { font-size:10px; font-weight:600; background:#F0EAFF; color:#7B4FD9; padding:1px 6px; border-radius:4px; }
 
     /* 旧样式保留兼容 */
+    .kb-follow-header { display:none; }
     .kb-customer { display:none; }
     .kb-status { display:none; }
 
@@ -1027,15 +1039,7 @@
             <div class="kb-section-title">意向客户跟进</div>
             <span class="kb-more">共 <span id="kbTotal">0</span> 位</span>
           </div>
-          <div class="kb-follow-wrap">
-            <div class="kb-follow-header">
-              <div class="kb-fh-cell">客户</div>
-              <div class="kb-fh-cell">上次跟进</div>
-              <div class="kb-fh-cell">跟进详情</div>
-              <div class="kb-fh-cell" style="text-align:right">跟进人</div>
-            </div>
-            <div id="kbList"></div>
-          </div>
+          <div class="kb-follow-wrap" id="kbList"></div>
         </div>
       </div>
 
@@ -1708,12 +1712,27 @@
     if (!list) return;
     if (totalEl) totalEl.textContent = kbCustomers.length;
     list.innerHTML = kbCustomers.map(function(c) {
+      var st = c.status || 'following';
+      var stLabel = {following:'跟进中', pending:'待跟进', completed:'已成交'}[st] || '跟进中';
       var overdueClass = c.overdue ? ' overdue' : '';
-      return '<div class="kb-follow-row" onclick="openCustomerDetail('+c.id+')">'
-        + '<div class="kb-fr-name">'+c.name+'</div>'
-        + '<div class="kb-fr-date'+overdueClass+'">'+c.date.slice(5)+'</div>'
-        + '<div class="kb-fr-detail">'+c.content+'</div>'
-        + '<div class="kb-fr-sales">'+c.sales+'</div>'
+      var avatarChar = c.sales.charAt(0);
+      var dateStr = c.date ? c.date.slice(5).replace('-','/') : '';
+      return '<div class="kb-feed-card '+st+'" onclick="openCustomerDetail('+c.id+')">'
+        + '<div class="kb-fc-top">'
+        +   '<div class="kb-fc-name">'+c.name+'</div>'
+        +   '<span class="kb-fc-badge '+st+'">'+stLabel+'</span>'
+        + '</div>'
+        + '<div class="kb-fc-content">'+c.content+'</div>'
+        + '<div class="kb-fc-footer">'
+        +   '<div class="kb-fc-uploader">'
+        +     '<div class="kb-fc-avatar">'+avatarChar+'</div>'
+        +     '<span class="kb-fc-sales-name">'+c.sales+' 上传</span>'
+        +   '</div>'
+        +   '<div class="kb-fc-meta">'
+        +     (c.overdue ? '<span class="kb-fc-ai-tag" style="background:#FFF0EE;color:#FF3B30">逾期</span>' : '')
+        +     '<span class="kb-fc-date'+overdueClass+'">'+dateStr+'</span>'
+        +   '</div>'
+        + '</div>'
         + '</div>';
     }).join('');
   }
