@@ -1311,7 +1311,7 @@
   };
 
   // ===== 下拉筛选 =====
-  var filterPri = 'all', filterTime = 'today', filterStatus = 'all';
+  var filterPri = 'all', filterTime = 'all', filterStatus = 'all';
 
   function toggleDropdown(id) {
     var drop = document.getElementById(id);
@@ -1444,7 +1444,7 @@
 
     var html = '';
 
-    if (todoFilter !== 'completed') {
+    if (filterStatus !== 'completed') {
       if (pending.length === 0) {
         html += '<div style="text-align:center;padding:60px 20px;color:#9EACBF;font-size:14px">🎉 暂无待办，点击右上角 + 新建</div>';
       }
