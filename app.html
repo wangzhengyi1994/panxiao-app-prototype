@@ -185,7 +185,7 @@
     .tab-todo {
       display: none;
       min-height: calc(100vh - 142px);
-      background: #f7f8fa;
+      background: #fff;
     }
 
     /* Top bar */
@@ -193,26 +193,25 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 16px;
+      padding: 14px 16px 10px;
       background: #fff;
-      border-bottom: 1px solid #e1e7ef;
     }
     .todo-topbar-left { display: flex; flex-direction: column; }
     .todo-topbar-title {
-      font-size: 18px; font-weight: 700; color: #0c1428; letter-spacing: -0.2px;
+      font-size: 22px; font-weight: 700; color: #0c1428; letter-spacing: -0.5px;
     }
     .todo-topbar-sub {
-      font-size: 12px; color: #9eacbf; margin-top: 1px;
+      font-size: 12px; color: #9eacbf; margin-top: 2px;
     }
-    .todo-topbar-right { display: flex; gap: 8px; align-items: center; }
+    .todo-topbar-right { display: flex; gap: 6px; align-items: center; }
     .icon-btn {
-      width: 40px; height: 40px; border-radius: 12px;
-      border: none; background: #f1f5f9;
+      width: 36px; height: 36px; border-radius: 10px;
+      border: none; background: #F5F7FA;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; transition: background 0.15s;
     }
     .icon-btn:active { background: #e1e7ef; }
-    .icon-btn svg { width: 22px; height: 22px; color: #344256; }
+    .icon-btn svg { width: 20px; height: 20px; color: #344256; }
 
     /* Week strip */
     .week-strip {
@@ -256,61 +255,37 @@
     .week-day.selected .week-dot { background: rgba(74,124,245,0.5); }
 
     /* Stats strip */
-    .todo-stats-strip {
-      display: flex; gap: 0;
-      border-bottom: 1px solid #f0f0f0;
-    }
-    .stat-item {
-      flex: 1; text-align: center; padding: 10px 4px;
-      border-right: 1px solid #f0f0f0;
-    }
-    .stat-item:last-child { border-right: none; }
-    .stat-num { font-size: 20px; font-weight: 800; color: #1a1a1a; line-height: 1; }
-    .stat-num.red { color: #f44336; }
-    .stat-num.blue { color: #4a7cf5; }
-    .stat-num.green { color: #4caf50; }
-    .stat-label { font-size: 10px; color: #bbb; margin-top: 3px; font-weight: 500; }
+    .todo-stats-strip { display: none; }
 
-    /* 过滤器 */
+    /* 新版过滤器 — 两行 pill */
     .todo-filter-bar {
-      display: flex; gap: 8px; padding: 10px 16px;
-      background: #f2f3f5; border-bottom: 1px solid #e1e7ef;
-      overflow-x: auto; scrollbar-width: none;
+      padding: 0 16px 10px;
+      background: #fff;
+      border-bottom: 1px solid #F0F2F5;
     }
-    .todo-filter-bar::-webkit-scrollbar { display: none; }
-    .todo-filter {
+    .todo-filter-row {
+      display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+      padding-bottom: 6px;
+    }
+    .todo-filter-row::-webkit-scrollbar { display: none; }
+    .tdf-pill {
       flex-shrink: 0; padding: 5px 14px;
-      border-radius: 20px; border: 1px solid #E5E8EF;
-      background: #fff; color: #65758B; font-size: 13px;
-      cursor: pointer; font-family: inherit; transition: all 0.15s;
+      border-radius: 20px; border: 1.5px solid #EAECF0;
+      background: #fff; color: #8A8FA3; font-size: 13px;
+      cursor: pointer; font-family: inherit; font-weight: 500;
+      transition: all 0.15s; white-space: nowrap;
     }
-    .todo-filter.active { background: #3D6EF5; border-color: #3D6EF5; color: #fff; font-weight: 600; }
+    .tdf-pill.active {
+      background: #EEF3FF; border-color: #3D6EF5; color: #3D6EF5; font-weight: 600;
+    }
+    .tdf-pill.active.red { background: #FFF0EF; border-color: #F53F3F; color: #F53F3F; }
+    .tdf-pill.active.green { background: #E8F8EF; border-color: #07C160; color: #07A854; }
 
-    /* 下拉筛选器 */
-    .tdf-wrap { position: relative; }
-    .tdf-btn {
-      flex-shrink: 0; padding: 5px 12px;
-      border-radius: 20px; border: 1px solid #E5E8EF;
-      background: #fff; color: #65758B; font-size: 13px;
-      cursor: pointer; font-family: inherit;
-      display: flex; align-items: center; gap: 2px;
-    }
-    .tdf-btn.open, .tdf-btn:active { background: #EBF0FF; border-color: #3D6EF5; color: #3D6EF5; }
-    .tdf-dot { font-size: 16px; line-height: 0; margin-top: 2px; }
-    .tdf-dropdown {
-      display: none; position: fixed;
-      background: #fff; border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.14);
-      min-width: 130px; z-index: 9999; overflow: hidden;
-      border: 1px solid #e1e7ef;
-    }
-    .tdf-dropdown.open { display: block; }
-    .tdf-option {
-      padding: 12px 16px; font-size: 14px; color: #0C1428;
-      cursor: pointer; transition: background 0.1s;
-    }
-    .tdf-option:hover { background: #F5F7FA; }
-    .tdf-option.selected { color: #3D6EF5; font-weight: 600; background: #EBF0FF; }
+    /* 下拉筛选器 (保留兼容旧JS) */
+    .tdf-wrap { position: relative; display: none; }
+    .tdf-btn { display: none; }
+    .tdf-dot { display: none; }
+    .tdf-dropdown { display: none !important; }
 
     /* 已完成折叠 */
     .todo-done-header {
@@ -322,9 +297,9 @@
 
     /* Task list */
     .todo-list-wrap {
-      padding: 12px 16px 80px;
+      padding: 10px 16px 80px;
       overflow: visible;
-      background: #f7f8fa;
+      background: #fff;
     }
 
     /* Section header */
@@ -341,13 +316,14 @@
       font-size: 11px; color: #ccc; font-weight: 500;
     }
 
-    /* Task row — TickTick flat style */
+    /* Task row */
     .task-row-wrap {
       position: relative;
       overflow: hidden;
       border-radius: 12px;
-      margin-bottom: 8px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      margin-bottom: 6px;
+      border: 1px solid #F0F2F5;
+      background: #fff;
     }
     .task-swipe-bg {
       position: absolute; inset: 0;
@@ -370,26 +346,25 @@
       pointer-events: auto;
     }
     .task-row {
-      display: flex; align-items: center; gap: 12px;
-      padding: 14px 16px;
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 14px 12px 12px;
       background: #ffffff;
       position: relative; z-index: 1;
       touch-action: pan-y;
       transition: transform 0.22s cubic-bezier(0.32,0.72,0,1);
       cursor: pointer;
       border-radius: 12px;
+      border-left: 3px solid transparent;
     }
     .task-row.swiping { transition: none; }
-    .task-row::after {
-      content: '';
-      position: absolute; bottom: 0; left: 56px; right: 16px;
-      height: 1px; background: #f5f5f5;
-    }
-    .task-row:last-child::after { display: none; }
+    .task-row.pri-urgent { border-left-color: #F53F3F; }
+    .task-row.pri-important { border-left-color: #FF7D00; }
+    .task-row.pri-normal { border-left-color: #3D6EF5; }
+    .task-row.pri-none { border-left-color: #DDD; }
 
     /* Priority circle checkbox */
     .task-circle {
-      width: 22px; height: 22px; flex-shrink: 0;
+      width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px;
       border-radius: 50%; border: 2px solid;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; transition: all 0.2s;
@@ -400,7 +375,7 @@
     .task-circle.p-low   { border-color: #2063ff; }
     .task-circle.p-none  { border-color: #ddd; }
     .task-circle.done {
-      background: #00b42a; border-color: #00b42a;
+      background: #07C160; border-color: #07C160;
       animation: circlePop 0.25s cubic-bezier(0.32,0.72,0,1);
     }
     @keyframes circlePop {
@@ -426,27 +401,17 @@
     .task-row.done .task-title { color: #bbb; }
 
     .task-meta {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-top: 4px; gap: 6px;
+      display: flex; align-items: center;
+      margin-top: 5px; gap: 8px;
     }
-    .task-meta-left { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; }
     .task-time-tag {
-      font-size: 11px; color: #bbb;
+      font-size: 11px; color: #B0B7C3;
       display: flex; align-items: center; gap: 3px;
     }
-    .task-time-tag.overdue { color: #f44336; }
-    .task-tag {
-      font-size: 10px; font-weight: 600;
-      padding: 2px 7px; border-radius: 10px;
-    }
-    .tc { background: #e3f2fd; color: #1976d2; }
-    .tf { background: #fff3e0; color: #e65100; }
-    .tn { background: #e8f5e9; color: #2e7d32; }
-    .tm { background: #f3e5f5; color: #6a1b9a; }
-
-    .task-client-tag {
-      font-size: 11px; color: #999;
-      display: flex; align-items: center; gap: 3px;
+    .task-time-tag.overdue { color: #F53F3F; }
+    .task-assignee-tag {
+      font-size: 11px; color: #B0B7C3;
+      display: flex; align-items: center; gap: 2px;
     }
 
     /* Done section toggle */
@@ -959,11 +924,9 @@
         <div class="todo-topbar">
           <div class="todo-topbar-left">
             <span class="todo-topbar-title">待办</span>
+            <span class="todo-topbar-sub" id="todoDateSub"></span>
           </div>
           <div class="todo-topbar-right">
-            <div class="icon-btn" id="calToggleBtn" onclick="toggleCalendar()">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            </div>
             <div class="icon-btn" onclick="openAddModal()">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             </div>
@@ -988,35 +951,21 @@
           </div>
         </div>
 
-        <!-- 过滤器 (三个下拉) -->
+        <!-- 新版过滤器 -->
         <div class="todo-filter-bar">
-          <div class="tdf-wrap">
-            <button class="tdf-btn active" id="tdfPri" onclick="toggleDropdown('dropPri')">全部 <span class="tdf-dot">·</span></button>
-            <div class="tdf-dropdown" id="dropPri">
-              <div class="tdf-option active" onclick="selectPri(this,'all')">全部</div>
-              <div class="tdf-option" onclick="selectPri(this,'urgent')">紧急</div>
-              <div class="tdf-option" onclick="selectPri(this,'nonurgent')">不紧急</div>
-              <div class="tdf-option" onclick="selectPri(this,'important')">重要</div>
-              <div class="tdf-option" onclick="selectPri(this,'normal')">普通</div>
-            </div>
+          <!-- 时间维度 -->
+          <div class="todo-filter-row">
+            <button class="tdf-pill active" id="tpAll" onclick="setTimePill(this,'all')">全部</button>
+            <button class="tdf-pill" id="tpToday" onclick="setTimePill(this,'today')">今天</button>
+            <button class="tdf-pill" id="tp3d" onclick="setTimePill(this,'3days')">三日内</button>
+            <button class="tdf-pill" id="tpWeek" onclick="setTimePill(this,'week')">本周</button>
           </div>
-          <div class="tdf-wrap">
-            <button class="tdf-btn active" id="tdfTime" onclick="toggleDropdown('dropTime')">今天 <span class="tdf-dot">·</span></button>
-            <div class="tdf-dropdown" id="dropTime">
-              <div class="tdf-option active" onclick="selectTime(this,'all')">全部</div>
-              <div class="tdf-option selected" onclick="selectTime(this,'today')">今天</div>
-              <div class="tdf-option" onclick="selectTime(this,'3days')">三日内</div>
-              <div class="tdf-option" onclick="selectTime(this,'week')">一周内</div>
-            </div>
-          </div>
-          <div class="tdf-wrap">
-            <button class="tdf-btn active" id="tdfStatus" onclick="toggleDropdown('dropStatus')">已完成 <span class="tdf-dot">·</span></button>
-            <div class="tdf-dropdown" id="dropStatus">
-              <div class="tdf-option active" onclick="selectStatus(this,'all')">全部</div>
-              <div class="tdf-option" onclick="selectStatus(this,'completed')">已完成</div>
-              <div class="tdf-option" onclick="selectStatus(this,'pending')">未完成</div>
-              <div class="tdf-option" onclick="selectStatus(this,'overdue')">逾期</div>
-            </div>
+          <!-- 状态维度 -->
+          <div class="todo-filter-row">
+            <button class="tdf-pill active" id="tsAll" onclick="setStatusPill(this,'all')">全部</button>
+            <button class="tdf-pill" id="tsPending" onclick="setStatusPill(this,'pending')">待完成</button>
+            <button class="tdf-pill active red" id="tsUrgent" style="display:none" onclick="setStatusPill(this,'overdue')">逾期</button>
+            <button class="tdf-pill active green" id="tsDone" style="display:none" onclick="setStatusPill(this,'completed')">已完成</button>
           </div>
         </div>
 
@@ -1393,6 +1342,29 @@
     renderTodo();
   }
 
+  // 新版 pill filter
+  function setTimePill(el, val) {
+    filterTime = val;
+    document.querySelectorAll('#tpAll,#tpToday,#tp3d,#tpWeek').forEach(function(b){ b.classList.remove('active'); });
+    el.classList.add('active');
+    renderTodo();
+  }
+  function setStatusPill(el, val) {
+    filterStatus = val;
+    document.querySelectorAll('#tsAll,#tsPending').forEach(function(b){ b.classList.remove('active'); });
+    el.classList.add('active');
+    renderTodo();
+  }
+  function updateTodoDateSub() {
+    var el = document.getElementById('todoDateSub');
+    if (!el) return;
+    var now = new Date();
+    var days = ['周日','周一','周二','周三','周四','周五','周六'];
+    var months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+    var pending = todos.filter(function(t){ return t.status==='pending'; }).length;
+    el.textContent = months[now.getMonth()] + now.getDate() + '日 ' + days[now.getDay()] + (pending ? ' · ' + pending + '项待完成' : ' · 全部完成 🎉');
+  }
+
   function switchScope(s) {
     todoScope = s;
     document.getElementById('scopePersonal').classList.toggle('active', s==='personal');
@@ -1465,6 +1437,7 @@
     }
 
     list.innerHTML = html;
+    updateTodoDateSub();
     initSwipe();
   }
 
@@ -1479,16 +1452,15 @@
       + '<div class="task-swipe-bg right"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>完成</div>'
       + '<div class="task-del-btn" onclick="deleteTodo('+t.id+')">'
       + '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></div>'
-      + '<div class="task-row' + (isDone?' opacity-done':'') + '" onclick="editTodo('+t.id+')" oncontextmenu="longPressTodo(event,'+t.id+');return false" style="' + (isDone?'opacity:0.55':'') + '">'
+      + '<div class="task-row pri-'+t.priority+'" onclick="editTodo('+t.id+')" oncontextmenu="longPressTodo(event,'+t.id+');return false" style="' + (isDone?'opacity:0.5':'') + '">'
       + '<div class="task-circle '+pri.cls+'" style="'+circleStyle+'" onclick="event.stopPropagation();toggleTodo('+t.id+')">'+checkmark+'</div>'
       + '<div class="task-info">'
-      + '<div class="task-title' + (isDone?' done':'') + '">' + t.title + '</div>'
+      + '<div class="task-title' + (isDone?' done':'') + '">' + t.title + '<span class="strike-line"></span></div>'
       + '<div class="task-meta">'
-      + '<span>🕐 ' + t.dueTime + '</span>'
-      + (t.assignee ? '<span>👤 ' + t.assignee + '</span>' : '')
-      + (t.reminder === 'push' ? '<span>🔔 推送</span>' : (t.reminder === 'sms' ? '<span>📱 短信</span>' : ''))
+      + '<span class="task-time-tag">' + t.dueTime + '</span>'
+      + (t.assignee ? '<span class="task-assignee-tag">· ' + t.assignee + '</span>' : '')
       + '</div></div>'
-      + '<div class="task-badge" style="background:'+pri.bg+';color:'+pri.color+'">'+pri.label+'</div>'
+      + '<div class="task-badge" style="background:'+pri.bg+';color:'+pri.color+';font-size:11px;padding:3px 8px;border-radius:8px;font-weight:600;flex-shrink:0">'+pri.label+'</div>'
       + '</div></div>';
   }
 
