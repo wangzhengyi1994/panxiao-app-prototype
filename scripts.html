@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>团队共享话术</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-serif;min-height:100vh}
+.nav{background:#fff;height:50px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #F0F0F0;position:sticky;top:0;z-index:100}
+.nav-back{position:absolute;left:12px;padding:8px;color:#333;background:none;border:none;font-size:15px;cursor:pointer;display:flex;align-items:center;gap:2px}
+.nav-title{font-size:17px;font-weight:600;color:#1A1A2E}
+.search-wrap{padding:12px 16px;background:#fff;border-bottom:1px solid #F0F0F0}
+.search-box{background:#F5F7FA;border-radius:20px;height:36px;display:flex;align-items:center;padding:0 12px;gap:8px}
+.search-box input{background:none;border:none;outline:none;flex:1;font-size:14px;color:#333}
+.search-box svg{flex-shrink:0;opacity:.4}
+.tabs-wrap{background:#fff;border-bottom:1px solid #F0F0F0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs-wrap::-webkit-scrollbar{display:none}
+.tabs{display:flex;padding:0 8px;white-space:nowrap}
+.tab{padding:10px 14px;font-size:14px;color:#8A8FA3;cursor:pointer;border:none;background:none;font-family:inherit;flex-shrink:0;position:relative;transition:color .15s}
+.tab.active{color:#3D6EF5;font-weight:600}
+.tab.active::after{content:'';position:absolute;bottom:0;left:20%;width:60%;height:2px;background:#3D6EF5;border-radius:1px}
+.list{padding:12px 16px;display:flex;flex-direction:column;gap:10px}
+.card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.card-head{padding:14px 14px 0}
+.card-tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;margin-bottom:6px;font-weight:500}
+.card-title{font-size:14px;font-weight:600;color:#1A1A2E;margin-bottom:6px}
+.card-body{font-size:13px;color:#606673;line-height:1.6;max-height:60px;overflow:hidden;transition:max-height .3s ease;cursor:pointer}
+.card-body.expanded{max-height:500px}
+.card-foot{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-top:1px solid #F5F7FA;margin-top:10px}
+.card-uses{font-size:12px;color:#B0B7C3}
+.copy-btn{background:#EEF3FF;color:#3D6EF5;border:none;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:background .15s}
+.copy-btn:active{background:#D9E5FF}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.75);color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999}
+.toast.show{opacity:1}
+.expand-btn{font-size:12px;color:#3D6EF5;background:none;border:none;padding:4px 0;cursor:pointer;font-family:inherit}
+</style>
+</head>
+<body>
+<div class="nav">
+  <button class="nav-back" onclick="history.back()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    返回
+  </button>
+  <span class="nav-title">团队共享话术</span>
+</div>
+<div class="search-wrap">
+  <div class="search-box">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#999" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="#999" stroke-width="2" stroke-linecap="round"/></svg>
+    <input type="text" placeholder="搜索话术" oninput="filterCards(this.value)">
+  </div>
+</div>
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(this,'all')">全部</button>
+    <button class="tab" onclick="switchTab(this,'open')">开场白</button>
+    <button class="tab" onclick="switchTab(this,'intro')">产品介绍</button>
+    <button class="tab" onclick="switchTab(this,'objection')">异议处理</button>
+    <button class="tab" onclick="switchTab(this,'close')">促成成交</button>
+    <button class="tab" onclick="switchTab(this,'follow')">售后跟进</button>
+  </div>
+</div>
+<div class="list" id="cardList"></div>
+<div class="toast" id="toast">已复制到剪贴板</div>
+<script>
+const data=[
+  {cat:'open',tag:'开场白',tagColor:'#E8F0FF',tagText:'#3D6EF5',title:'初次电话联系',uses:1284,text:'您好，打扰您一下，我是磐销云的销售顾问小王。看到您之前关注过我们的产品，想了解一下您目前的业务情况。请问您现在方便聊两分钟吗？'},
+  {cat:'open',tag:'开场白',tagColor:'#E8F0FF',tagText:'#3D6EF5',title:'转介绍开场',uses:986,text:'您好，我是磐销云的小李，是张总介绍我联系您的。张总说您在团队销售效率这块有一些困扰，我们这边刚好有一套解决方案，您方便了解一下吗？'},
+  {cat:'open',tag:'开场白',tagColor:'#E8F0FF',tagText:'#3D6EF5',title:'微信初次添加后',uses:762,text:'您好！感谢通过了我的好友申请。我是磐销云AI输入法的顾问小陈，主要帮助销售团队提升沟通效率和成交率。如果您有时间，可以简单聊聊您目前团队的情况吗？'},
+  {cat:'intro',tag:'产品介绍',tagColor:'#E8FFF0',tagText:'#07A854',title:'核心功能一句话介绍',uses:2108,text:'磐销云输入法是专为销售人员设计的AI智能输入法，内置30万条行业话术库，支持一键调用、AI智能生成回复，让您在和客户沟通时永远不发愁说什么，平均可以提升团队效率40%以上。'},
+  {cat:'intro',tag:'产品介绍',tagColor:'#E8FFF0',tagText:'#07A854',title:'与普通输入法的区别',uses:1567,text:'普通输入法只是打字工具，磐销云输入法是您的AI销售外脑。它能实时分析对话场景，自动推荐最合适的话术，还能帮您生成朋友圈文案、客户跟进记录，相当于给每个销售员配了一个7×24小时的AI助手。'},
+  {cat:'intro',tag:'产品介绍',tagColor:'#E8FFF0',tagText:'#07A854',title:'适合什么人群',uses:1203,text:'主要适合三类人：一是销售新人，通过话术库快速上手；二是有经验的销售精英，想把个人经验沉淀成团队财富；三是销售主管，可以统一管理全团队的话术，一键分发更新，不用担心销售说错话。'},
+  {cat:'objection',tag:'异议处理',tagColor:'#FFF4E8',tagText:'#E07A00',title:'客户说"价格太贵了"',uses:3421,text:'您说的这个我完全理解。其实很多客户在开始也有同样的顾虑。我想请教您一个问题：您目前团队一个月在客户跟进上大概花多少时间？我们的客户普遍反馈使用后每天能节省1-2小时，折算下来一个销售员每月能多跟进20-30个客户，这样算下来投入产出比其实非常划算。'},
+  {cat:'objection',tag:'异议处理',tagColor:'#FFF4E8',tagText:'#E07A00',title:'客户说"再考虑考虑"',uses:2876,text:'好的，我非常理解您需要时间思考，做决定当然要慎重。我想多了解一下，您主要是在哪方面还有顾虑呢？是价格、还是功能、或者是担心员工不容易上手？您告诉我，我来帮您解答。另外我们这周有个免费试用活动，您可以先体验7天，完全没有风险。'},
+  {cat:'objection',tag:'异议处理',tagColor:'#FFF4E8',tagText:'#E07A00',title:'客户说"已经有别家工具了"',uses:1654,text:'明白，您现在用的是哪款工具呢？我问这个不是要否定它，而是想帮您做个对比。我们和大多数工具最大的不同是，我们专注在输入场景，不需要员工切换APP，在打字的同时就能获得AI辅助，实际上两款工具是可以互补使用的。'},
+  {cat:'close',tag:'促成成交',tagColor:'#FFF0F6',tagText:'#C01C6A',title:'限时优惠催单',uses:1987,text:'我需要跟您说一个好消息，我们这周五有一个季度优惠，年费套餐可以打八折，而且赠送2个月。上个月我们有20多家同类型公司都是趁这个时机签的，之后价格就恢复原价了。您这边如果确定要用，最好在周五前告诉我，我帮您申请这个名额。'},
+  {cat:'close',tag:'促成成交',tagColor:'#FFF0F6',tagText:'#C01C6A',title:'同行都在用',uses:1543,text:'对了，我最近服务了好几家和您同类型的公司，比如XXX（同城或同行），他们用了三个月之后，销售团队的人均月成交量提升了30%左右。您看，您的竞争对手都在用，如果您现在入手，反而是追上甚至超越他们的机会。'},
+  {cat:'follow',tag:'售后跟进',tagColor:'#EFF6FF',tagText:'#1D6EBF',title:'使用后好评邀请',uses:2234,text:'您好！您使用磐销云已经快一个月了，感谢您一直以来的支持。请问最近使用感受怎么样？如果方便的话，能帮我们在应用市场留下一个评价吗？您的反馈对我们非常重要，也能帮助更多像您一样的销售伙伴找到我们。'},
+];
+let currentCat='all',searchText='';
+function render(){
+  const list=document.getElementById('cardList');
+  const filtered=data.filter(d=>(currentCat==='all'||d.cat===currentCat)&&(d.title.includes(searchText)||d.text.includes(searchText)));
+  list.innerHTML=filtered.map((d,i)=>`
+    <div class="card">
+      <div class="card-head">
+        <span class="card-tag" style="background:${d.tagColor};color:${d.tagText}">${d.tag}</span>
+        <div class="card-title">${d.title}</div>
+        <div class="card-body" id="body${i}" onclick="toggleBody(${i})">${d.text}</div>
+        <button class="expand-btn" onclick="toggleBody(${i})" id="expandBtn${i}">展开全文 ▾</button>
+      </div>
+      <div class="card-foot">
+        <span class="card-uses">已使用 ${d.uses.toLocaleString()} 次</span>
+        <button class="copy-btn" onclick="copyText(\`${d.text.replace(/`/g,'\\`')}\`)">复制话术</button>
+      </div>
+    </div>`).join('');
+}
+function toggleBody(i){
+  const b=document.getElementById('body'+i);
+  const btn=document.getElementById('expandBtn'+i);
+  b.classList.toggle('expanded');
+  btn.textContent=b.classList.contains('expanded')?'收起 ▴':'展开全文 ▾';
+}
+function switchTab(el,cat){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');currentCat=cat;render();
+}
+function filterCards(v){searchText=v;render();}
+function copyText(t){
+  navigator.clipboard.writeText(t).catch(()=>{});
+  const toast=document.getElementById('toast');
+  toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1800);
+}
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>常用语</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-serif;min-height:100vh;padding-bottom:80px}
+.nav{background:#fff;height:50px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #F0F0F0;position:sticky;top:0;z-index:100}
+.nav-back{position:absolute;left:12px;padding:8px;color:#333;background:none;border:none;font-size:15px;cursor:pointer;display:flex;align-items:center}
+.nav-back svg{width:20px;height:20px}
+.nav-title{font-size:17px;font-weight:600;color:#1A1A2E}
+.nav-add{position:absolute;right:16px;color:#3D6EF5;font-size:15px;font-weight:500;background:none;border:none;cursor:pointer;font-family:inherit}
+.group{margin:12px 16px 0}
+.group-header{display:flex;align-items:center;justify-content:space-between;padding:8px 0;cursor:pointer}
+.group-name{font-size:13px;font-weight:600;color:#8A8FA3;text-transform:uppercase;letter-spacing:.5px}
+.group-count{font-size:12px;color:#B0B7C3}
+.group-arrow{transition:transform .2s;color:#B0B7C3}
+.group-arrow.collapsed{transform:rotate(-90deg)}
+.group-body{background:#fff;border-radius:12px;overflow:hidden}
+.phrase-item{display:flex;align-items:center;padding:14px 14px;border-bottom:1px solid #F5F7FA;gap:10px}
+.phrase-item:last-child{border-bottom:none}
+.phrase-text{flex:1;font-size:14px;color:#1A1A2E;line-height:1.5}
+.copy-icon{flex-shrink:0;padding:6px;color:#B0B7C3;cursor:pointer;background:none;border:none}
+.copy-icon:active{color:#3D6EF5}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.75);color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999}
+.toast.show{opacity:1}
+.sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;opacity:0;pointer-events:none;transition:opacity .2s}
+.sheet-overlay.show{opacity:1;pointer-events:auto}
+.sheet{position:fixed;bottom:0;left:0;right:0;background:#fff;border-radius:20px 20px 0 0;padding:20px 20px 40px;transform:translateY(100%);transition:transform .3s;z-index:201}
+.sheet.show{transform:translateY(0)}
+.sheet-title{font-size:16px;font-weight:600;color:#1A1A2E;margin-bottom:16px}
+.sheet-input{width:100%;background:#F5F7FA;border:none;border-radius:12px;padding:12px 14px;font-size:14px;font-family:inherit;outline:none;color:#333;resize:none;height:80px}
+.sheet-input:focus{background:#EEF3FF}
+.sheet-row{display:flex;gap:10px;margin-top:12px}
+.sheet-cancel{flex:1;height:46px;border-radius:12px;border:1px solid #E0E0E0;background:#fff;font-size:15px;color:#666;cursor:pointer;font-family:inherit}
+.sheet-save{flex:2;height:46px;border-radius:12px;border:none;background:#3D6EF5;color:#fff;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit}
+</style>
+</head>
+<body>
+<div class="nav">
+  <button class="nav-back" onclick="history.back()">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <span class="nav-title">常用语</span>
+  <button class="nav-add" onclick="openSheet()">+ 新建</button>
+</div>
+<div id="groups"></div>
+<div class="toast" id="toast">已复制</div>
+<div class="sheet-overlay" id="overlay" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-title">新建常用语</div>
+  <textarea class="sheet-input" id="newText" placeholder="输入您的常用语内容..."></textarea>
+  <div class="sheet-row">
+    <button class="sheet-cancel" onclick="closeSheet()">取消</button>
+    <button class="sheet-save" onclick="savePhrase()">保存</button>
+  </div>
+</div>
+<script>
+const defaultData=[
+  {group:'问候语',items:['您好！很高兴认识您，我是磐销云的顾问小王😊','早上好！今天有什么可以帮到您的吗？','您好，请问最近工作顺利吗？有空的话可以聊聊']},
+  {group:'产品介绍',items:['磐销云输入法是专为销售设计的AI工具，内置30万话术，一键调用','我们支持7天免费试用，完全没有风险，您可以先体验一下','目前已有7万+销售人员在使用，好评率98%']},
+  {group:'跟进话术',items:['您好，之前和您聊到合作的事情，不知道您考虑得怎么样了？','这边有个最新的活动想跟您分享一下，现在入手非常划算','想了解一下您最近使用的感受，有什么需要我帮忙解答的吗？','不好意思打扰您，就是想了解一下上次说的方案您这边有没有推进？']},
+  {group:'结尾语',items:['感谢您的时间，有任何问题随时联系我！','期待和您的合作，祝您工作顺利！','好的，那我先不打扰您了，有需要的话请随时联系我😊']},
+];
+function loadData(){
+  const saved=JSON.parse(localStorage.getItem('panxiao_phrases')||'null');
+  return saved||defaultData;
+}
+function saveData(d){localStorage.setItem('panxiao_phrases',JSON.stringify(d));}
+let groupData=loadData();
+function render(){
+  document.getElementById('groups').innerHTML=groupData.map((g,gi)=>`
+    <div class="group">
+      <div class="group-header" onclick="toggleGroup(${gi})">
+        <span class="group-name">${g.group}</span>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span class="group-count">${g.items.length}条</span>
+          <svg class="group-arrow" id="arrow${gi}" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+      <div class="group-body" id="gbody${gi}">${g.items.map((item,ii)=>`
+        <div class="phrase-item" oncontextmenu="delPhrase(event,${gi},${ii})">
+          <div class="phrase-text">${item}</div>
+          <button class="copy-icon" onclick="copyPhrase('${item.replace(/'/g,"\\'")}')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.8"/></svg>
+          </button>
+        </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+function toggleGroup(i){
+  const b=document.getElementById('gbody'+i);
+  const a=document.getElementById('arrow'+i);
+  const hidden=b.style.display==='none';
+  b.style.display=hidden?'':'none';
+  a.classList.toggle('collapsed',!hidden);
+}
+function copyPhrase(t){
+  navigator.clipboard.writeText(t).catch(()=>{});
+  const toast=document.getElementById('toast');
+  toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1500);
+}
+function delPhrase(e,gi,ii){
+  e.preventDefault();
+  if(confirm('删除这条常用语？')){
+    groupData[gi].items.splice(ii,1);
+    saveData(groupData);render();
+  }
+}
+function openSheet(){document.getElementById('overlay').classList.add('show');document.getElementById('sheet').classList.add('show');document.getElementById('newText').value='';setTimeout(()=>document.getElementById('newText').focus(),300);}
+function closeSheet(){document.getElementById('overlay').classList.remove('show');document.getElementById('sheet').classList.remove('show');}
+function savePhrase(){
+  const t=document.getElementById('newText').value.trim();
+  if(!t){alert('请输入内容');return;}
+  let myGroup=groupData.find(g=>g.group==='我的常用语');
+  if(!myGroup){myGroup={group:'我的常用语',items:[]};groupData.push(myGroup);}
+  myGroup.items.unshift(t);
+  saveData(groupData);render();closeSheet();
+  const toast=document.getElementById('toast');
+  toast.textContent='已保存';toast.classList.add('show');setTimeout(()=>{toast.classList.remove('show');toast.textContent='已复制';},1500);
+}
+render();
+</script>
+</body>
+</html>

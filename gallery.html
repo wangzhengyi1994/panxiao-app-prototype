@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>个人图库</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;font-family:-apple-system,'PingFang SC',system-ui,sans-serif;min-height:100vh}
+.nav{background:#fff;height:50px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #F0F0F0;position:sticky;top:0;z-index:100}
+.nav-back{position:absolute;left:12px;padding:8px;color:#333;background:none;border:none;cursor:pointer;display:flex;align-items:center}
+.nav-back svg{width:20px;height:20px}
+.nav-title{font-size:17px;font-weight:600;color:#1A1A2E}
+.nav-select{position:absolute;right:16px;color:#3D6EF5;font-size:14px;font-weight:500;background:none;border:none;cursor:pointer;font-family:inherit}
+.content{background:#fff;min-height:100vh}
+.section{padding:0 0 8px}
+.section-title{font-size:13px;font-weight:600;color:#8A8FA3;padding:14px 14px 8px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:0 2px}
+.cell{aspect-ratio:1/1;position:relative;cursor:pointer}
+.cell-bg{width:100%;height:100%;display:block}
+.cell-check{position:absolute;top:5px;left:5px;width:22px;height:22px;border-radius:50%;border:2px solid #fff;background:rgba(0,0,0,.3);display:none;align-items:center;justify-content:center}
+.cell-check.visible{display:flex}
+.cell-check.checked{background:#3D6EF5;border-color:#3D6EF5}
+.preview-overlay{position:fixed;inset:0;background:#000;z-index:200;display:none;flex-direction:column}
+.preview-overlay.show{display:flex}
+.preview-nav{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.preview-close{color:#fff;background:none;border:none;font-size:24px;cursor:pointer;padding:4px}
+.preview-img{flex:1;display:flex;align-items:center;justify-content:center}
+.preview-block{width:80vw;height:80vw;border-radius:8px}
+.preview-foot{height:60px;display:flex;align-items:center;justify-content:space-around;border-top:1px solid #333}
+.pf-btn{display:flex;flex-direction:column;align-items:center;gap:3px;color:#fff;background:none;border:none;cursor:pointer;font-size:10px;font-family:inherit}
+.select-bar{position:fixed;bottom:0;left:0;right:0;height:60px;background:#fff;border-top:1px solid #F0F0F0;display:none;align-items:center;justify-content:space-between;padding:0 20px;z-index:101}
+.select-bar.show{display:flex}
+.del-sel-btn{background:#FF3B30;color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:14px;cursor:pointer;font-family:inherit}
+.cancel-sel{color:#3D6EF5;font-size:14px;background:none;border:none;cursor:pointer;font-family:inherit}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.75);color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="nav">
+  <button class="nav-back" onclick="history.back()"><svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+  <span class="nav-title">个人图库</span>
+  <button class="nav-select" id="selBtn" onclick="toggleSelect()">选择</button>
+</div>
+<div class="content" id="content"></div>
+<div class="select-bar" id="selBar">
+  <button class="cancel-sel" onclick="toggleSelect()">取消</button>
+  <span id="selCount" style="font-size:14px;color:#333">已选0张</span>
+  <button class="del-sel-btn" onclick="delSelected()">删除</button>
+</div>
+<div class="preview-overlay" id="preview">
+  <div class="preview-nav">
+    <button class="preview-close" onclick="closePreview()">✕</button>
+    <span id="previewTitle" style="color:#fff;font-size:14px"></span>
+    <span style="width:40px"></span>
+  </div>
+  <div class="preview-img"><div class="preview-block" id="previewBlock"></div></div>
+  <div class="preview-foot">
+    <button class="pf-btn" onclick="toast2('功能开发中')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" stroke="white" stroke-width="1.8"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="white" stroke-width="1.8"/></svg>复制</button>
+    <button class="pf-btn" onclick="toast2('已发送')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>发送</button>
+    <button class="pf-btn" onclick="delFromPreview()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><polyline points="3 6 5 6 21 6" stroke="white" stroke-width="1.8" stroke-linecap="round"/><path d="M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>删除</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const grads=['linear-gradient(135deg,#3D6EF5,#6B9FFF)','linear-gradient(135deg,#FC466B,#3F5EFB)','linear-gradient(135deg,#F7971E,#FFD200)','linear-gradient(135deg,#43E97B,#38F9D7)','linear-gradient(135deg,#667eea,#764ba2)','linear-gradient(135deg,#FF6B6B,#FFE66D)','linear-gradient(135deg,#11998E,#38EF7D)','linear-gradient(135deg,#F953C6,#B91D73)','linear-gradient(135deg,#4facfe,#00f2fe)','linear-gradient(135deg,#E53935,#FF8A65)','linear-gradient(135deg,#0F2027,#203A43,#2C5364)','linear-gradient(135deg,#1A1A2E,#7B2FBE)','linear-gradient(135deg,#43C6AC,#F8FFAE)','linear-gradient(135deg,#ee9ca7,#ffdde1)','linear-gradient(135deg,#2196f3,#4CAF50)','linear-gradient(135deg,#ff9a9e,#fecfef)','linear-gradient(135deg,#a18cd1,#fbc2eb)','linear-gradient(135deg,#ffecd2,#fcb69f)','linear-gradient(135deg,#a1c4fd,#c2e9fb)','linear-gradient(135deg,#d4fc79,#96e6a1)','linear-gradient(135deg,#fda085,#f6d365)','linear-gradient(135deg,#89f7fe,#66a6ff)','linear-gradient(135deg,#fddb92,#d1fdff)','linear-gradient(135deg,#a6c0fe,#f68084)'];
+const sections=[{title:'今天',count:6},{title:'昨天',count:8},{title:'本周',count:10}];
+let allItems=[];let gIdx=0;
+sections.forEach(s=>{for(let i=0;i<s.count;i++){allItems.push({id:gIdx,section:s.title,gradient:grads[gIdx%grads.length],name:`图片${gIdx+1}`});gIdx++;}});
+let selecting=false,selected=new Set(),previewId=null;
+function render(){
+  const c=document.getElementById('content');
+  c.innerHTML=sections.map(s=>{
+    const items=allItems.filter(i=>i.section===s.title);
+    return `<div class="section"><div class="section-title">${s.title}（${items.length}张）</div><div class="grid">${items.map(it=>`
+      <div class="cell" onclick="cellClick(${it.id})">
+        <div class="cell-bg" style="background:${it.gradient}"></div>
+        <div class="cell-check ${selecting?'visible':''} ${selected.has(it.id)?'checked':''}" id="chk${it.id}">
+          ${selected.has(it.id)?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12" stroke="white" stroke-width="3" stroke-linecap="round"/></svg>':''}
+        </div>
+      </div>`).join('')}</div></div>`;
+  }).join('');
+}
+function toggleSelect(){
+  selecting=!selecting;selected.clear();
+  document.getElementById('selBtn').textContent=selecting?'取消':'选择';
+  document.getElementById('selBar').classList.toggle('show',selecting);
+  render();
+}
+function cellClick(id){
+  if(selecting){
+    if(selected.has(id))selected.delete(id);else selected.add(id);
+    document.getElementById('selCount').textContent=`已选${selected.size}张`;
+    render();
+  }else{
+    previewId=id;
+    const item=allItems.find(i=>i.id===id);
+    document.getElementById('previewBlock').style.background=item.gradient;
+    document.getElementById('previewTitle').textContent=item.name;
+    document.getElementById('preview').classList.add('show');
+  }
+}
+function closePreview(){document.getElementById('preview').classList.remove('show');}
+function delFromPreview(){
+  if(confirm('删除这张图片？')){allItems=allItems.filter(i=>i.id!==previewId);closePreview();render();}
+}
+function delSelected(){
+  if(selected.size===0){alert('请先选择图片');return;}
+  if(confirm(`确定删除${selected.size}张图片？`)){allItems=allItems.filter(i=>!selected.has(i.id));toggleSelect();}
+}
+function toast2(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1500);}
+render();
+</script>
+</body>
+</html>

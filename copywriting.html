@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>文案广场</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-serif;min-height:100vh;padding-bottom:20px}
+.nav{background:#fff;height:50px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #F0F0F0;position:sticky;top:0;z-index:100}
+.nav-back{position:absolute;left:12px;padding:8px;color:#333;background:none;border:none;cursor:pointer;display:flex;align-items:center}
+.nav-back svg{width:20px;height:20px}
+.nav-title{font-size:17px;font-weight:600;color:#1A1A2E}
+.search-wrap{background:#fff;padding:10px 16px;border-bottom:1px solid #F0F0F0}
+.search-box{background:#F5F7FA;border-radius:20px;height:34px;display:flex;align-items:center;padding:0 12px;gap:8px}
+.search-box input{background:none;border:none;outline:none;flex:1;font-size:13px;color:#333}
+.tabs-wrap{background:#fff;border-bottom:1px solid #F0F0F0;overflow-x:auto;scrollbar-width:none}
+.tabs-wrap::-webkit-scrollbar{display:none}
+.tabs{display:flex;padding:0 8px;white-space:nowrap}
+.tab{padding:10px 14px;font-size:14px;color:#8A8FA3;cursor:pointer;border:none;background:none;font-family:inherit;flex-shrink:0;position:relative;transition:color .15s}
+.tab.active{color:#3D6EF5;font-weight:600}
+.tab.active::after{content:'';position:absolute;bottom:0;left:20%;width:60%;height:2px;background:#3D6EF5;border-radius:1px}
+.list{padding:12px 16px;display:flex;flex-direction:column;gap:10px}
+.card{background:#fff;border-radius:12px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.card-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.cat-tag{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:500;background:#EEF3FF;color:#3D6EF5;flex-shrink:0}
+.card-title{font-size:14px;font-weight:600;color:#1A1A2E;flex:1}
+.card-text{font-size:13px;color:#606673;line-height:1.65;overflow:hidden;max-height:65px;margin-bottom:10px;cursor:pointer;transition:max-height .25s}
+.card-text.expanded{max-height:600px}
+.card-foot{display:flex;align-items:center;justify-content:space-between}
+.card-stats{display:flex;gap:12px}
+.stat{display:flex;align-items:center;gap:4px;font-size:12px;color:#B0B7C3;cursor:pointer;transition:color .15s}
+.stat.liked{color:#FF6B6B}
+.stat.starred{color:#FFB800}
+.copy-btn{background:#EEF3FF;color:#3D6EF5;border:none;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.75);color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="nav">
+  <button class="nav-back" onclick="history.back()"><svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+  <span class="nav-title">文案广场</span>
+</div>
+<div class="search-wrap">
+  <div class="search-box">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#999" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="#999" stroke-width="2" stroke-linecap="round"/></svg>
+    <input type="text" placeholder="搜索文案" oninput="filterCards(this.value)">
+  </div>
+</div>
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(this,'all')">推荐</button>
+    <button class="tab" onclick="switchTab(this,'holiday')">节日营销</button>
+    <button class="tab" onclick="switchTab(this,'product')">产品推广</button>
+    <button class="tab" onclick="switchTab(this,'sns')">朋友圈</button>
+    <button class="tab" onclick="switchTab(this,'promo')">活动促销</button>
+  </div>
+</div>
+<div class="list" id="cardList"></div>
+<div class="toast" id="toast">已复制</div>
+<script>
+const data=[
+  {id:1,cat:'holiday',catLabel:'节日营销',title:'春节限定营销文案',likes:3821,stars:1204,text:'🧧 新年快乐！2024年，愿您的事业像春节烟花一样璀璨夺目！\n\n趁着新春佳节，我们特别准备了年终感恩福利——\n✅ 年费套餐直降30%\n✅ 买一年送两个月\n✅ 专属销售顾问1对1服务\n\n名额有限，先到先得！今天下单，明年成交翻番从此刻开始！🚀'},
+  {id:2,cat:'holiday',catLabel:'节日营销',title:'双11爆款文案',likes:5632,stars:2087,text:'📢 双11来了！今年的双十一，不买东西，就买时间！\n\n磐销云AI输入法，限时5折！\n\n算一笔账：每天节省1小时 × 365天 = 你多出来的365小时 = 多跟进300+客户 = 多成交的钱，远超这点入手成本！\n\n手快有，手慢无！戳下方链接直接下单👇'},
+  {id:3,cat:'holiday',catLabel:'节日营销',title:'妇女节关怀文案',likes:2156,stars:876,text:'💐 三八妇女节快乐！\n\n致每一位奋斗在销售一线的女神们，你们用智慧和韧性，创造着属于自己的精彩！\n\n今天，我们要说的不只是快乐，更要帮你们在职场更轻松！今日下单，额外赠送价值299元的「女神专属成交课程」，限100名，先到先得！👑'},
+  {id:4,cat:'product',catLabel:'产品推广',title:'功能亮点推广',likes:4123,stars:1567,text:'你知道为什么同样的产品，有些销售一个月能成交50单，有些只有8单吗？\n\n答案不是勤奋，是工具！\n\n磐销云AI输入法=你的私人销售顾问：\n🎯 30万条话术库，永远不愁说什么\n🤖 AI实时分析客户，推荐最佳回复\n📊 自动记录跟进记录，不漏掉每个商机\n\n7天免费试用，用完才知道差距有多大！'},
+  {id:5,cat:'product',catLabel:'产品推广',title:'竞品对比文案',likes:3456,stars:1234,text:'为什么选磐销云，而不是普通CRM？\n\n普通工具：切换APP → 找话术 → 复制粘贴 → 回到聊天\n磐销云：打字的同时AI自动推荐 ✨\n\n节省的不只是时间，是你和客户之间的温度！\n\n当竞争对手还在翻文档找话术，你已经用AI拿下订单了。\n\n差距，就是从选择开始的。'},
+  {id:6,cat:'product',catLabel:'产品推广',title:'用户证言文案',likes:2789,stars:934,text:'「用了磐销云3个月，我从每月8单涨到23单」——来自深圳保险销售 陈大明\n\n「以前每天花2小时想说什么，现在AI帮我想，我只负责成交」——来自上海房产中介 李小红\n\n「团队统一话术后，新人上手时间从2个月缩短到2周」——来自北京教培机构总监 张伟\n\n他们能做到，你也可以！'},
+  {id:7,cat:'sns',catLabel:'朋友圈',title:'励志朋友圈文案',likes:6234,stars:2341,text:'【今日思考】\n\n销售，本质上是认知的变现。\n\n你的认知有多高，客户感受到的价值就有多大。\n\n所以，我们每天努力学习的不是话术，是思维方式。\n\n今天，我又花了一个小时研究了3个成交案例，明天的谈单心里更有底了💪\n\n#销售日记 #成长#每天进步一点点'},
+  {id:8,cat:'sns',catLabel:'朋友圈',title:'客户好评晒单',likes:4567,stars:1678,text:'今天收到了一条让我非常感动的微信👇\n\n「感谢你的耐心，你不只是卖给我一个产品，更像是帮我解决了一个困扰了很久的问题。」\n\n做销售这几年，最开心的不是成交，是客户真心说谢谢的那一刻。\n\n产品可以复制，真诚无法复制。继续加油！🌟'},
+  {id:9,cat:'sns',catLabel:'朋友圈',title:'干货分享文案',likes:5123,stars:1890,text:'分享一个让我成交率翻倍的小技巧👇\n\n在和客户沟通时，少说「我们产品怎么样」，多问「您目前遇到的最大问题是什么？」\n\n先诊断，再开方。\n先了解需求，再介绍产品。\n先建立信任，再谈价格。\n\n这三个先后顺序，价值百万。\n\n收藏慢慢看，不然刷到就忘了！'},
+  {id:10,cat:'promo',catLabel:'活动促销',title:'季末冲刺活动',likes:3234,stars:1123,text:'⏰ 距本季度结束还有最后7天！\n\n我们的季末感恩回馈来了：\n🎁 年费会员 8折优惠（仅限今日）\n🎁 赠送专属话术定制（价值500元）\n🎁 1对1成交陪跑服务\n\n上季度末，有37位老板通过这个活动锁定了全年最低价。\n\n这次，你要不要抓住？\n\n回复「了解」，立即为您安排顾问！'},
+  {id:11,cat:'promo',catLabel:'活动促销',title:'限时团购文案',likes:2876,stars:987,text:'拼团活动来了！3人成团，立省40%！\n\n叫上2个同事一起买，比你自己买便宜将近一半！\n\n而且，团购版还额外赠送：\n✅ 团队话术共享功能（原价299/年）\n✅ 管理员统计后台\n✅ 批量导入话术服务\n\n截止时间：本周日晚12点\n\n你还在等什么？先发给同事，一起省！'},
+  {id:12,cat:'all',catLabel:'推荐',title:'新用户欢迎文案',likes:7123,stars:2890,text:'欢迎加入磐销云大家庭！🎉\n\n接下来我为您安排一个快速上手指南：\n\n📌 第一步：完善您的个人销售档案（3分钟）\n📌 第二步：导入或选择您的行业话术库\n📌 第三步：体验AI智能回复功能\n\n如果在使用过程中有任何问题，随时在这里联系我，我7×24小时在线！\n\n祝您使用愉快，成交满满！😊'},
+];
+let currentCat='all',searchText='',likedSet=new Set(),starredSet=new Set(),likeCounts={},starCounts={};
+data.forEach(d=>{likeCounts[d.id]=d.likes;starCounts[d.id]=d.stars;});
+function render(){
+  const filtered=data.filter(d=>(currentCat==='all'||d.cat===currentCat)&&(d.title.includes(searchText)||d.text.includes(searchText)));
+  document.getElementById('cardList').innerHTML=filtered.map(d=>`
+    <div class="card">
+      <div class="card-top"><span class="cat-tag">${d.catLabel}</span><span class="card-title">${d.title}</span></div>
+      <div class="card-text" id="ct${d.id}" onclick="toggleText(${d.id})">${d.text.replace(/\n/g,'<br>')}</div>
+      <div class="card-foot">
+        <div class="card-stats">
+          <div class="stat ${likedSet.has(d.id)?'liked':''}" onclick="like(${d.id})">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="${likedSet.has(d.id)?'#FF6B6B':'none'}"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="${likedSet.has(d.id)?'#FF6B6B':'currentColor'}" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <span id="lc${d.id}">${likeCounts[d.id].toLocaleString()}</span>
+          </div>
+          <div class="stat ${starredSet.has(d.id)?'starred':''}" onclick="star(${d.id})">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="${starredSet.has(d.id)?'#FFB800':'none'}"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" stroke="${starredSet.has(d.id)?'#FFB800':'currentColor'}" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <span id="sc${d.id}">${starCounts[d.id].toLocaleString()}</span>
+          </div>
+        </div>
+        <button class="copy-btn" onclick="copyCard(${d.id})">复制文案</button>
+      </div>
+    </div>`).join('');
+}
+function toggleText(id){document.getElementById('ct'+id).classList.toggle('expanded');}
+function like(id){
+  if(likedSet.has(id)){likedSet.delete(id);likeCounts[id]--;}else{likedSet.add(id);likeCounts[id]++;}render();
+}
+function star(id){
+  if(starredSet.has(id)){starredSet.delete(id);starCounts[id]--;}else{starredSet.add(id);starCounts[id]++;}render();
+}
+function copyCard(id){
+  const d=data.find(i=>i.id===id);
+  navigator.clipboard.writeText(d.text).catch(()=>{});
+  const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1500);
+}
+function switchTab(el,cat){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');currentCat=cat;render();}
+function filterCards(v){searchText=v;render();}
+render();
+</script>
+</body>
+</html>
