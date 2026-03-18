@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>客户详情</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-serif;min-height:100vh;padding-bottom:100px}
+
+/* 顶部导航 */
+.nav{background:#fff;height:50px;display:flex;align-items:center;justify-content:center;position:sticky;top:0;z-index:100;border-bottom:1px solid #F0F0F0}
+.nav-back{position:absolute;left:12px;padding:8px;color:#333;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:4px;font-size:15px;font-family:inherit}
+.nav-back svg{width:20px;height:20px}
+.nav-title{font-size:17px;font-weight:600;color:#1A1A2E}
+.nav-more{position:absolute;right:16px;padding:8px;color:#333;background:none;border:none;cursor:pointer}
+
+/* 客户头部信息卡 */
+.hero{background:#fff;padding:20px 16px 16px;margin-bottom:10px}
+.hero-row{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.avatar{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#3D6EF5,#7BA8FF);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;flex-shrink:0}
+.hero-info{flex:1}
+.hero-name{font-size:18px;font-weight:700;color:#0C1428;margin-bottom:3px}
+.hero-company{font-size:13px;color:#8A8FA3}
+.stage-badge{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;flex-shrink:0}
+.stage-following{background:#EEF3FF;color:#3D6EF5}
+.stage-pending{background:#FFF4E8;color:#E07A00}
+.stage-completed{background:#E8F8EF;color:#07A854}
+
+/* 快捷操作 */
+.quick-actions{display:flex;gap:10px}
+.qa-btn{flex:1;height:40px;border-radius:12px;border:1.5px solid #EAECF0;background:#fff;font-size:13px;font-weight:500;color:#0C1428;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-family:inherit;transition:all .15s}
+.qa-btn:active{background:#F5F7FA}
+.qa-btn.primary{background:#3D6EF5;border-color:#3D6EF5;color:#fff}
+.qa-btn.green{background:#07C160;border-color:#07C160;color:#fff}
+
+/* 信息块通用 */
+.section{background:#fff;border-radius:12px;margin:0 16px 10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.section-header{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 0}
+.section-title{font-size:13px;font-weight:700;color:#0C1428;display:flex;align-items:center;gap:6px}
+.section-title svg{color:#3D6EF5}
+.section-more{font-size:12px;color:#3D6EF5;cursor:pointer;background:none;border:none;font-family:inherit}
+
+/* 基本信息列表 */
+.info-list{padding:10px 0}
+.info-row{display:flex;align-items:center;padding:9px 14px;gap:10px;border-bottom:1px solid #F7F8FA}
+.info-row:last-child{border-bottom:none}
+.info-label{font-size:12px;color:#9EACBF;width:64px;flex-shrink:0}
+.info-val{font-size:14px;color:#0C1428;flex:1}
+.info-copy{padding:4px;color:#C0C8D8;cursor:pointer;background:none;border:none}
+
+/* 跟进记录时间轴 */
+.timeline{padding:14px 14px 6px}
+.tl-item{display:flex;gap:12px;margin-bottom:16px;position:relative}
+.tl-item:last-child{margin-bottom:6px}
+.tl-dot-wrap{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:16px}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:#3D6EF5;flex-shrink:0;margin-top:3px;border:2px solid #EEF3FF;box-shadow:0 0 0 2px #3D6EF5}
+.tl-dot.old{background:#D0D5DD;box-shadow:0 0 0 2px #D0D5DD;border-color:#F5F7FA}
+.tl-line{flex:1;width:2px;background:#EEF3FF;margin-top:4px}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{flex:1;padding-bottom:4px}
+.tl-date{font-size:11px;color:#9EACBF;margin-bottom:3px}
+.tl-text{font-size:13px;color:#0C1428;line-height:1.6}
+
+/* 新增跟进记录 */
+.add-record-btn{margin:0 16px 10px;background:#fff;border-radius:12px;border:1.5px dashed #3D6EF5;height:46px;display:flex;align-items:center;justify-content:center;gap:6px;color:#3D6EF5;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;width:calc(100% - 32px)}
+.add-record-btn:active{background:#F0F5FF}
+
+/* 底部固定操作栏 */
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #F0F0F0;padding:10px 16px;display:flex;gap:10px;max-width:480px;margin:0 auto}
+.bottom-main{flex:1;height:46px;border-radius:12px;background:#3D6EF5;color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:inherit}
+.bottom-sub{height:46px;padding:0 18px;border-radius:12px;background:#F5F7FA;color:#333;font-size:14px;font-weight:500;border:none;cursor:pointer;font-family:inherit;white-space:nowrap}
+
+/* Toast */
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.75);color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999}
+.toast.show{opacity:1}
+
+/* Bottom sheet */
+.sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;opacity:0;pointer-events:none;transition:opacity .2s}
+.sheet-overlay.show{opacity:1;pointer-events:auto}
+.sheet{position:fixed;bottom:0;left:0;right:0;background:#fff;border-radius:20px 20px 0 0;padding:20px 16px 40px;transform:translateY(100%);transition:transform .3s;z-index:201}
+.sheet.show{transform:translateY(0)}
+.sheet-title{font-size:16px;font-weight:600;color:#1A1A2E;margin-bottom:14px}
+.sheet-textarea{width:100%;background:#F5F7FA;border:none;border-radius:12px;padding:12px 14px;font-size:14px;font-family:inherit;outline:none;color:#333;resize:none;height:100px;line-height:1.6}
+.sheet-textarea:focus{background:#EEF3FF}
+.sheet-row{display:flex;gap:10px;margin-top:12px}
+.sheet-cancel{flex:1;height:46px;border-radius:12px;border:1px solid #E0E0E0;background:#fff;font-size:15px;color:#666;cursor:pointer;font-family:inherit}
+.sheet-save{flex:2;height:46px;border-radius:12px;border:none;background:#3D6EF5;color:#fff;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <button class="nav-back" onclick="history.back()">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    返回
+  </button>
+  <span class="nav-title">客户详情</span>
+  <button class="nav-more" onclick="toast2('更多操作')">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="1.5" fill="#333"/><circle cx="12" cy="12" r="1.5" fill="#333"/><circle cx="12" cy="19" r="1.5" fill="#333"/></svg>
+  </button>
+</div>
+
+<!-- 客户头部 -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="avatar" id="heroAvatar"></div>
+    <div class="hero-info">
+      <div class="hero-name" id="heroName"></div>
+      <div class="hero-company" id="heroCompany"></div>
+    </div>
+    <span class="stage-badge" id="heroBadge"></span>
+  </div>
+  <div class="quick-actions">
+    <button class="qa-btn" onclick="callCustomer()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.03 1.18 2 2 0 012 .03h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      拨打电话
+    </button>
+    <button class="qa-btn green" onclick="openSheet()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
+      记录跟进
+    </button>
+    <button class="qa-btn" onclick="toast2('即将上线')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      发消息
+    </button>
+  </div>
+</div>
+
+<!-- 基本信息 -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      基本信息
+    </div>
+  </div>
+  <div class="info-list">
+    <div class="info-row">
+      <span class="info-label">联系人</span>
+      <span class="info-val" id="infoName"></span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">公司</span>
+      <span class="info-val" id="infoCompany"></span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">手机</span>
+      <span class="info-val" id="infoPhone"></span>
+      <button class="info-copy" onclick="copyPhone()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.8"/></svg>
+      </button>
+    </div>
+    <div class="info-row">
+      <span class="info-label">跟进人</span>
+      <span class="info-val" id="infoSales"></span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">当前阶段</span>
+      <span class="info-val" id="infoStage"></span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">上次跟进</span>
+      <span class="info-val" id="infoDate"></span>
+    </div>
+  </div>
+</div>
+
+<!-- 跟进记录 -->
+<div class="section">
+  <div class="section-header" style="margin-bottom:12px">
+    <div class="section-title">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      跟进记录
+    </div>
+    <span class="section-more" id="recordCount"></span>
+  </div>
+  <div class="timeline" id="timeline"></div>
+</div>
+
+<button class="add-record-btn" onclick="openSheet()">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+  添加跟进记录
+</button>
+
+<!-- 底部操作栏 -->
+<div class="bottom-bar">
+  <button class="bottom-sub" onclick="toast2('待办已创建')">创建待办</button>
+  <button class="bottom-main" onclick="openSheet()">记录本次跟进</button>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- 新建记录 Sheet -->
+<div class="sheet-overlay" id="overlay" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-title">记录跟进内容</div>
+  <textarea class="sheet-textarea" id="recordText" placeholder="描述本次跟进情况，例如：电话沟通了产品报价，客户表示需要内部审批后回复..."></textarea>
+  <div class="sheet-row">
+    <button class="sheet-cancel" onclick="closeSheet()">取消</button>
+    <button class="sheet-save" onclick="saveRecord()">保存记录</button>
+  </div>
+</div>
+
+<script>
+var p = {};
+try {
+  var qs = new URLSearchParams(location.search);
+  p.name = qs.get('name') || '客户';
+  p.company = qs.get('company') || '';
+  p.phone = qs.get('phone') || '';
+  p.sales = qs.get('sales') || '';
+  p.stage = qs.get('stage') || '';
+  p.date = qs.get('date') || '';
+  p.status = qs.get('status') || 'following';
+  p.history = JSON.parse(qs.get('history') || '[]');
+} catch(e) {
+  p = {name:'天成李总',company:'天成科技',phone:'138-0012-3456',sales:'张小慧',stage:'意向确认',date:'2025-06-10',status:'following',history:['2025-05-20 初次拜访，介绍产品方案','2025-05-28 发送样品资料','2025-06-10 电话确认样品测试结果，客户满意']};
+}
+
+// 渲染头部
+document.getElementById('heroAvatar').textContent = p.name.charAt(0);
+document.getElementById('heroName').textContent = p.name;
+document.getElementById('heroCompany').textContent = p.company;
+var badge = document.getElementById('heroBadge');
+var stageMap = {following:['跟进中','stage-following'],pending:['待跟进','stage-pending'],completed:['已成交','stage-completed']};
+var sm = stageMap[p.status] || stageMap.following;
+badge.textContent = sm[0]; badge.className = 'stage-badge ' + sm[1];
+
+// 基本信息
+document.getElementById('infoName').textContent = p.name;
+document.getElementById('infoCompany').textContent = p.company;
+document.getElementById('infoPhone').textContent = p.phone;
+document.getElementById('infoSales').textContent = p.sales;
+document.getElementById('infoStage').textContent = p.stage;
+document.getElementById('infoDate').textContent = p.date;
+document.title = p.name + ' · 客户详情';
+
+// 跟进记录时间轴
+var records = p.history.slice().reverse(); // 最新在前
+document.getElementById('recordCount').textContent = '共 ' + records.length + ' 条';
+document.getElementById('timeline').innerHTML = records.map(function(r, i) {
+  var parts = r.split(' ');
+  var date = parts[0] || '';
+  var text = parts.slice(1).join(' ') || r;
+  return '<div class="tl-item">'
+    + '<div class="tl-dot-wrap"><div class="tl-dot' + (i > 0 ? ' old' : '') + '"></div><div class="tl-line"></div></div>'
+    + '<div class="tl-content"><div class="tl-date">' + date + '</div><div class="tl-text">' + text + '</div></div>'
+    + '</div>';
+}).join('');
+
+function callCustomer() {
+  toast2('正在拨打 ' + p.phone + '...');
+}
+function copyPhone() {
+  navigator.clipboard.writeText(p.phone).catch(function(){});
+  toast2('已复制 ' + p.phone);
+}
+function openSheet() {
+  document.getElementById('overlay').classList.add('show');
+  document.getElementById('sheet').classList.add('show');
+  setTimeout(function(){ document.getElementById('recordText').focus(); }, 300);
+}
+function closeSheet() {
+  document.getElementById('overlay').classList.remove('show');
+  document.getElementById('sheet').classList.remove('show');
+}
+function saveRecord() {
+  var t = document.getElementById('recordText').value.trim();
+  if (!t) { alert('请输入跟进内容'); return; }
+  var now = new Date();
+  var ds = now.getFullYear() + '-' + pad2(now.getMonth()+1) + '-' + pad2(now.getDate());
+  records.unshift(ds + ' ' + t);
+  document.getElementById('recordCount').textContent = '共 ' + records.length + ' 条';
+  document.getElementById('timeline').innerHTML = records.map(function(r, i) {
+    var parts = r.split(' ');
+    var date = parts[0] || '';
+    var text = parts.slice(1).join(' ') || r;
+    return '<div class="tl-item">'
+      + '<div class="tl-dot-wrap"><div class="tl-dot' + (i > 0 ? ' old' : '') + '"></div><div class="tl-line"></div></div>'
+      + '<div class="tl-content"><div class="tl-date">' + date + '</div><div class="tl-text">' + text + '</div></div>'
+      + '</div>';
+  }).join('');
+  closeSheet();
+  document.getElementById('recordText').value = '';
+  toast2('跟进记录已保存');
+}
+function pad2(n){ return n<10?'0'+n:''+n; }
+function toast2(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 1800);
+}
+</script>
+</body>
+</html>
