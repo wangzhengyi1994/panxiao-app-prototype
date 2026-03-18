@@ -220,45 +220,39 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
 <div class="sheet" id="sheet">
   <div class="sheet-title">跟进记录</div>
 
-  <!-- Tab 切换 -->
+  <!-- Tab 切换：上传在前 -->
   <div class="tab-bar">
-    <button class="tab-item active" id="tab-manual" onclick="switchTab('manual')">手动记录</button>
-    <button class="tab-item" id="tab-chat" onclick="switchTab('chat')">上传聊天记录</button>
+    <button class="tab-item active" id="tab-chat" onclick="switchTab('chat')">上传聊天记录</button>
+    <button class="tab-item" id="tab-manual" onclick="switchTab('manual')">手动记录</button>
   </div>
 
-  <!-- 手动记录 -->
-  <div id="panel-manual">
-    <textarea class="sheet-textarea" id="recordText" placeholder="描述本次跟进情况，例如：电话沟通了产品报价，客户表示需要内部审批后回复..."></textarea>
-    <div class="sheet-row">
-      <button class="sheet-cancel" onclick="closeSheet()">取消</button>
-      <button class="sheet-save" onclick="saveManual()">保存记录</button>
-    </div>
-  </div>
-
-  <!-- 上传聊天记录 -->
-  <div id="panel-chat" style="display:none">
-    <!-- 文件上传区 -->
-    <div class="upload-area" id="uploadArea">
-      <input type="file" class="upload-input" accept=".txt" id="fileInput" onchange="handleFile(event)">
-      <div class="upload-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="#3D6EF5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <!-- 上传聊天截图（默认展示） -->
+  <div id="panel-chat">
+    <!-- 图片上传区：点击唤起相册 -->
+    <input type="file" accept="image/*" id="imgInput" style="display:none" onchange="handleImage(event)">
+    <div class="upload-area" id="uploadArea" onclick="document.getElementById('imgInput').click()">
+      <div id="uploadPlaceholder">
+        <div class="upload-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="18" height="18" rx="3" stroke="#3D6EF5" stroke-width="1.8"/>
+            <circle cx="8.5" cy="8.5" r="1.5" fill="#3D6EF5"/>
+            <path d="M3 15l5-5 4 4 3-3 6 6" stroke="#3D6EF5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="upload-label">从相册选择聊天截图</div>
+        <div class="upload-hint">支持微信对话截图，AI 自动识别内容</div>
       </div>
-      <div class="upload-label">上传微信聊天记录</div>
-      <div class="upload-hint">支持从微信导出的 .txt 文件</div>
+      <!-- 预览图 -->
+      <div id="imgPreview" style="display:none;position:relative">
+        <img id="previewImg" style="width:100%;max-height:180px;object-fit:contain;border-radius:8px">
+        <button onclick="clearImage(event)" style="position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.5);border:none;color:#fff;font-size:14px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center">×</button>
+      </div>
     </div>
-
-    <div class="divider-or"><span>或直接粘贴聊天内容</span></div>
-
-    <div class="paste-label">粘贴聊天记录（长按微信聊天 → 多选 → 转发 → 收藏 → 复制文本）</div>
-    <textarea class="chat-textarea" id="chatText" placeholder="2026-03-18 10:23
-张小慧: 您好李总，关于上次提到的报价方案...
-李总: 好的，我们内部讨论了一下，价格这块还有谈的空间吗？
-张小慧: 可以的，我来给您重新出一份方案..."></textarea>
 
     <!-- 解析中 -->
     <div class="parsing-state" id="parsingState">
       <div class="parsing-spinner"></div>
-      <div class="parsing-text" id="parsingText">AI 正在分析聊天内容...</div>
+      <div class="parsing-text" id="parsingText">AI 正在识别聊天截图...</div>
     </div>
 
     <!-- 解析结果预览 -->
@@ -273,7 +267,16 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
 
     <div class="sheet-row">
       <button class="sheet-cancel" onclick="closeSheet()">取消</button>
-      <button class="sheet-save purple" id="saveChat" onclick="saveChat()" disabled>解析并保存</button>
+      <button class="sheet-save purple" id="saveChat" onclick="saveChat()" disabled>保存跟进记录</button>
+    </div>
+  </div>
+
+  <!-- 手动记录 -->
+  <div id="panel-manual" style="display:none">
+    <textarea class="sheet-textarea" id="recordText" placeholder="描述本次跟进情况，例如：电话沟通了产品报价，客户表示需要内部审批后回复..."></textarea>
+    <div class="sheet-row">
+      <button class="sheet-cancel" onclick="closeSheet()">取消</button>
+      <button class="sheet-save" onclick="saveManual()">保存记录</button>
     </div>
   </div>
 </div>
@@ -365,12 +368,14 @@ function toggleRaw(btn) {
     : '<svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M8 6l4 4 4-4M8 14l4 4 4-4" stroke="#9B6BFF" stroke-width="2" stroke-linecap="round"/></svg>查看原始聊天记录';
 }
 
+var AI_API = 'https://api.shengtu.uk/api/analyze-chat';
+var parsedResult = null;
+var currentTab = 'chat';
+
 // Sheet
-var currentTab = 'manual';
 function openSheet() {
   document.getElementById('overlay').classList.add('show');
   document.getElementById('sheet').classList.add('show');
-  setTimeout(function(){ document.getElementById('recordText').focus(); }, 300);
 }
 function closeSheet() {
   document.getElementById('overlay').classList.remove('show');
@@ -379,10 +384,10 @@ function closeSheet() {
 }
 function switchTab(tab) {
   currentTab = tab;
-  document.getElementById('tab-manual').classList.toggle('active', tab === 'manual');
   document.getElementById('tab-chat').classList.toggle('active', tab === 'chat');
-  document.getElementById('panel-manual').style.display = tab === 'manual' ? '' : 'none';
+  document.getElementById('tab-manual').classList.toggle('active', tab === 'manual');
   document.getElementById('panel-chat').style.display = tab === 'chat' ? '' : 'none';
+  document.getElementById('panel-manual').style.display = tab === 'manual' ? '' : 'none';
 }
 
 // 保存手动记录
@@ -398,47 +403,50 @@ function saveManual() {
   showToast('跟进记录已保存');
 }
 
-// 文件上传
-function handleFile(evt) {
+// 图片上传：选完后读取 base64 发给 AI
+function handleImage(evt) {
   var file = evt.target.files[0];
   if (!file) return;
   var reader = new FileReader();
   reader.onload = function(e) {
-    document.getElementById('chatText').value = e.target.result;
-    triggerParse();
+    var dataUrl = e.target.result;
+    document.getElementById('uploadPlaceholder').style.display = 'none';
+    document.getElementById('previewImg').src = dataUrl;
+    document.getElementById('imgPreview').style.display = 'block';
+    var parts = dataUrl.split(',');
+    var mime = parts[0].replace('data:', '').replace(';base64', '');
+    var b64 = parts[1];
+    triggerImageParse(b64, mime);
   };
-  reader.readAsText(file, 'utf-8');
+  reader.readAsDataURL(file);
 }
 
-// 聊天内容输入监听
-document.getElementById('chatText').addEventListener('input', function() {
-  clearTimeout(this._parseTimer);
-  var v = this.value.trim();
-  if (!v) { resetChatPanel(); return; }
-  this._parseTimer = setTimeout(triggerParse, 800);
-});
+function clearImage(evt) {
+  evt.stopPropagation();
+  document.getElementById('imgInput').value = '';
+  document.getElementById('uploadPlaceholder').style.display = '';
+  document.getElementById('imgPreview').style.display = 'none';
+  document.getElementById('parsingState').style.display = 'none';
+  document.getElementById('parsePreview').style.display = 'none';
+  document.getElementById('saveChat').disabled = true;
+  parsedResult = null;
+}
 
-// AI 接口地址（本地 + 隧道双备用）
-var AI_API = 'https://api.shengtu.uk/api/analyze-chat';
-
-var parsedResult = null;
-function triggerParse() {
-  var raw = document.getElementById('chatText').value.trim();
-  if (!raw) return;
+function triggerImageParse(b64, mime) {
   document.getElementById('parsingState').style.display = 'block';
   document.getElementById('parsePreview').style.display = 'none';
   document.getElementById('saveChat').disabled = true;
-  document.getElementById('parsingText').textContent = 'AI 正在分析聊天内容...';
+  document.getElementById('parsingText').textContent = 'AI 正在识别聊天截图...';
 
   fetch(AI_API, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chatText: raw })
+    body: JSON.stringify({ imageBase64: b64, imageMime: mime })
   })
   .then(function(r) { return r.json(); })
   .then(function(data) {
     if (data.error) throw new Error(data.error);
-    parsedResult = { date: data.date, summary: data.summary, points: data.points, raw: raw };
+    parsedResult = { date: data.date, summary: data.summary, points: data.points, raw: '[图片截图]' };
     document.getElementById('parsingState').style.display = 'none';
     document.getElementById('parsedDate').textContent = '跟进时间：' + parsedResult.date;
     document.getElementById('parsedPoints').innerHTML = parsedResult.points.map(function(pt){
@@ -449,8 +457,7 @@ function triggerParse() {
   })
   .catch(function(err) {
     document.getElementById('parsingState').style.display = 'none';
-    showToast('解析失败：' + (err.message || '网络错误'));
-    document.getElementById('saveChat').disabled = true;
+    showToast('识别失败：' + (err.message || '网络错误'));
   });
 }
 
@@ -465,16 +472,17 @@ function saveChat() {
   });
   renderTimeline();
   closeSheet();
-  showToast('聊天记录已解析并保存');
+  showToast('跟进记录已保存');
 }
 
 function resetChatPanel() {
-  document.getElementById('chatText').value = '';
+  document.getElementById('imgInput').value = '';
+  document.getElementById('uploadPlaceholder').style.display = '';
+  document.getElementById('imgPreview').style.display = 'none';
   document.getElementById('parsingState').style.display = 'none';
   document.getElementById('parsePreview').style.display = 'none';
   document.getElementById('saveChat').disabled = true;
   parsedResult = null;
-  if (document.getElementById('fileInput')) document.getElementById('fileInput').value = '';
 }
 
 function callCustomer() { showToast('正在拨打 ' + p.phone + '...'); }
