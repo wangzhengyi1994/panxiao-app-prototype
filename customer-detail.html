@@ -261,6 +261,7 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#9B6BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         AI 提取要点
       </div>
+      <div class="parse-customer" id="parsedCustomer" style="display:none;font-size:12px;color:#3A3A4A;font-weight:600;margin-bottom:4px"></div>
       <div class="parse-date" id="parsedDate"></div>
       <div id="parsedPoints"></div>
     </div>
@@ -446,8 +447,15 @@ function triggerImageParse(b64, mime) {
   .then(function(r) { return r.json(); })
   .then(function(data) {
     if (data.error) throw new Error(data.error);
-    parsedResult = { date: data.date, summary: data.summary, points: data.points, raw: '[图片截图]' };
+    parsedResult = { customerName: data.customerName || '', date: data.date, summary: data.summary, points: data.points, raw: '[图片截图]' };
     document.getElementById('parsingState').style.display = 'none';
+    var nameEl = document.getElementById('parsedCustomer');
+    if (parsedResult.customerName) {
+      nameEl.textContent = '客户：' + parsedResult.customerName;
+      nameEl.style.display = 'block';
+    } else {
+      nameEl.style.display = 'none';
+    }
     document.getElementById('parsedDate').textContent = '跟进时间：' + parsedResult.date;
     document.getElementById('parsedPoints').innerHTML = parsedResult.points.map(function(pt){
       return '<div class="preview-item">' + pt + '</div>';
