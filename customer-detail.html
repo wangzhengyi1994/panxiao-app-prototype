@@ -8,14 +8,12 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-serif;min-height:100vh;padding-bottom:100px}
 
-/* 顶部导航 */
 .nav{background:#fff;height:50px;display:flex;align-items:center;justify-content:center;position:sticky;top:0;z-index:100;border-bottom:1px solid #F0F0F0}
 .nav-back{position:absolute;left:12px;padding:8px;color:#333;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:4px;font-size:15px;font-family:inherit}
 .nav-back svg{width:20px;height:20px}
 .nav-title{font-size:17px;font-weight:600;color:#1A1A2E}
 .nav-more{position:absolute;right:16px;padding:8px;color:#333;background:none;border:none;cursor:pointer}
 
-/* 客户头部信息卡 */
 .hero{background:#fff;padding:20px 16px 16px;margin-bottom:10px}
 .hero-row{display:flex;align-items:center;gap:14px;margin-bottom:14px}
 .avatar{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#3D6EF5,#7BA8FF);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;flex-shrink:0}
@@ -27,21 +25,18 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
 .stage-pending{background:#FFF4E8;color:#E07A00}
 .stage-completed{background:#E8F8EF;color:#07A854}
 
-/* 快捷操作 */
 .quick-actions{display:flex;gap:10px}
 .qa-btn{flex:1;height:40px;border-radius:12px;border:1.5px solid #EAECF0;background:#fff;font-size:13px;font-weight:500;color:#0C1428;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-family:inherit;transition:all .15s}
 .qa-btn:active{background:#F5F7FA}
 .qa-btn.primary{background:#3D6EF5;border-color:#3D6EF5;color:#fff}
 .qa-btn.green{background:#07C160;border-color:#07C160;color:#fff}
 
-/* 信息块通用 */
 .section{background:#fff;border-radius:12px;margin:0 16px 10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
 .section-header{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 0}
 .section-title{font-size:13px;font-weight:700;color:#0C1428;display:flex;align-items:center;gap:6px}
 .section-title svg{color:#3D6EF5}
 .section-more{font-size:12px;color:#3D6EF5;cursor:pointer;background:none;border:none;font-family:inherit}
 
-/* 基本信息列表 */
 .info-list{padding:10px 0}
 .info-row{display:flex;align-items:center;padding:9px 14px;gap:10px;border-bottom:1px solid #F7F8FA}
 .info-row:last-child{border-bottom:none}
@@ -49,43 +44,95 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
 .info-val{font-size:14px;color:#0C1428;flex:1}
 .info-copy{padding:4px;color:#C0C8D8;cursor:pointer;background:none;border:none}
 
-/* 跟进记录时间轴 */
+/* 时间轴 */
 .timeline{padding:14px 14px 6px}
 .tl-item{display:flex;gap:12px;margin-bottom:16px;position:relative}
 .tl-item:last-child{margin-bottom:6px}
 .tl-dot-wrap{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:16px}
 .tl-dot{width:10px;height:10px;border-radius:50%;background:#3D6EF5;flex-shrink:0;margin-top:3px;border:2px solid #EEF3FF;box-shadow:0 0 0 2px #3D6EF5}
 .tl-dot.old{background:#D0D5DD;box-shadow:0 0 0 2px #D0D5DD;border-color:#F5F7FA}
+.tl-dot.ai{background:#9B6BFF;box-shadow:0 0 0 2px #9B6BFF;border-color:#F0EAFF}
 .tl-line{flex:1;width:2px;background:#EEF3FF;margin-top:4px}
 .tl-item:last-child .tl-line{display:none}
 .tl-content{flex:1;padding-bottom:4px}
-.tl-date{font-size:11px;color:#9EACBF;margin-bottom:3px}
-.tl-text{font-size:13px;color:#0C1428;line-height:1.6}
+.tl-date{font-size:11px;color:#9EACBF;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.tl-date .ai-tag{background:#F0EAFF;color:#7B4FD9;font-size:10px;padding:1px 6px;border-radius:4px;font-weight:600}
+.tl-text{font-size:13px;color:#0C1428;line-height:1.6;margin-bottom:4px}
 
-/* 新增跟进记录 */
+/* AI 摘要卡片 */
+.ai-summary{background:#F8F5FF;border-radius:8px;padding:10px 12px;margin-top:6px;border-left:3px solid #9B6BFF}
+.ai-summary-label{font-size:11px;color:#9B6BFF;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:4px}
+.ai-points{list-style:none}
+.ai-points li{font-size:12px;color:#3A3A4A;line-height:1.7;padding-left:12px;position:relative}
+.ai-points li::before{content:"·";position:absolute;left:0;color:#9B6BFF;font-weight:700}
+
+/* 查看原始聊天 */
+.tl-raw-toggle{font-size:11px;color:#9B6BFF;cursor:pointer;margin-top:4px;display:inline-flex;align-items:center;gap:3px;background:none;border:none;font-family:inherit;padding:0}
+.tl-raw{background:#F7F8FA;border-radius:6px;padding:8px 10px;margin-top:6px;display:none;max-height:140px;overflow-y:auto}
+.tl-raw.open{display:block}
+.tl-raw-line{font-size:11px;color:#666;line-height:1.8;white-space:pre-wrap;word-break:break-all}
+
 .add-record-btn{margin:0 16px 10px;background:#fff;border-radius:12px;border:1.5px dashed #3D6EF5;height:46px;display:flex;align-items:center;justify-content:center;gap:6px;color:#3D6EF5;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;width:calc(100% - 32px)}
 .add-record-btn:active{background:#F0F5FF}
 
-/* 底部固定操作栏 */
 .bottom-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #F0F0F0;padding:10px 16px;display:flex;gap:10px;max-width:480px;margin:0 auto}
 .bottom-main{flex:1;height:46px;border-radius:12px;background:#3D6EF5;color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:inherit}
 .bottom-sub{height:46px;padding:0 18px;border-radius:12px;background:#F5F7FA;color:#333;font-size:14px;font-weight:500;border:none;cursor:pointer;font-family:inherit;white-space:nowrap}
 
-/* Toast */
-.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.75);color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.75);color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:999;white-space:nowrap}
 .toast.show{opacity:1}
 
 /* Bottom sheet */
 .sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;opacity:0;pointer-events:none;transition:opacity .2s}
 .sheet-overlay.show{opacity:1;pointer-events:auto}
-.sheet{position:fixed;bottom:0;left:0;right:0;background:#fff;border-radius:20px 20px 0 0;padding:20px 16px 40px;transform:translateY(100%);transition:transform .3s;z-index:201}
+.sheet{position:fixed;bottom:0;left:0;right:0;background:#fff;border-radius:20px 20px 0 0;padding:20px 16px 40px;transform:translateY(100%);transition:transform .3s;z-index:201;max-height:80vh;overflow-y:auto}
 .sheet.show{transform:translateY(0)}
 .sheet-title{font-size:16px;font-weight:600;color:#1A1A2E;margin-bottom:14px}
+
+/* Tab 切换 */
+.tab-bar{display:flex;background:#F5F7FA;border-radius:10px;padding:3px;margin-bottom:14px}
+.tab-item{flex:1;height:34px;border-radius:8px;border:none;background:transparent;font-size:13px;font-weight:500;color:#8A8FA3;cursor:pointer;font-family:inherit;transition:all .2s}
+.tab-item.active{background:#fff;color:#0C1428;font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+
+/* 手动记录 */
 .sheet-textarea{width:100%;background:#F5F7FA;border:none;border-radius:12px;padding:12px 14px;font-size:14px;font-family:inherit;outline:none;color:#333;resize:none;height:100px;line-height:1.6}
 .sheet-textarea:focus{background:#EEF3FF}
+
+/* 上传聊天记录 */
+.upload-area{border:1.5px dashed #C5D0E8;border-radius:12px;padding:16px;background:#F8F9FD;margin-bottom:12px;text-align:center;cursor:pointer;position:relative}
+.upload-area:hover{border-color:#3D6EF5;background:#EEF3FF}
+.upload-icon{margin-bottom:6px}
+.upload-label{font-size:13px;color:#3D6EF5;font-weight:500}
+.upload-hint{font-size:11px;color:#9EACBF;margin-top:2px}
+.upload-input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+
+.divider-or{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.divider-or span{font-size:11px;color:#C0C8D8;flex-shrink:0}
+.divider-or::before,.divider-or::after{content:'';flex:1;height:1px;background:#EAECF0}
+
+.paste-label{font-size:12px;color:#9EACBF;margin-bottom:6px}
+.chat-textarea{width:100%;background:#F5F7FA;border:none;border-radius:12px;padding:12px 14px;font-size:12px;font-family:'Menlo','Monaco',monospace;outline:none;color:#333;resize:none;height:120px;line-height:1.7;white-space:pre-wrap}
+.chat-textarea:focus{background:#EEF3FF}
+.chat-textarea::placeholder{font-family:-apple-system,'PingFang SC',system-ui,sans-serif;font-size:12px}
+
+/* 解析中状态 */
+.parsing-state{text-align:center;padding:20px 0;display:none}
+.parsing-spinner{width:28px;height:28px;border:3px solid #EEF3FF;border-top-color:#9B6BFF;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.parsing-text{font-size:13px;color:#666}
+
+/* 解析结果预览 */
+.parse-preview{background:#F8F5FF;border-radius:12px;padding:14px;margin-bottom:12px;display:none;border:1.5px solid #D9CCFF}
+.parse-preview-label{font-size:11px;color:#9B6BFF;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:4px}
+.preview-item{font-size:12px;color:#3A3A4A;line-height:1.7;padding-left:12px;position:relative;margin-bottom:2px}
+.preview-item::before{content:"·";position:absolute;left:0;color:#9B6BFF;font-weight:700}
+.parse-date{font-size:11px;color:#9EACBF;margin-bottom:8px}
+
 .sheet-row{display:flex;gap:10px;margin-top:12px}
 .sheet-cancel{flex:1;height:46px;border-radius:12px;border:1px solid #E0E0E0;background:#fff;font-size:15px;color:#666;cursor:pointer;font-family:inherit}
 .sheet-save{flex:2;height:46px;border-radius:12px;border:none;background:#3D6EF5;color:#fff;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit}
+.sheet-save.purple{background:#9B6BFF}
+.sheet-save:disabled{background:#C0C8D8;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -96,12 +143,11 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
     返回
   </button>
   <span class="nav-title">客户详情</span>
-  <button class="nav-more" onclick="toast2('更多操作')">
+  <button class="nav-more" onclick="showToast('更多操作')">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="1.5" fill="#333"/><circle cx="12" cy="12" r="1.5" fill="#333"/><circle cx="12" cy="19" r="1.5" fill="#333"/></svg>
   </button>
 </div>
 
-<!-- 客户头部 -->
 <div class="hero">
   <div class="hero-row">
     <div class="avatar" id="heroAvatar"></div>
@@ -120,14 +166,13 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
       记录跟进
     </button>
-    <button class="qa-btn" onclick="toast2('即将上线')">
+    <button class="qa-btn" onclick="showToast('即将上线')">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       发消息
     </button>
   </div>
 </div>
 
-<!-- 基本信息 -->
 <div class="section">
   <div class="section-header">
     <div class="section-title">
@@ -136,41 +181,22 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
     </div>
   </div>
   <div class="info-list">
+    <div class="info-row"><span class="info-label">联系人</span><span class="info-val" id="infoName"></span></div>
+    <div class="info-row"><span class="info-label">公司</span><span class="info-val" id="infoCompany"></span></div>
     <div class="info-row">
-      <span class="info-label">联系人</span>
-      <span class="info-val" id="infoName"></span>
+      <span class="info-label">手机</span><span class="info-val" id="infoPhone"></span>
+      <button class="info-copy" onclick="copyPhone()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.8"/></svg></button>
     </div>
-    <div class="info-row">
-      <span class="info-label">公司</span>
-      <span class="info-val" id="infoCompany"></span>
-    </div>
-    <div class="info-row">
-      <span class="info-label">手机</span>
-      <span class="info-val" id="infoPhone"></span>
-      <button class="info-copy" onclick="copyPhone()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.8"/></svg>
-      </button>
-    </div>
-    <div class="info-row">
-      <span class="info-label">跟进人</span>
-      <span class="info-val" id="infoSales"></span>
-    </div>
-    <div class="info-row">
-      <span class="info-label">当前阶段</span>
-      <span class="info-val" id="infoStage"></span>
-    </div>
-    <div class="info-row">
-      <span class="info-label">上次跟进</span>
-      <span class="info-val" id="infoDate"></span>
-    </div>
+    <div class="info-row"><span class="info-label">跟进人</span><span class="info-val" id="infoSales"></span></div>
+    <div class="info-row"><span class="info-label">当前阶段</span><span class="info-val" id="infoStage"></span></div>
+    <div class="info-row"><span class="info-label">上次跟进</span><span class="info-val" id="infoDate"></span></div>
   </div>
 </div>
 
-<!-- 跟进记录 -->
 <div class="section">
   <div class="section-header" style="margin-bottom:12px">
     <div class="section-title">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       跟进记录
     </div>
     <span class="section-more" id="recordCount"></span>
@@ -183,27 +209,77 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
   添加跟进记录
 </button>
 
-<!-- 底部操作栏 -->
 <div class="bottom-bar">
-  <button class="bottom-sub" onclick="toast2('待办已创建')">创建待办</button>
+  <button class="bottom-sub" onclick="showToast('待办已创建')">创建待办</button>
   <button class="bottom-main" onclick="openSheet()">记录本次跟进</button>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<!-- 新建记录 Sheet -->
 <div class="sheet-overlay" id="overlay" onclick="closeSheet()"></div>
 <div class="sheet" id="sheet">
-  <div class="sheet-title">记录跟进内容</div>
-  <textarea class="sheet-textarea" id="recordText" placeholder="描述本次跟进情况，例如：电话沟通了产品报价，客户表示需要内部审批后回复..."></textarea>
-  <div class="sheet-row">
-    <button class="sheet-cancel" onclick="closeSheet()">取消</button>
-    <button class="sheet-save" onclick="saveRecord()">保存记录</button>
+  <div class="sheet-title">跟进记录</div>
+
+  <!-- Tab 切换 -->
+  <div class="tab-bar">
+    <button class="tab-item active" id="tab-manual" onclick="switchTab('manual')">手动记录</button>
+    <button class="tab-item" id="tab-chat" onclick="switchTab('chat')">上传聊天记录</button>
+  </div>
+
+  <!-- 手动记录 -->
+  <div id="panel-manual">
+    <textarea class="sheet-textarea" id="recordText" placeholder="描述本次跟进情况，例如：电话沟通了产品报价，客户表示需要内部审批后回复..."></textarea>
+    <div class="sheet-row">
+      <button class="sheet-cancel" onclick="closeSheet()">取消</button>
+      <button class="sheet-save" onclick="saveManual()">保存记录</button>
+    </div>
+  </div>
+
+  <!-- 上传聊天记录 -->
+  <div id="panel-chat" style="display:none">
+    <!-- 文件上传区 -->
+    <div class="upload-area" id="uploadArea">
+      <input type="file" class="upload-input" accept=".txt" id="fileInput" onchange="handleFile(event)">
+      <div class="upload-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="#3D6EF5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="upload-label">上传微信聊天记录</div>
+      <div class="upload-hint">支持从微信导出的 .txt 文件</div>
+    </div>
+
+    <div class="divider-or"><span>或直接粘贴聊天内容</span></div>
+
+    <div class="paste-label">粘贴聊天记录（长按微信聊天 → 多选 → 转发 → 收藏 → 复制文本）</div>
+    <textarea class="chat-textarea" id="chatText" placeholder="2026-03-18 10:23
+张小慧: 您好李总，关于上次提到的报价方案...
+李总: 好的，我们内部讨论了一下，价格这块还有谈的空间吗？
+张小慧: 可以的，我来给您重新出一份方案..."></textarea>
+
+    <!-- 解析中 -->
+    <div class="parsing-state" id="parsingState">
+      <div class="parsing-spinner"></div>
+      <div class="parsing-text">AI 正在分析聊天内容...</div>
+    </div>
+
+    <!-- 解析结果预览 -->
+    <div class="parse-preview" id="parsePreview">
+      <div class="parse-preview-label">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#9B6BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        AI 提取要点
+      </div>
+      <div class="parse-date" id="parsedDate"></div>
+      <div id="parsedPoints"></div>
+    </div>
+
+    <div class="sheet-row">
+      <button class="sheet-cancel" onclick="closeSheet()">取消</button>
+      <button class="sheet-save purple" id="saveChat" onclick="saveChat()" disabled>解析并保存</button>
+    </div>
   </div>
 </div>
 
 <script>
+// 初始化数据
 var p = {};
 try {
   var qs = new URLSearchParams(location.search);
@@ -216,47 +292,81 @@ try {
   p.status = qs.get('status') || 'following';
   p.history = JSON.parse(qs.get('history') || '[]');
 } catch(e) {
-  p = {name:'天成李总',company:'天成科技',phone:'138-0012-3456',sales:'张小慧',stage:'意向确认',date:'2025-06-10',status:'following',history:['2025-05-20 初次拜访，介绍产品方案','2025-05-28 发送样品资料','2025-06-10 电话确认样品测试结果，客户满意']};
+  p = {name:'天成李总',company:'天成科技',phone:'138-0012-3456',sales:'张小慧',stage:'意向确认',date:'2026-03-10',status:'following',
+    history:['2026-02-20 初次拜访，介绍产品方案','2026-02-28 发送样品资料','2026-03-10 电话确认样品测试结果，客户满意']};
 }
+
+// 存储跟进记录（扩展格式）
+// 每条记录: { date, text, type:'manual'|'chat', points:[], raw:'' }
+var records = [];
+
+// 初始化历史记录
+p.history.slice().reverse().forEach(function(r) {
+  var parts = r.split(' ');
+  var date = parts[0] || '';
+  var text = parts.slice(1).join(' ') || r;
+  records.push({ date: date, text: text, type: 'manual', points: [], raw: '' });
+});
 
 // 渲染头部
 document.getElementById('heroAvatar').textContent = p.name.charAt(0);
 document.getElementById('heroName').textContent = p.name;
 document.getElementById('heroCompany').textContent = p.company;
+document.title = p.name + ' · 客户详情';
 var badge = document.getElementById('heroBadge');
 var stageMap = {following:['跟进中','stage-following'],pending:['待跟进','stage-pending'],completed:['已成交','stage-completed']};
 var sm = stageMap[p.status] || stageMap.following;
 badge.textContent = sm[0]; badge.className = 'stage-badge ' + sm[1];
-
-// 基本信息
 document.getElementById('infoName').textContent = p.name;
 document.getElementById('infoCompany').textContent = p.company;
 document.getElementById('infoPhone').textContent = p.phone;
 document.getElementById('infoSales').textContent = p.sales;
 document.getElementById('infoStage').textContent = p.stage;
 document.getElementById('infoDate').textContent = p.date;
-document.title = p.name + ' · 客户详情';
 
-// 跟进记录时间轴
-var records = p.history.slice().reverse(); // 最新在前
-document.getElementById('recordCount').textContent = '共 ' + records.length + ' 条';
-document.getElementById('timeline').innerHTML = records.map(function(r, i) {
-  var parts = r.split(' ');
-  var date = parts[0] || '';
-  var text = parts.slice(1).join(' ') || r;
-  return '<div class="tl-item">'
-    + '<div class="tl-dot-wrap"><div class="tl-dot' + (i > 0 ? ' old' : '') + '"></div><div class="tl-line"></div></div>'
-    + '<div class="tl-content"><div class="tl-date">' + date + '</div><div class="tl-text">' + text + '</div></div>'
-    + '</div>';
-}).join('');
+// 渲染时间轴
+function renderTimeline() {
+  document.getElementById('recordCount').textContent = '共 ' + records.length + ' 条';
+  document.getElementById('timeline').innerHTML = records.map(function(r, i) {
+    var dotClass = 'tl-dot' + (r.type === 'chat' ? ' ai' : (i > 0 ? ' old' : ''));
+    var aiTagHtml = r.type === 'chat' ? '<span class="ai-tag">AI解析</span>' : '';
+    var summaryHtml = '';
+    if (r.type === 'chat' && r.points.length > 0) {
+      summaryHtml = '<div class="ai-summary">'
+        + '<div class="ai-summary-label"><svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#9B6BFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>本次跟进要点</div>'
+        + '<ul class="ai-points">' + r.points.map(function(pt){ return '<li>' + pt + '</li>'; }).join('') + '</ul>'
+        + '</div>';
+    }
+    var rawHtml = '';
+    if (r.type === 'chat' && r.raw) {
+      rawHtml = '<button class="tl-raw-toggle" onclick="toggleRaw(this)">'
+        + '<svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M8 6l4 4 4-4M8 14l4 4 4-4" stroke="#9B6BFF" stroke-width="2" stroke-linecap="round"/></svg>'
+        + '查看原始聊天记录</button>'
+        + '<div class="tl-raw"><div class="tl-raw-line">' + escHtml(r.raw) + '</div></div>';
+    }
+    return '<div class="tl-item">'
+      + '<div class="tl-dot-wrap"><div class="' + dotClass + '"></div><div class="tl-line"></div></div>'
+      + '<div class="tl-content">'
+      + '<div class="tl-date">' + r.date + aiTagHtml + '</div>'
+      + '<div class="tl-text">' + r.text + '</div>'
+      + summaryHtml + rawHtml
+      + '</div></div>';
+  }).join('');
+}
+renderTimeline();
 
-function callCustomer() {
-  toast2('正在拨打 ' + p.phone + '...');
+function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function toggleRaw(btn) {
+  var raw = btn.nextElementSibling;
+  raw.classList.toggle('open');
+  btn.innerHTML = raw.classList.contains('open')
+    ? '<svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M16 18l-4-4-4 4M16 10l-4-4-4 4" stroke="#9B6BFF" stroke-width="2" stroke-linecap="round"/></svg>收起聊天记录'
+    : '<svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M8 6l4 4 4-4M8 14l4 4 4-4" stroke="#9B6BFF" stroke-width="2" stroke-linecap="round"/></svg>查看原始聊天记录';
 }
-function copyPhone() {
-  navigator.clipboard.writeText(p.phone).catch(function(){});
-  toast2('已复制 ' + p.phone);
-}
+
+// Sheet
+var currentTab = 'manual';
 function openSheet() {
   document.getElementById('overlay').classList.add('show');
   document.getElementById('sheet').classList.add('show');
@@ -265,29 +375,143 @@ function openSheet() {
 function closeSheet() {
   document.getElementById('overlay').classList.remove('show');
   document.getElementById('sheet').classList.remove('show');
+  resetChatPanel();
 }
-function saveRecord() {
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById('tab-manual').classList.toggle('active', tab === 'manual');
+  document.getElementById('tab-chat').classList.toggle('active', tab === 'chat');
+  document.getElementById('panel-manual').style.display = tab === 'manual' ? '' : 'none';
+  document.getElementById('panel-chat').style.display = tab === 'chat' ? '' : 'none';
+}
+
+// 保存手动记录
+function saveManual() {
   var t = document.getElementById('recordText').value.trim();
-  if (!t) { alert('请输入跟进内容'); return; }
+  if (!t) { showToast('请输入跟进内容'); return; }
   var now = new Date();
   var ds = now.getFullYear() + '-' + pad2(now.getMonth()+1) + '-' + pad2(now.getDate());
-  records.unshift(ds + ' ' + t);
-  document.getElementById('recordCount').textContent = '共 ' + records.length + ' 条';
-  document.getElementById('timeline').innerHTML = records.map(function(r, i) {
-    var parts = r.split(' ');
-    var date = parts[0] || '';
-    var text = parts.slice(1).join(' ') || r;
-    return '<div class="tl-item">'
-      + '<div class="tl-dot-wrap"><div class="tl-dot' + (i > 0 ? ' old' : '') + '"></div><div class="tl-line"></div></div>'
-      + '<div class="tl-content"><div class="tl-date">' + date + '</div><div class="tl-text">' + text + '</div></div>'
-      + '</div>';
-  }).join('');
+  records.unshift({ date: ds, text: t, type: 'manual', points: [], raw: '' });
+  renderTimeline();
   closeSheet();
   document.getElementById('recordText').value = '';
-  toast2('跟进记录已保存');
+  showToast('跟进记录已保存');
+}
+
+// 文件上传
+function handleFile(evt) {
+  var file = evt.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('chatText').value = e.target.result;
+    triggerParse();
+  };
+  reader.readAsText(file, 'utf-8');
+}
+
+// 聊天内容输入监听
+document.getElementById('chatText').addEventListener('input', function() {
+  clearTimeout(this._parseTimer);
+  var v = this.value.trim();
+  if (!v) { resetChatPanel(); return; }
+  this._parseTimer = setTimeout(triggerParse, 800);
+});
+
+var parsedResult = null;
+function triggerParse() {
+  var raw = document.getElementById('chatText').value.trim();
+  if (!raw) return;
+  document.getElementById('parsingState').style.display = 'block';
+  document.getElementById('parsePreview').style.display = 'none';
+  document.getElementById('saveChat').disabled = true;
+
+  setTimeout(function() {
+    parsedResult = parseWechatChat(raw);
+    document.getElementById('parsingState').style.display = 'none';
+    document.getElementById('parsedDate').textContent = '跟进时间：' + parsedResult.date;
+    document.getElementById('parsedPoints').innerHTML = parsedResult.points.map(function(pt){
+      return '<div class="preview-item">' + pt + '</div>';
+    }).join('');
+    document.getElementById('parsePreview').style.display = 'block';
+    document.getElementById('saveChat').disabled = false;
+  }, 1200);
+}
+
+// 模拟解析微信聊天记录
+function parseWechatChat(raw) {
+  // 提取日期（取第一行或首个日期格式）
+  var dateMatch = raw.match(/(\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/);
+  var date = dateMatch ? dateMatch[1].replace(/\//g, '-') : today();
+
+  // 提取消息内容（去掉时间戳和发送人前缀）
+  var lines = raw.split('\n').filter(function(l){ return l.trim(); });
+  var msgs = [];
+  lines.forEach(function(line) {
+    // 过滤纯时间行
+    if (/^\d{4}[-\/]\d{1,2}[-\/]\d{1,2}/.test(line) && line.split(' ').length < 3) return;
+    // 去掉 "人名: " 前缀
+    var msgMatch = line.match(/^[^:：]+[：:]\s*(.+)/);
+    if (msgMatch) msgs.push(msgMatch[1].trim());
+  });
+
+  // 模拟 AI 归纳要点（基于关键词匹配）
+  var allText = msgs.join(' ');
+  var points = [];
+
+  if (/价格|报价|优惠|折扣|预算|费用/.test(allText)) points.push('双方就价格方案进行了沟通，客户对报价有进一步谈判意向');
+  if (/样品|试用|测试|体验/.test(allText)) points.push('涉及样品或试用相关讨论');
+  if (/合同|签约|合作|意向书/.test(allText)) points.push('提及合同或合作意向，推进节奏较积极');
+  if (/需求|功能|方案|定制/.test(allText)) points.push('客户明确了具体需求和定制要求');
+  if (/审批|内部|汇报|决策|领导/.test(allText)) points.push('客户需内部审批，决策链较长，建议持续跟进');
+  if (/下次|再聊|联系|回复|周|号/.test(allText)) points.push('已约定下次沟通时间或等待客户回复');
+  if (points.length === 0) {
+    // 无关键词时提取前2条有意义的消息作为摘要
+    msgs.slice(0, 2).forEach(function(m) {
+      if (m.length > 8) points.push(m.length > 36 ? m.slice(0, 36) + '…' : m);
+    });
+    if (points.length === 0) points.push('与客户进行了一次沟通跟进');
+  }
+
+  // 生成简洁 summary（第一个要点作为时间轴主文本）
+  var summary = points[0] || '本次微信沟通';
+  return { date: date, points: points, summary: summary, raw: raw };
+}
+
+function saveChat() {
+  if (!parsedResult) return;
+  records.unshift({
+    date: parsedResult.date,
+    text: parsedResult.summary,
+    type: 'chat',
+    points: parsedResult.points,
+    raw: parsedResult.raw
+  });
+  renderTimeline();
+  closeSheet();
+  showToast('聊天记录已解析并保存');
+}
+
+function resetChatPanel() {
+  document.getElementById('chatText').value = '';
+  document.getElementById('parsingState').style.display = 'none';
+  document.getElementById('parsePreview').style.display = 'none';
+  document.getElementById('saveChat').disabled = true;
+  parsedResult = null;
+  if (document.getElementById('fileInput')) document.getElementById('fileInput').value = '';
+}
+
+function callCustomer() { showToast('正在拨打 ' + p.phone + '...'); }
+function copyPhone() {
+  navigator.clipboard.writeText(p.phone).catch(function(){});
+  showToast('已复制 ' + p.phone);
 }
 function pad2(n){ return n<10?'0'+n:''+n; }
-function toast2(msg) {
+function today() {
+  var n = new Date();
+  return n.getFullYear() + '-' + pad2(n.getMonth()+1) + '-' + pad2(n.getDate());
+}
+function showToast(msg) {
   var t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
   setTimeout(function(){ t.classList.remove('show'); }, 1800);
