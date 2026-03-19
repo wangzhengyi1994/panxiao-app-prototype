@@ -39,10 +39,19 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
 .qa-label{font-size:11px;color:#65758B}
 
 /* ---- VIEW TOGGLE ---- */
-.view-toggle{background:#fff;padding:0 16px;display:flex;align-items:center;border-bottom:1px solid #F0F0F0}
-.vt-btn{flex:1;text-align:center;padding:10px 0;font-size:14px;color:#9EACBF;cursor:pointer;position:relative;transition:color .15s}
-.vt-btn.on{color:#3D6EF5;font-weight:600}
-.vt-btn.on::after{content:'';position:absolute;bottom:0;left:25%;width:50%;height:2px;background:#3D6EF5;border-radius:1px}
+.view-toggle{background:#fff;padding:0 12px;display:flex;align-items:center;border-bottom:1px solid #F0F0F0;gap:4px}
+.vt-btn{width:40px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#C0C8D8;border-radius:8px;flex-shrink:0;transition:color .15s}
+.vt-btn.on{color:#3D6EF5}
+.vt-search{flex:1;background:#F5F7FA;border-radius:16px;height:30px;display:flex;align-items:center;padding:0 10px;gap:6px}
+.vt-search input{background:none;border:none;outline:none;font-size:12px;flex:1;color:#333}
+/* ---- TYPE TABS ---- */
+.type-tabs{background:#fff;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid #F0F0F0}
+.type-tabs::-webkit-scrollbar{display:none}
+.type-tabs-inner{display:flex;padding:0 12px;white-space:nowrap;align-items:center}
+.tt-item{padding:8px 12px;font-size:13px;color:#9EACBF;cursor:pointer;position:relative;flex-shrink:0;transition:color .15s}
+.tt-item.on{color:#EF4444;font-weight:600}
+.tt-item.on::after{content:'';position:absolute;bottom:0;left:15%;width:70%;height:2px;background:#EF4444;border-radius:1px}
+.tt-list-btn{margin-left:auto;color:#9EACBF;padding:8px;cursor:pointer;flex-shrink:0}
 
 /* ---- FOLDER VIEW ---- */
 .folder-list{padding:12px;flex:1}
@@ -54,14 +63,17 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
 .folder-chevron{color:#C0C8D8}
 
 /* ---- ALL VIEW (grid) ---- */
-.img-grid{padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1}
-.img-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);cursor:pointer;position:relative}
+.img-grid{padding:10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;flex:1}
+.img-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);cursor:pointer;position:relative}
 .img-card.selecting .img-check{display:flex}
 .img-thumb{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;position:relative}
-.img-foot{display:flex;align-items:center;justify-content:space-between;padding:8px 10px}
-.img-name-small{font-size:11px;color:#65758B;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
-.img-check{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,.9);background:rgba(0,0,0,.2);display:none;align-items:center;justify-content:center;z-index:2}
+.img-foot{padding:4px 4px 6px;text-align:center}
+.img-name-small{font-size:10px;color:#9EACBF;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+.img-check{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;border:2px solid rgba(255,255,255,.9);background:rgba(0,0,0,.2);display:none;align-items:center;justify-content:center;z-index:2}
 .img-check.checked{background:#3D6EF5;border-color:#3D6EF5}
+.all-view-header{display:flex;align-items:center;justify-content:flex-end;padding:8px 12px 4px}
+.select-btn{font-size:13px;color:#EF4444;cursor:pointer;font-weight:500}
+.load-end{text-align:center;padding:12px;font-size:12px;color:#C0C8D8}
 
 /* ---- FOLDER DETAIL SCREEN ---- */
 .breadcrumb{background:#fff;padding:10px 16px;display:flex;align-items:center;gap:6px;border-bottom:1px solid #F0F0F0;font-size:13px;color:#65758B;overflow-x:auto;scrollbar-width:none}
@@ -139,7 +151,9 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
 .uq-list{flex:1;overflow-y:auto;padding:0 16px}
 .uq-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #F5F7FA}
 .uq-thumb{width:52px;height:52px;border-radius:8px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.uq-name-input{flex:1;background:#F5F7FA;border:1px solid #E5E7EB;border-radius:8px;height:36px;padding:0 10px;font-size:13px;font-family:inherit;outline:none;color:#0C1428}
+.uq-item-right{flex:1;min-width:0}
+.uq-name-input{width:100%;background:#F5F7FA;border:1px solid #E5E7EB;border-radius:8px;height:36px;padding:0 10px;font-size:13px;font-family:inherit;outline:none;color:#0C1428}
+.uq-file-size{font-size:11px;color:#C0C8D8;margin-top:4px;padding-left:2px}
 .uq-upload-btn{margin:16px;background:#3D6EF5;border:none;border-radius:12px;height:48px;width:calc(100% - 32px);color:#fff;font-size:16px;font-weight:600;font-family:inherit;cursor:pointer}
 
 /* ---- FOLDER SELECTOR SCREEN ---- */
@@ -251,8 +265,31 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
   </div>
 
   <div class="view-toggle">
-    <div class="vt-btn on" id="vtFolder" onclick="switchView('folder')">文件夹</div>
-    <div class="vt-btn" id="vtAll" onclick="switchView('all')">全部</div>
+    <div class="vt-btn on" id="vtFolder" onclick="switchView('folder')" title="文件夹视图">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" stroke="currentColor" stroke-width="2"/></svg>
+    </div>
+    <div class="vt-btn" id="vtAll" onclick="switchView('all')" title="网格视图">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/></svg>
+    </div>
+    <div class="vt-btn" id="vtTag" onclick="switchView('tag')" title="标签视图">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" stroke="currentColor" stroke-width="2"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg>
+    </div>
+    <div class="vt-search">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#999" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="#999" stroke-width="2" stroke-linecap="round"/></svg>
+      <input type="text" placeholder="搜索资源标题">
+    </div>
+  </div>
+  <div class="type-tabs" id="typeTabs" style="display:none">
+    <div class="type-tabs-inner">
+      <div class="tt-item on" onclick="switchType(this)">全部</div>
+      <div class="tt-item" onclick="switchType(this)">视频</div>
+      <div class="tt-item" onclick="switchType(this)">产品素材</div>
+      <div class="tt-item" onclick="switchType(this)">海报模板</div>
+      <div class="tt-item" onclick="switchType(this)">活动图</div>
+      <div class="tt-list-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><line x1="8" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="8" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="8" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="3" y1="6" x2="3.01" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="3" y1="12" x2="3.01" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="3" y1="18" x2="3.01" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+    </div>
   </div>
 
   <!-- 文件夹视图 -->
@@ -292,11 +329,12 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
   </div>
 
   <!-- 全部视图 -->
-  <div id="viewAll" style="display:none;flex:1;flex-direction:column;display:none">
-    <div style="padding:10px 16px;display:flex;justify-content:flex-end">
-      <span id="manageToggle" class="top-manage" onclick="toggleManage()">管理</span>
+  <div id="viewAll" style="display:none;flex:1;flex-direction:column">
+    <div class="all-view-header">
+      <span id="manageToggle" class="select-btn" onclick="toggleManage()">选择</span>
     </div>
     <div class="img-grid" id="imgGrid"></div>
+    <div class="load-end" id="loadEnd">已经全部加载完毕</div>
     <div class="manage-bar" id="manageBar" style="display:none">
       <span class="mb-count" id="manageCount">已选 0 项</span>
       <div style="display:flex;gap:8px">
@@ -633,28 +671,41 @@ function goBack() {
 
 // ---- VIEW TOGGLE ----
 function switchView(v) {
-  document.getElementById('vtFolder').classList.toggle('on', v === 'folder');
-  document.getElementById('vtAll').classList.toggle('on', v === 'all');
+  ['vtFolder','vtAll','vtTag'].forEach(id => document.getElementById(id).classList.remove('on'));
+  if (v === 'folder') document.getElementById('vtFolder').classList.add('on');
+  if (v === 'all') document.getElementById('vtAll').classList.add('on');
+  if (v === 'tag') document.getElementById('vtTag').classList.add('on');
   document.getElementById('viewFolder').style.display = v === 'folder' ? 'block' : 'none';
   const va = document.getElementById('viewAll');
-  va.style.display = v === 'all' ? 'flex' : 'none';
-  if (v === 'all') { va.style.flexDirection = 'column'; renderAllGrid(); }
+  va.style.display = (v === 'all' || v === 'tag') ? 'flex' : 'none';
+  if (v === 'all' || v === 'tag') { va.style.flexDirection = 'column'; renderAllGrid(); }
+  document.getElementById('typeTabs').style.display = (v === 'all' || v === 'tag') ? 'block' : 'none';
+}
+function switchType(el) {
+  document.querySelectorAll('.tt-item').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
 }
 
 // ---- ALL GRID ----
+const timestamps = [
+  '2026-03-19 22:57','2026-03-19 22:55','2026-03-19 22:55',
+  '2026-03-18 15:30','2026-03-18 10:12','2026-03-17 09:45',
+  '2026-03-15 16:20','2026-03-14 11:08','2026-03-12 14:33',
+  '2026-03-10 09:00','2026-03-08 17:22','2026-03-05 08:50',
+];
 function renderAllGrid() {
   const grid = document.getElementById('imgGrid');
   let html = '';
   for (let i = 0; i < 12; i++) {
     const g = gradients[i % gradients.length];
-    const name = imgNames[i % imgNames.length];
+    const ts = timestamps[i];
     html += `<div class="img-card" id="imgCard${i}" onclick="toggleImgSel(${i})">
       <div class="img-thumb" style="background:${g}">
         <div class="img-check" id="imgCheck${i}">
           <svg width="10" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
         </div>
       </div>
-      <div class="img-foot"><span class="img-name-small">${name}</span></div>
+      <div class="img-foot"><span class="img-name-small">${ts}</span></div>
     </div>`;
   }
   grid.innerHTML = html;
@@ -670,7 +721,7 @@ function toggleImgSel(i) {
 
 function toggleManage() {
   managing = !managing;
-  document.getElementById('manageToggle').textContent = managing ? '完成' : '管理';
+  document.getElementById('manageToggle').textContent = managing ? '完成' : '选择';
   document.getElementById('manageBar').style.display = managing ? 'flex' : 'none';
   selectedImgs.clear();
   document.querySelectorAll('.img-check').forEach(c => {
@@ -754,18 +805,23 @@ function updateWxBar() {
 function renderUQ() {
   const sel = Array.from(selectedFiles);
   let html = '';
+  const fileSizes = ['431.66 KB','449.24 KB','431.07 KB','528.33 KB','612.80 KB'];
   sel.forEach((i, idx) => {
     const f = wxFileData[i];
     const thumb = f.type === 'img'
       ? `<div class="uq-thumb" style="background:${f.g}"></div>`
       : `<div class="uq-thumb" style="background:#F5F7FA;font-size:24px">📄</div>`;
     const defaultName = '2026-03-19 ' + (22 + idx) + ':' + (55 + idx);
-    html += `<div class="uq-item">${thumb}<input class="uq-name-input" value="${defaultName}"></div>`;
+    const sz = fileSizes[idx % fileSizes.length];
+    html += `<div class="uq-item">${thumb}<div class="uq-item-right"><input class="uq-name-input" value="${defaultName}"><div class="uq-file-size">${sz}</div></div></div>`;
   });
   if (!sel.length) {
-    html = `<div class="uq-item"><div class="uq-thumb" style="background:linear-gradient(135deg,#3D6EF5,#6B9FFF)"></div><input class="uq-name-input" value="2026-03-19 22:55"></div>
-    <div class="uq-item"><div class="uq-thumb" style="background:linear-gradient(135deg,#F7971E,#FFD200)"></div><input class="uq-name-input" value="2026-03-19 22:56"></div>
-    <div class="uq-item"><div class="uq-thumb" style="background:linear-gradient(135deg,#43E97B,#38F9D7)"></div><input class="uq-name-input" value="2026-03-19 22:57"></div>`;
+    const demos = [
+      {g:'linear-gradient(135deg,#3D6EF5,#6B9FFF)',t:'2026-03-19 22:55',sz:'431.66 KB'},
+      {g:'linear-gradient(135deg,#F7971E,#FFD200)',t:'2026-03-19 22:56',sz:'449.24 KB'},
+      {g:'linear-gradient(135deg,#43E97B,#38F9D7)',t:'2026-03-19 22:57',sz:'431.07 KB'},
+    ];
+    html = demos.map(d => `<div class="uq-item"><div class="uq-thumb" style="background:${d.g}"></div><div class="uq-item-right"><input class="uq-name-input" value="${d.t}"><div class="uq-file-size">${d.sz}</div></div></div>`).join('');
   }
   document.getElementById('uqList').innerHTML = html;
   document.getElementById('uqFolderName').textContent = selectedFolder;
