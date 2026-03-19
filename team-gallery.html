@@ -294,38 +294,11 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
 
   <!-- 文件夹视图 -->
   <div id="viewFolder" class="folder-list">
-    <div class="folder-item" onclick="openFolder('产品素材','34张')">
-      <div class="folder-icon">📁</div>
-      <div class="folder-info">
-        <div class="folder-name">产品素材</div>
-        <div class="folder-count">34 个文件</div>
-      </div>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="folder-chevron"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-    </div>
-    <div class="folder-item" onclick="openFolder('海报模板','18张')">
-      <div class="folder-icon">📁</div>
-      <div class="folder-info">
-        <div class="folder-name">海报模板</div>
-        <div class="folder-count">18 个文件</div>
-      </div>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="folder-chevron"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-    </div>
-    <div class="folder-item" onclick="openFolder('活动图','22张')">
-      <div class="folder-icon">📁</div>
-      <div class="folder-info">
-        <div class="folder-name">活动图</div>
-        <div class="folder-count">22 个文件</div>
-      </div>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="folder-chevron"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-    </div>
-    <div class="folder-item" onclick="openFolder('默认','12张')">
-      <div class="folder-icon">📁</div>
-      <div class="folder-info">
-        <div class="folder-name">默认</div>
-        <div class="folder-count">12 个文件</div>
-      </div>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="folder-chevron"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-    </div>
+    <div id="folderListContent"></div>
+    <button onclick="openNewFolderSheet()" style="width:100%;height:48px;background:#fff;border:1.5px dashed #C0C8D8;border-radius:12px;color:#3D6EF5;font-size:14px;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#3D6EF5" stroke-width="2"/><line x1="12" y1="8" x2="12" y2="16" stroke="#3D6EF5" stroke-width="2" stroke-linecap="round"/><line x1="8" y1="12" x2="16" y2="12" stroke="#3D6EF5" stroke-width="2" stroke-linecap="round"/></svg>
+      新建文件夹
+    </button>
   </div>
 
   <!-- 全部视图 -->
@@ -630,7 +603,7 @@ body{background:#F5F7FA;font-family:-apple-system,'PingFang SC',system-ui,sans-s
 
 <script>
 // ---- DATA ----
-const folders = ['产品素材','海报模板','活动图','默认'];
+const folders = [];
 let selectedFolder = '默认';
 let selectedFiles = new Set();
 let managing = false;
@@ -729,6 +702,27 @@ function toggleManage() {
     c.classList.remove('checked');
   });
   document.getElementById('manageCount').textContent = '已选 0 项';
+}
+
+// ---- FOLDER LIST ----
+function renderFolderList() {
+  const el = document.getElementById('folderListContent');
+  if (!folders.length) {
+    el.innerHTML = `<div class="empty" style="padding:40px 20px 20px">
+      <div class="empty-icon">📁</div>
+      <div class="empty-text">还没有文件夹，点击下方新建</div>
+    </div>`;
+    return;
+  }
+  el.innerHTML = folders.map(f => `
+    <div class="folder-item" onclick="openFolder('${f}')">
+      <div class="folder-icon">📁</div>
+      <div class="folder-info">
+        <div class="folder-name">${f}</div>
+        <div class="folder-count">0 个文件</div>
+      </div>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="folder-chevron"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>`).join('');
 }
 
 // ---- FOLDER DETAIL ----
@@ -881,6 +875,7 @@ function confirmNewFolder() {
   folders.unshift(name);
   closeSheet('sheetNewFolder');
   toast('文件夹"' + name + '"创建成功');
+  renderFolderList();
   if (document.getElementById('screenFolderSel').classList.contains('active')) renderFolderSel();
 }
 
@@ -909,6 +904,7 @@ function toast(msg) {
 
 // ---- INIT ----
 renderAllGrid();
+renderFolderList();
 </script>
 </body>
 </html>
